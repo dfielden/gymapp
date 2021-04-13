@@ -1,0 +1,44 @@
+/*Universal declaration - will apply these settings to all elements, also select all before and after pseudoelements - prevents strange behaviour*/
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  /*forcing inheritance on each element from body - this is considered good practice*/
+}
+
+html {
+  font-size: 62.5%;
+  /*1rem = 10px*/
+  height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
+  height: 100%;
+}
+
+.container {
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+}
+
+.heading {
+  font-family: "Nanum Gothic", sans-serif;
+  color: red;
+}
+.heading--1 {
+  font-size: 2rem;
+}
+
+/*# sourceMappingURL=main.css.map */
