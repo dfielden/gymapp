@@ -12,12 +12,64 @@ html {
   font-size: 62.5%;
   /*1rem = 10px*/
   height: 100%;
+  font-family: "Neuton", serif;
+  color: #05376b;
 }
 
 body {
   box-sizing: border-box;
   /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   height: 100%;
+}
+
+.burger-btn {
+  display: flex;
+  width: 4rem;
+  justify-content: center;
+  margin: 2rem;
+  cursor: pointer;
+}
+.burger-btn span {
+  background-color: #05376b;
+  width: 3rem;
+  height: 0.3rem;
+}
+.burger-btn span::before {
+  content: "";
+  width: inherit;
+  height: inherit;
+  background-color: inherit;
+  display: block;
+  margin: -1rem 0;
+  transition: all 0.2s;
+}
+.burger-btn span::after {
+  content: "";
+  width: inherit;
+  height: inherit;
+  background-color: inherit;
+  display: block;
+  margin: 2.8rem 0;
+  transition: all 0.2s;
+}
+.burger-btn:hover span {
+  filter: brightness(0.9);
+}
+.burger-btn:hover span::before {
+  transform: translateY(-1px);
+}
+.burger-btn:hover span::after {
+  transform: translateY(1px);
+}
+.burger-btn:active span {
+  filter: brightness(1.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+.burger-btn:active span::before {
+  transform: translateY(1px);
+}
+.burger-btn:active span::after {
+  transform: translateY(-1px);
 }
 
 .container {
@@ -31,13 +83,88 @@ body {
 
 .header {
   display: flex;
+  width: 100%;
+  height: 8rem;
+  background-color: #e8e8e8;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 12%;
+  max-height: 8rem;
+  background-color: #e8e8e8;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+}
+.footer__btn {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer__btn--main {
+  height: 6rem;
+  width: 6rem;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  font-size: 2rem;
+  font-family: "Nanum Gothic", sans-serif;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.main-body {
+  width: 100%;
+  height: calc(100% - 6rem - 8rem);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6rem;
+  background-color: #e8e8e8;
+  overflow-y: scroll;
+}
+.main-body .exercise-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fdfdfd;
+  padding: 1rem;
+}
+.main-body .exercise-block:not(:last-of-type) {
+  margin-bottom: 0.6rem;
+}
+.main-body .exercise-block__title {
+  border-bottom: 1px solid #05376b;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.main-body .exercise-block__title .far {
+  margin-right: 2rem;
+}
+.main-body .exercise-block__set {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.main-body .exercise-block__set__info {
+  display: flex;
+}
+.main-body .exercise-block__set__info:not(:last-of-type) {
+  margin-bottom: 1rem;
 }
 
 .heading {
   font-family: "Nanum Gothic", sans-serif;
-  color: red;
 }
 .heading--1 {
+  font-size: 3rem;
+  margin-left: 2rem;
+}
+.heading--exercise {
   font-size: 2rem;
 }
 

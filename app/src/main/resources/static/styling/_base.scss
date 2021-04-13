@@ -1,8 +1,20 @@
 // COLOR VARIABLES
 $color-primary: #177ede;
 $color-primary-light: #13ede2;
-$gradient-background: linear-gradient(145deg, rgba($color-primary,1) 0%, rgba($color-primary-light,1) 100%);
+$color-primary-dark: #05376b;
 
+// for title screen
+$gradient-primary: linear-gradient(145deg, rgba($color-primary,1) 0%, rgba($color-primary-light,1) 100%);
+
+$color-secondary: #d66207;
+$color-secondary-light: #fc6c00;
+$gradient-secondary: linear-gradient(145deg, rgba($color-secondary,1) 0%, rgba($color-secondary-light,1) 100%);
+
+
+$color-off-white: #fdfdfd;
+$color-grey-light: #e8e8e8;
+
+$color-black: #000000;
 
 // BREAK POINTS
 
@@ -27,6 +39,8 @@ $font-display:  'Nanum Gothic', sans-serif;
 html {
   font-size: 62.5%; /*1rem = 10px*/
   height: 100%;
+  font-family: $font-primary;
+  color: $color-primary-dark;
 }
 
 body {
@@ -35,13 +49,6 @@ body {
   height: 100%;
 }
 
-.container {
-  background: $gradient-background;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
+
 
 

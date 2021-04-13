@@ -1,0 +1,67 @@
+.burger-btn {
+  display: flex;
+  width: 4rem;
+  //height: 2rem;
+  justify-content: center;
+  margin: 2rem;
+  cursor: pointer;
+
+
+  span {
+    background-color: $color-primary-dark;
+    width: 3rem;
+    height: 0.3rem;
+
+
+    &::before {
+      content: "";
+      width: inherit;
+      height: inherit;
+      background-color: inherit;
+      display: block;
+      margin: -1rem 0;
+      transition: all .2s;
+
+    }
+
+    &::after {
+      content: "";
+      width: inherit;
+      height: inherit;
+      background-color: inherit;
+      display: block;
+      margin: 2.8rem 0;
+      transition: all .2s;
+    }
+  }
+
+  &:hover {
+    span {
+      filter: brightness(0.9);
+
+      &::before {
+        transform: translateY(-1px);
+      }
+
+      &::after {
+        transform: translateY(1px);
+      }
+    }
+  }
+
+
+  &:active {
+    span {
+      filter: brightness(1.1);
+      box-shadow: 0 .5rem 1rem rgba($color-black, .2);
+
+      &::before {
+        transform: translateY(1px);
+      }
+
+      &::after {
+        transform: translateY(-1px);
+      }
+    }
+  }
+}

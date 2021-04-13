@@ -37,3 +37,6 @@ out/
 .DS_Store
 .mvnw
 .mvnw.cmd
+.idea/
+*/mvnw
+*/mvnw.cmd

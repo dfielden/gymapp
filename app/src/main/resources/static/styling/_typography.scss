@@ -1,8 +1,15 @@
 .heading {
   font-family: $font-display;
-  color: red;
 
   &--1 {
+    font-size: 3rem;
+    margin-left: 2rem;
+  }
+
+  &--exercise {
     font-size: 2rem;
   }
+}
+
+.far {
 }
