@@ -22,7 +22,7 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 12%;
   max-height: 8rem;
   background-color: $color-grey-light;
@@ -37,11 +37,14 @@
     &--main {
       height: 6rem;
       width: 6rem;
-      background: $gradient-primary;
+      background-color: $color-primary;
+      color: $color-off-white;
       font-size: 2rem;
       font-family: $font-display;
-      box-shadow: 0 1rem 2rem rgba($color-black, .2);
+      box-shadow: 0 2rem 4rem rgba($color-black, .4);
     }
+
+
   }
 
 }
@@ -79,19 +82,44 @@
       }
     }
 
-    &__set {
+    &__sets {
       display: flex;
       flex-direction: column;
       padding: 1rem;
+    }
 
-      &__info {
+    &__set-container {
+      display: flex;
+      height: 2.5rem;
+      align-items: center;
+
+      &:not(:last-of-type) {
+        margin-bottom: 0.5rem;
+      }
+
+      &__stats {
         display: flex;
+        width: 50%;
 
-        &:not(:last-of-type) {
-          margin-bottom: 1rem;
+        .weight {
+          margin-right: 4rem;
         }
       }
+
+      &__timer {
+        display: flex;
+        width: 50%;
+      }
     }
+  }
+
+  .active {
+    font-weight: bold;
+    background-color: $color-primary-faint;
+  }
+
+  .complete {
+    color: $color-grey;
   }
 
 
