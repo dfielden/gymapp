@@ -22,6 +22,13 @@ body {
   height: 100%;
 }
 
+select {
+  -webkit-appearance: none;
+  background: #fdfdfd url("https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_keyboard_arrow_down_48px-128.png") no-repeat;
+  background-size: 2rem;
+  background-position: right 1rem center;
+}
+
 .burger-btn {
   display: flex;
   width: 4rem;
@@ -72,6 +79,36 @@ body {
   transform: translateY(-1px);
 }
 
+.ghost-btn-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn, .btn:link, .btn:visited {
+  text-transform: lowercase;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.btn--ghost {
+  border: 1px solid #a4a4a4;
+  background-color: #fdfdfd;
+  color: #a4a4a4;
+  height: 3.5rem;
+  width: 8rem;
+  margin: 0.5rem;
+  flex-shrink: 0;
+}
+.btn--ghost--selected {
+  background-color: #177ede;
+  color: #fdfdfd;
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.2);
+}
+
 .icons-container {
   display: flex;
   justify-content: space-around;
@@ -85,6 +122,38 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
+}
+
+.form {
+  width: 100%;
+}
+.form .input-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1.5rem;
+}
+.form .input-container .form-label {
+  width: 100%;
+}
+.form .input-container .form-input {
+  font-size: 1.6rem;
+  font: "Neuton", serif;
+  padding: 1.5rem 1rem;
+  border-radius: 2px;
+  background-color: #fdfdfd;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-top: 1rem;
+  width: 100%;
+}
+.form .input-container .form-input--select {
+  border-bottom: none;
+}
+.form .input-container .form-input:focus {
+  outline: none;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid #177ede;
+  background-color: #fdfdfd;
 }
 
 .container {
@@ -191,6 +260,10 @@ body {
 }
 .main-body .complete {
   color: #a4a4a4;
+}
+
+.display-none {
+  display: none;
 }
 
 .heading {

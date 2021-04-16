@@ -1,0 +1,45 @@
+.form {
+  width: 100%;
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1.5rem;
+
+
+    .form-label {
+      width: 100%
+    }
+
+    .form-input {
+      font-size: 1.6rem;
+      font: $font-primary;
+      padding: 1.5rem 1rem;
+      border-radius: 2px;
+      background-color: $color-off-white;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-top: 1rem;
+      width: 100%;
+
+      &--select {
+        border-bottom: none;
+      }
+
+
+
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 1rem 2rem rgba($color-black, .1);
+        border-bottom: 3px solid $color-primary;
+        background-color: $color-off-white;
+      }
+
+    }
+
+  }
+}
+
+
+

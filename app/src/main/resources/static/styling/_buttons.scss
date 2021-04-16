@@ -65,3 +65,43 @@
     }
   }
 }
+
+
+.ghost-btn-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn {
+  &,
+  &:link,
+  &:visited {
+    text-transform: lowercase;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10rem;
+    transition: all .2s;
+    cursor: pointer;
+  }
+
+
+    &--ghost {
+      border: 1px solid $color-grey;
+      background-color: $color-off-white;
+      color: $color-grey;
+      height: 3.5rem;
+      width: 8rem;
+      margin: 0.5rem;
+      flex-shrink: 0;
+
+      &--selected {
+        background-color: $color-primary;
+        color: $color-off-white;
+        box-shadow: 0 1rem 4rem rgba($color-black, .2);
+      }
+    }
+
+
+}

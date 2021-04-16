@@ -5,9 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.HashSet;
-import java.util.Set;
-
 
 @SpringBootApplication
 @Controller
@@ -21,6 +18,11 @@ public class GymAppApplication {
     @GetMapping("/")
     public String home() throws Exception {
         return "index";
+    }
+
+    @GetMapping("/defineworkout")
+    public String defineWorkout() throws Exception {
+        return "define-workout";
     }
 
 }

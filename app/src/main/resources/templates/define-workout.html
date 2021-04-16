@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0"/>
+    <link rel="stylesheet" href="styling/main.css">
+    <script src="https://kit.fontawesome.com/558b08b205.js" crossorigin="anonymous"></script>
+    <title>Define workout</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1 class="heading heading--1" id="create-edit-title">Create new workout</h1>
+        <div class="burger-btn">
+            <span></span>
+        </div>
+    </div>
+
+    <div class="main-body">
+        <div class="form form-create-edit-workout">
+            <div class="input-container">
+                <label for="exercises" class="form-label">Choose exercise</label>
+                <select class="form-input form-input--select" name="exercises" id="exercises">
+                    <option value="New exercise (not listed)">New exercise (not listed)</option>
+                    <option value="Bench press (flat)">Bench press (flat)</option>
+                    <option value="Bench press (incline)">Bench press (incline)</option>
+                    <option value="Bench press (decline)">Bench press (decline)</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form form-create-new-exercise">
+            <div class="input-container">
+                <label for="new-exercise-name" class="form-label">Exercise name</label>
+                <input type="text" required autocomplete="off" class="form-input" name="new-exercise-name" id="new-exercise-name">
+            </div>
+            <div class="ghost-btn-container">
+                <div class="btn btn--ghost">back</div>
+                <div class="btn btn--ghost">chest</div>
+                <div class="btn btn--ghost">legs</div>
+                <div class="btn btn--ghost">core</div>
+                <div class="btn btn--ghost">triceps</div>
+                <div class="btn btn--ghost">biceps</div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="footer">
+    </div>
+
+</div>
+
+<script type="text/javascript" src="/javascript/index.js"></script>
+
+</body>
+</html>
