@@ -122,5 +122,14 @@
     color: $color-grey;
   }
 
+}
 
+
+
+.create-workout-overview {
+  height: 100%;
+  background: $gradient-primary;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
 }
