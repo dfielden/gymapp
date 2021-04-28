@@ -1,45 +1,90 @@
 .form {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-  .input-container {
-    display: flex;
-    flex-direction: column;
-    margin: 0 1.5rem;
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 2rem 1.5rem 2rem;
+
+  &--horizontal {
+    flex-direction: row;
+  }
 
 
-    .form-label {
-      width: 100%
+  .form-label {
+    width: 100%;
+    font: $font-display;
+
+    &--white {
+      color: $color-off-white;
     }
-
-    .form-input {
-      font-size: 1.6rem;
-      font: $font-primary;
-      padding: 1.5rem 1rem;
-      border-radius: 2px;
-      background-color: $color-off-white;
-      border: none;
-      border-bottom: 3px solid transparent;
-      margin-top: 1rem;
-      width: 100%;
-
-      &--select {
-        border-bottom: none;
-      }
-
-
-
-
-      &:focus {
-        outline: none;
-        box-shadow: 0 1rem 2rem rgba($color-black, .1);
-        border-bottom: 3px solid $color-primary;
-        background-color: $color-off-white;
-      }
-
-    }
-
   }
 }
 
+.form-input {
+  font-size: 1.6rem;
+  font: $font-primary;
+  padding: 1.5rem 1rem;
+  border-radius: 5px;
+  background-color: $color-off-white;
+  border: none;
+  border-bottom: 3px solid transparent;
+  width: 100%;
+  align-self: center;
+
+  &--new-workout {
+    padding: 0.5rem 1rem;
+    margin: 0 1.5rem;
+  }
+
+  &--workout-name {
+    width: 87%;
+  }
+
+  &--select {
+    border-bottom: none;
+
+  }
+
+  &--footer {
+    width: 70%
+  }
 
 
+  &:focus {
+    outline: none;
+    box-shadow: 0 1rem 2rem rgba($color-black, .1);
+    border-bottom: 3px solid $color-primary;
+    background-color: $color-off-white;
+  }
+
+}
+
+.new-exercise {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 6rem - 8rem);
+  width: 100%;
+  position: absolute;
+  //top: 50%;
+  //left: 50%;
+  margin: 0;
+  //justify-content: center;
+  background: $gradient-primary;
+  backdrop-filter: blur(10px);
+
+  &--content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+
+
+    .form-create-new-exercise {
+      padding-bottom: 1.5rem;
+    }
+  }
+}

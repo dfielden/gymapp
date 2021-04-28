@@ -1,13 +1,31 @@
 .heading {
   font-family: $font-display;
+  margin: 0 0 1.5rem 2rem;
+  //align-self: flex-start;;
+
+  &--white {
+    color: $color-off-white;
+  }
 
   &--1 {
     font-size: 3rem;
-    margin-left: 2rem;
+    margin-bottom: 0;
   }
 
-  &--exercise {
+  &--2 {
+    font-size: 2.6rem;
+  }
+
+  &--3 {
     font-size: 2rem;
+  }
+
+  &--4 {
+    font-size: 1.6rem;
+  }
+
+  &--current-exercise {
+    margin-bottom: 0.5rem;
   }
 }
 

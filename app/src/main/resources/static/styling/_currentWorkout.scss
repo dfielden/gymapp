@@ -15,6 +15,8 @@
   box-shadow: 0 2rem 4rem rgba($color-black, .2);
   align-items: center;
   justify-content: space-between;
+  z-index: 100;
+
 
 }
 
@@ -27,6 +29,7 @@
   max-height: 8rem;
   background-color: $color-grey-light;
   box-shadow: 0 2rem 4rem rgba($color-black, .2);
+  z-index: 100;
 
   &__btn {
     border-radius: 50%;
@@ -57,6 +60,7 @@
   font-size: 1.6rem;
   background-color: $color-grey-light;
   overflow-y: scroll;
+  //overflow-x: hidden;
 
 
   .exercise-block {
@@ -72,7 +76,7 @@
 
     &__title {
       border-bottom: 1px solid $color-primary-dark;
-      margin-bottom: 1rem;
+      //margin-bottom: 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -86,20 +90,28 @@
       display: flex;
       flex-direction: column;
       padding: 1rem;
+      overflow-x: hidden;
+
     }
 
     &__set-container {
       display: flex;
-      height: 2.5rem;
+      height: 3.5rem;
       align-items: center;
+      position: relative;
+      transition: transform 1s;
+
 
       &:not(:last-of-type) {
-        margin-bottom: 0.5rem;
+        //margin-bottom: 0.5rem;
       }
 
       &__stats {
         display: flex;
         width: 50%;
+        flex-shrink: 0;
+        transition: transform 1s;
+        position: absolute;
 
         .weight {
           margin-right: 4rem;
@@ -109,6 +121,11 @@
       &__timer {
         display: flex;
         width: 50%;
+        flex-shrink: 0;
+        position: absolute;
+        transform: translateX(45vw); // start position away 100% to right of top left of container (relative parent)
+        transition: transform 1s;
+
       }
     }
   }
@@ -124,12 +141,20 @@
 
 }
 
-
-
 .create-workout-overview {
   height: 100%;
   background: $gradient-primary;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+.slide-on-btn-container {
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  transform: translateX(100vw); // start position away 200% to right of top left of container (relative parent)
+  transition: transform 1s;
+  display: flex;
+
 }
