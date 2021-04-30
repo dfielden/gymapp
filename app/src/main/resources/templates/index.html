@@ -12,8 +12,8 @@
     <div class="container">
         <div class="header">
             <h1 class="heading heading--1" id="workout-title">Legs</h1>
-            <div class="burger-btn">
-                <span></span>
+            <div class="header__icon">
+                <img src="images/gymapp_logo.png" alt="Gymapp logo">
             </div>
         </div>
         <div class="main-body">
@@ -21,7 +21,7 @@
             <div class="exercise-block">
                 <div class="exercise-block__title">
                     <div class="heading heading--current-exercise heading--3">Bench Press</div>
-                    <div class="far fa-question-circle"></div>
+                    <div class="far fa-plus-square"></div>
                 </div>
 
                 <div class="exercise-block__sets">
@@ -51,6 +51,7 @@
                         </div>
                         <div class="exercise-block__set-container__timer">
                             <div class="timer-container display-none"><span class="far fa-clock"></span> Completed: 00:00</div>
+                            <div class="done-container"><span class="txt-btn">Done</span>&nbsp&nbsp<span class="fas fa-check-square"></span></div>
                         </div>
                         <!-- FOR TESTING SWIPE-->
                         <div class="slide-on-btn-container">Hello there!!!</div>
@@ -61,7 +62,7 @@
             <div class="exercise-block">
                 <div class="exercise-block__title">
                     <div class="heading heading--current-exercise heading--3">Bench Press</div>
-                    <div class="far fa-question-circle"></div>
+                    <div class="far fa-plus-square"></div>
                 </div>
 
                 <div class="exercise-block__sets">
@@ -74,18 +75,14 @@
                         </div>
                         <!-- FOR TESTING SWIPE-->
                         <div class="slide-on-btn-container">
-                            <div class="slide-on-btn slide-on-btn--skip">
-                                <div class="fas fa-reply fa-flip-horizontal"></div>
-                                <div class="icon-descriptor">skip</div>
+                            <div class="slide-on-btn slide-on-btn--remove">
+                                <div class="far fa-trash-alt"></div>
+                                <div class="icon-descriptor">remove</div>
                             </div>
                             <div class="slide-on-btn slide-on-btn--edit">
                                 <div class="far fa-edit"></div>
                                 <div class="icon-descriptor">edit</div>
                             </div>
-                            <div class="slide-on-btn slide-on-btn--copy">
-                                <div class="far fa-plus-square"></div>
-                                <div class="icon-descriptor">copy</div>
-                            </div>
                         </div>
                     </div>
                     <div class="exercise-block__set-container slider">
@@ -114,7 +111,7 @@
             <div class="exercise-block">
                 <div class="exercise-block__title">
                     <div class="heading heading--current-exercise heading--3">Bench Press</div>
-                    <div class="far fa-question-circle"></div>
+                    <div class="far fa-plus-square"></div>
                 </div>
 
                 <div class="exercise-block__sets">
@@ -154,7 +151,7 @@
             <div class="exercise-block">
                 <div class="exercise-block__title">
                     <div class="heading heading--current-exercise heading--3">Bench Press</div>
-                    <div class="far fa-question-circle"></div>
+                    <div class="far fa-plus-square"></div>
                 </div>
 
                 <div class="exercise-block__sets">
@@ -194,7 +191,7 @@
             <div class="exercise-block">
                 <div class="exercise-block__title">
                     <div class="heading heading--current-exercise heading--3">Bench Press</div>
-                    <div class="far fa-question-circle"></div>
+                    <div class="far fa-plus-square"></div>
                 </div>
 
                 <div class="exercise-block__sets">
@@ -232,33 +229,70 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
 
         <div class="footer">
             <div class="icons-container">
-                <div class="footer--icon">
-                    <div class="far fa-edit"></div>
-                    <div class="icon-descriptor">edit set</div>
-                </div>
-                <div class="footer--icon">
+                <div class="footer__icon footer__icon--delete footer__icon--inactive">
                     <div class="far fa-trash-alt"></div>
-                    <div class="icon-descriptor">delete</div>
+                    <div class="icon-descriptor">delete group</div>
                 </div>
             </div>
-            <div class="footer__btn footer__btn--main">Done!</div>
+            <div class="footer__btn footer__btn--main">Save</div>
             <div class="icons-container">
-                <div class="footer--icon">
-                    <div class="far fa-plus-square"></div>
-                    <div class="icon-descriptor">new set</div>
-                </div>
-                <div class="footer--icon">
-                    <div class="fas fa-reply fa-flip-horizontal"></div>
-                    <div class="icon-descriptor">skip set</div>
+                <div class="footer__icon footer__icon--add">
+                    <div class="fas fa-dumbbell"></div>
+                    <div class="icon-descriptor">add exercise</div>
                 </div>
             </div>
+        </div>
+
+    </div>
+
+    <div class="add-to-current display-none">
+        <div class="transparent-form-group">
+            <div class="flex-container space-between align-center">
+                <div class="heading heading--3 heading--transparent-box">Add exercise</div>
+                <a href="#" class="close-btn add-to-current--close">&times;</a>
+            </div>
+            <select class="form-input form-input--select m-b" name="exercises" id="exercises">
+                <option value="-1" selected disabled hidden>Select exercise to add</option>
+                <option value="Bench press (flat)">Bench press (flat)</option>
+                <option value="Bench press (incline)">Bench press (incline)</option>
+                <option value="Bench press (decline)">Bench press (decline)</option>
+            </select>
+            <div class="two-input-container space-between m-b">
+                <div class="width45">
+                    <div class="form-label">Weight:</div>
+                    <input type="text" id="set-weight" class="form-input">
+                </div>
+                <div class="width45">
+                    <div class="form-label">Reps:</div>
+                    <input type="text" id="set-reps" class="form-input">
+                </div>
+            </div>
+            <div class="btn btn--main btn--primary">Add!</div>
+        </div>
+    </div>
+
+    <div class="edit-set display-none">
+        <div class="transparent-form-group">
+            <div class="flex-container space-between align-center">
+                <div class="heading heading--3 heading--transparent-box">Update set</div>
+                <a href="#" class="close-btn edit-set--close">&times;</a>
+            </div>
+            <div class="two-input-container space-between">
+                <div class="width45">
+                    <div class="form-label">Weight:</div>
+                    <input type="text" id="edit-weight" class="form-input">
+                </div>
+                <div class="width45">
+                    <div class="form-label">Reps:</div>
+                    <input type="text" id="edit-reps" class="form-input">
+                </div>
+            </div>
+            <div class="btn btn--main btn--primary">Update</div>
         </div>
     </div>
 

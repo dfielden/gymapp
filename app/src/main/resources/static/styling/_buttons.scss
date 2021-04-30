@@ -1,71 +1,3 @@
-.burger-btn {
-  display: flex;
-  width: 4rem;
-  //height: 2rem;
-  justify-content: center;
-  margin: 2rem;
-  cursor: pointer;
-
-
-  span {
-    background-color: $color-primary-dark;
-    width: 3rem;
-    height: 0.3rem;
-
-
-    &::before {
-      content: "";
-      width: inherit;
-      height: inherit;
-      background-color: inherit;
-      display: block;
-      margin: -1rem 0;
-      transition: all .2s;
-
-    }
-
-    &::after {
-      content: "";
-      width: inherit;
-      height: inherit;
-      background-color: inherit;
-      display: block;
-      margin: 2.8rem 0;
-      transition: all .2s;
-    }
-  }
-
-  &:hover {
-    span {
-      filter: brightness(0.9);
-
-      &::before {
-        transform: translateY(-1px);
-      }
-
-      &::after {
-        transform: translateY(1px);
-      }
-    }
-  }
-
-
-  &:active {
-    span {
-      filter: brightness(1.1);
-      box-shadow: 0 .5rem 1rem rgba($color-black, .2);
-
-      &::before {
-        transform: translateY(1px);
-      }
-
-      &::after {
-        transform: translateY(-1px);
-      }
-    }
-  }
-}
-
 
 .ghost-btn-container {
   display: flex;
@@ -145,18 +77,26 @@
 .close-btn {
     &:link,
     &:visited {
-      color: $color-off-white;
-      padding-right: 2rem;
-      font-size: 4rem;
+      color: $color-primary-dark;
+      font-size: 3rem;
       transition: all .2s;
       text-decoration: none;
       align-self: flex-end;
+      margin-bottom: 1.5rem;
+  }
+
+  &--white {
+    color: $color-off-white;
+  }
+
+  &--fs {
+    padding: 2rem 2rem 0 0;
   }
 }
 
 .slide-on-btn {
   height: 3.5rem;
-  width: 3.5rem;
+  width: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -167,17 +107,21 @@
 
 
   &--edit {
-    background-color: $color-primary;
-    color: $color-off-white;
-  }
-
-  &--skip {
     background-color: $color-secondary;
     color: $color-primary-dark;
   }
 
-  &--copy {
-    background-color: $color-success;
+  &--remove {
+    background-color: $color-danger;
     color: $color-off-white;
   }
+
+  &--copy {
+    background-color: $color-primary;
+    color: $color-off-white;
+  }
+}
+
+.txt-btn {
+  text-decoration: underline;
 }

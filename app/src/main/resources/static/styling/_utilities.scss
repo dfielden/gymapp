@@ -1,3 +1,35 @@
 .display-none {
   display: none;
 }
+
+.visibility-hidden {
+  display: none;
+}
+
+.gradient {
+  background: $gradient-primary;
+}
+
+.width70 {
+  width: 70%
+}
+
+.width45 {
+  width: 45%
+}
+
+.m-b {
+  margin-bottom: 1.5rem;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}

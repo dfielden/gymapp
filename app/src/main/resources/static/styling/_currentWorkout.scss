@@ -5,52 +5,10 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  //overflow-y: hidden;
 }
 
-.header {
-  display: flex;
-  width: 100%;
-  height: 8rem;
-  background-color: $color-grey-light;
-  box-shadow: 0 2rem 4rem rgba($color-black, .2);
-  align-items: center;
-  justify-content: space-between;
-  z-index: 100;
 
-
-}
-
-.footer {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-around;
-  height: 12%;
-  max-height: 8rem;
-  background-color: $color-grey-light;
-  box-shadow: 0 2rem 4rem rgba($color-black, .2);
-  z-index: 100;
-
-  &__btn {
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &--main {
-      height: 6rem;
-      width: 6rem;
-      background-color: $color-primary;
-      color: $color-off-white;
-      font-size: 2rem;
-      font-family: $font-display;
-      box-shadow: 0 2rem 4rem rgba($color-black, .4);
-    }
-
-
-  }
-
-}
 
 .main-body {
   width: 100%;
@@ -125,9 +83,11 @@
         position: absolute;
         transform: translateX(45vw); // start position away 100% to right of top left of container (relative parent)
         transition: transform 1s;
-
+        justify-content: flex-end;
+        padding-right: 3.2rem;
       }
     }
+
   }
 
   .active {
@@ -154,7 +114,25 @@
   height: 100%;
   position: absolute;
   transform: translateX(100vw); // start position away 200% to right of top left of container (relative parent)
-  transition: transform 1s;
+  transition: transform 500ms;
   display: flex;
-
+  background-color: $color-off-white;
 }
+
+.add-to-current {
+  display: flex;
+  height: 35rem;
+  background: $gradient-primary;
+  padding: 0.5rem;
+  transition: transform 500ms;
+}
+
+.edit-set {
+  display: flex;
+  height: 27rem;
+  background: $gradient-primary;
+  padding: 0.5rem;
+  transition: transform 500ms;
+}
+
+

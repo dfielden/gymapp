@@ -8,14 +8,16 @@ $color-secondary: #fcc728;
 $color-secondary-light: #fadb8d;
 
 $color-success: #00b836;
+$color-danger: #e91235;
+
 
 // for title screen
 $gradient-primary: linear-gradient(145deg, rgba($color-primary,1) 0%, rgba($color-primary-light,1) 100%);
 
 
 
-
 $color-off-white: #fdfdfd;
+$color-grey-lightest: #c5c5c5;
 $color-grey-light: #e8e8e8;
 $color-grey: #a4a4a4;
 $color-grey-dark: #7c7c7c;
@@ -29,7 +31,7 @@ $color-black: #000000;
 
 // FONT VARIABLES
 $font-primary: 'Neuton', serif;
-$font-display:  'Nanum Gothic', sans-serif;
+$font-display: 'Nanum Gothic', sans-serif;
 
 
 
@@ -61,6 +63,12 @@ select {
   background: $color-off-white url('https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_keyboard_arrow_down_48px-128.png') no-repeat;
   background-size: 2rem;
   background-position: right 1rem center;
+}
+
+// Required to stop img stretching on iPhone
+img {
+  align-self: center;
+  height: 100%;
 }
 
 

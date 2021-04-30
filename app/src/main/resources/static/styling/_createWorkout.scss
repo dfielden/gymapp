@@ -6,36 +6,6 @@
   overflow-y: scroll;
   align-items: center;
   padding: 1rem 2rem 1rem 2rem;
-
-  .exercise-overview-tab {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background-color: rgba($color-off-white, 0.5);
-    margin: 1rem;
-    padding: 1.5rem 0 1.5rem 0;
-    border-radius: 10px;
-
-    &__title {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-
-      .far {
-        margin-right: 2rem;
-      }
-    }
-
-  }
 }
 
-.new-set-container {
-  display: flex;
-  margin: 0.5rem 2rem 0.5rem 2rem;
-  align-items: center;
 
-  &__label {
-
-  }
-
-}

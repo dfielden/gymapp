@@ -1,7 +1,6 @@
 .heading {
   font-family: $font-display;
   margin: 0 0 1.5rem 2rem;
-  //align-self: flex-start;;
 
   &--white {
     color: $color-off-white;
@@ -27,5 +26,10 @@
   &--current-exercise {
     margin-bottom: 0.5rem;
   }
+
+  &--transparent-box {
+    margin: 0 0 1.5rem 0rem;
+  }
 }
+
 
