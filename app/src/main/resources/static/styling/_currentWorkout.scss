@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   //overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 
@@ -72,7 +73,12 @@
         position: absolute;
 
         .weight {
-          margin-right: 4rem;
+          //margin-right: 4rem;
+          width: 50%;
+        }
+
+        .reps {
+          width: 50%;
         }
       }
 
@@ -135,4 +141,8 @@
   transition: transform 500ms;
 }
 
+.done-container {
+  display: flex;
+  align-items: center;
+}
 
