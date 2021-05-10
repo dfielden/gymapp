@@ -26,6 +26,11 @@
   display: flex;
 }
 
+.flex-container--col {
+  display: flex;
+  flex-direction: column;
+}
+
 .space-between {
   justify-content: space-between;
 }

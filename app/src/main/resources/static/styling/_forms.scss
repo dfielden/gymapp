@@ -17,6 +17,8 @@
 .form-label {
   width: 100%;
   font-family: $font-display;
+  display: flex;
+  justify-content: space-between;
 
   &--white {
     color: $color-off-white;

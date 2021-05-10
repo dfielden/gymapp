@@ -17,7 +17,6 @@ export const showForm = function(formElement, slideDistanceREM) {
 
 export const resetAllForms = function() {
     for (let i = 0; i < c.slideUpForms.length; i++) {
-        //slideFormDown(c.slideUpForms[i]);
         hideFormWithoutAnimation(c.slideUpForms[i]);
     }
 }
@@ -32,7 +31,6 @@ export const hideForm = function(formElement) {
 
 export const hideFormWithoutAnimation = function(formElement) {
     clearAllFormValues(formElement);
-    console.log('hidihg: ' + formElement);
     formElement.style.transform = 'translateY(0rem)';
     formElement.classList.add('display-none');
 }

@@ -122,6 +122,9 @@ img {
   font-weight: bold;
   background-color: #dcecfd;
 }
+.main-body .undo {
+  background-color: #fce9b9;
+}
 .main-body .complete {
   color: #a4a4a4;
 }
@@ -225,7 +228,7 @@ img {
   box-shadow: none;
 }
 
-.close-btn:link, .close-btn:visited {
+.close-btn {
   color: #05376b;
   font-size: 3rem;
   transition: all 0.2s;
@@ -272,6 +275,16 @@ img {
   transform: rotate(315deg);
 }
 
+.fas-form-input {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #05376b;
+}
+
+.fa-plus-circle {
+  margin-left: 2rem;
+}
+
 .form {
   width: 100%;
   display: flex;
@@ -290,6 +303,8 @@ img {
 .form-label {
   width: 100%;
   font-family: "Nanum Gothic", sans-serif;
+  display: flex;
+  justify-content: space-between;
 }
 .form-label--white {
   color: #fdfdfd;
@@ -449,6 +464,11 @@ img {
   display: flex;
 }
 
+.flex-container--col {
+  display: flex;
+  flex-direction: column;
+}
+
 .space-between {
   justify-content: space-between;
 }
@@ -487,7 +507,7 @@ img {
 .form-error-msg {
   font-size: 1.6rem;
   color: #e91235;
-  transform: translateY(-1rem);
+  transform: translateY(-1.8rem);
 }
 
 /*# sourceMappingURL=main.css.map */

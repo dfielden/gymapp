@@ -27,56 +27,39 @@
                 <input type="text" required autocomplete="off" class="form-input form-input--full-length" name="workout-name" id="workout-name">
             </div>
 
-
-            <div class="transparent-form-group">
-                <div class="transparent-form-group__title">
-                    <div class="heading heading--3 heading--transparent-box">Bench Press</div>
-                    <div class="far fa-plus-square far-add-set"></div>
-                </div>
-                <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
-                    <span class="far fa-trash-alt"></span>
-                </div>
-                <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
-                    <span class="far fa-trash-alt"></span>
-                </div>
-                <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
-                    <span class="far fa-trash-alt"></span>
-                </div>
-            </div>
-
-            <div class="transparent-form-group">
-                <div class="transparent-form-group__title">
-                    <div class="heading heading--3 heading--transparent-box">Bench Press</div>
-                    <div class="far fa-plus-square far-add-set"></div>
-                </div>
-                <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
-                    <span class="far fa-trash-alt"></span>
-                </div>
-                <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
-                    <span class="far fa-trash-alt"></span>
-                </div>
-                <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
-                    <span class="far fa-trash-alt"></span>
+            <div class="flex-container--col align-center exercises">
+                <div class="transparent-form-group">
+                    <div class="transparent-form-group__title">
+                        <div class="heading heading--3 heading--transparent-box">Bench Press</div>
+                        <div class="far fa-plus-square far-add-set"></div>
+                    </div>
+                    <div class="two-input-container">
+                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="far fa-trash-alt"></span>
+                    </div>
+                    <div class="two-input-container">
+                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="far fa-trash-alt"></span>
+                    </div>
+                    <div class="two-input-container">
+                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="far fa-trash-alt"></span>
+                    </div>
                 </div>
             </div>
+
+
+
+
 
             <div class="btn btn--main btn--primary">Create workout!</div>
 
         </div>
 
-        <div class="new-exercise display-none">
+        <div class="new-exercise display-none" id="form-new-exercise">
             <div class="new-exercise-content">
                 <div class="form form-create-new-exercise">
 
@@ -91,7 +74,7 @@
                         <input type="text" required autocomplete="off" class="form-input" name="new-exercise-name" id="new-exercise-name">
                     </div>
                     <h4 class="heading heading--white heading--4">Select muscles targeted:</h4>
-                    <div class="ghost-btn-container">
+                    <div class="ghost-btn-container muscle-group-container">
                         <div class="btn btn--ghost">back</div>
                         <div class="btn btn--ghost">chest</div>
                         <div class="btn btn--ghost">legs</div>
@@ -108,19 +91,19 @@
 
 
     <div class="footer">
-        <select class="form-input width70 form-input--select" name="exercises" id="exercises">
+        <select class="form-input width70 form-input--select" name="select-exercise" id="select-exercise">
             <option value="-1" selected disabled hidden>Select exercise to add</option>
             <option value="Bench press (flat)">Bench press (flat)</option>
             <option value="Bench press (incline)">Bench press (incline)</option>
             <option value="Bench press (decline)">Bench press (decline)</option>
-            <option value="New exercise (not listed)">New exercise (not listed)</option>
+            <option value="NEW">New exercise (not listed)</option>
         </select>
-        <div class="btn btn--footer btn--secondary">Add</div>
+        <div class="btn btn--footer btn--secondary" id="btn-new-exercise">Add</div>
     </div>
 
 </div>
 
-<script type="text/javascript" src="/javascript/index.js"></script>
+<script type="module" src="/javascript/defineWorkout/defineWorkout.js"></script>
 
 </body>
 </html>

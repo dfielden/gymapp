@@ -75,15 +75,12 @@
 }
 
 .close-btn {
-    &:link,
-    &:visited {
       color: $color-primary-dark;
       font-size: 3rem;
       transition: all .2s;
       text-decoration: none;
       align-self: flex-end;
       margin-bottom: 1.5rem;
-  }
 
   &--white {
     color: $color-off-white;
