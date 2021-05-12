@@ -30,22 +30,27 @@
             <div class="flex-container--col align-center exercises">
                 <div class="transparent-form-group">
                     <div class="transparent-form-group__title">
-                        <div class="heading heading--3 heading--transparent-box">Bench Press</div>
-                        <div class="far fa-plus-square far-add-set"></div>
+                        <div class="heading heading--3 heading--transparent-box">Bench press
+                            <span class="far fa-plus-square far-title"></span>
+                        </div>
+                        <div class="flex-container--col">
+                            <div class="fas fa-sort-up"></div>
+                            <div class="fas fa-sort-down"></div>
+                        </div>
                     </div>
                     <div class="two-input-container">
                         <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                        <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
                         <span class="far fa-trash-alt"></span>
                     </div>
                     <div class="two-input-container">
                         <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                        <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
                         <span class="far fa-trash-alt"></span>
                     </div>
                     <div class="two-input-container">
                         <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                        <span class="two-input-container--label">reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
                         <span class="far fa-trash-alt"></span>
                     </div>
                 </div>
@@ -65,24 +70,37 @@
 
                     <a href="#" class="close-btn close-btn--white close-btn--fs" id="new-exercise-close">&times;</a>
                     <h2 class="heading heading--white heading--2" id="new-exercise-heading">
-                        Add new exercise
+                        Create new exercise
                     </h2>
 
                     <h4 class="heading heading--white heading--4">Exercise name</h4>
 
                     <div class="input-container">
-                        <input type="text" required autocomplete="off" class="form-input" name="new-exercise-name" id="new-exercise-name">
+                        <input type="text" required autocomplete="off" class="form-input" name="create-exercise-name" id="create-exercise-name">
                     </div>
                     <h4 class="heading heading--white heading--4">Select muscles targeted:</h4>
                     <div class="ghost-btn-container muscle-group-container">
+                        <div class="btn btn--ghost">adductors</div>
+                        <div class="btn btn--ghost">abductors</div>
+                        <div class="btn btn--ghost">abs</div>
+                        <div class="btn btn--ghost">arms</div>
                         <div class="btn btn--ghost">back</div>
-                        <div class="btn btn--ghost">chest</div>
-                        <div class="btn btn--ghost">legs</div>
-                        <div class="btn btn--ghost">core</div>
-                        <div class="btn btn--ghost">triceps</div>
                         <div class="btn btn--ghost">biceps</div>
+                        <div class="btn btn--ghost">calves</div>
+                        <div class="btn btn--ghost">chest</div>
+                        <div class="btn btn--ghost">core</div>
+                        <div class="btn btn--ghost">forearms</div>
+                        <div class="btn btn--ghost">glutes</div>
+                        <div class="btn btn--ghost">hamstrings</div>
+                        <div class="btn btn--ghost">lats</div>
+                        <div class="btn btn--ghost">legs</div>
+                        <div class="btn btn--ghost">obliques</div>
+                        <div class="btn btn--ghost">quads</div>
+                        <div class="btn btn--ghost">shoulders</div>
+                        <div class="btn btn--ghost">traps</div>
+                        <div class="btn btn--ghost">triceps</div>
                     </div>
-                    <div class="btn btn--main btn--primary">Create new exercise!</div>
+
                 </div>
             </div>
 
@@ -99,6 +117,7 @@
             <option value="NEW">New exercise (not listed)</option>
         </select>
         <div class="btn btn--footer btn--secondary" id="btn-new-exercise">Add</div>
+        <div class="btn btn--main btn--primary display-none" id="btn-create-exercise">Create new exercise!</div>
     </div>
 
 </div>

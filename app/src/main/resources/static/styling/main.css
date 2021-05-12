@@ -44,6 +44,10 @@ img {
   padding: 1rem 2rem 1rem 2rem;
 }
 
+.new-exercise-content {
+  overflow-y: scroll;
+}
+
 .container {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   height: 100%;
@@ -215,11 +219,12 @@ img {
   background-color: #e8e8e8;
   color: #a4a4a4;
   height: 2.5rem;
-  width: 8rem;
+  width: 7rem;
   margin: 0.5rem;
   flex-shrink: 0;
   text-transform: lowercase;
-  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
 }
 .btn--ghost--selected {
   border: 1px solid #05376b;
@@ -271,6 +276,10 @@ img {
   text-decoration: underline;
 }
 
+.far:focus, .fas:focus {
+  color: red;
+}
+
 .fa-rotate-45 {
   transform: rotate(315deg);
 }
@@ -283,6 +292,13 @@ img {
 
 .fa-plus-circle {
   margin-left: 2rem;
+}
+
+.far-title {
+  font-size: 1.5rem;
+  position: absolute;
+  display: flex;
+  right: -2rem;
 }
 
 .form {
@@ -362,6 +378,7 @@ img {
   margin: 1rem;
   padding: 1.5rem;
   border-radius: 10px;
+  transition: all 300ms cubic-bezier(0.46, -0.36, 1, 1);
 }
 .transparent-form-group__title {
   display: flex;
@@ -480,6 +497,7 @@ img {
 .heading {
   font-family: "Nanum Gothic", sans-serif;
   margin: 0 0 1.5rem 2rem;
+  position: relative;
 }
 .heading--white {
   color: #fdfdfd;
@@ -502,6 +520,8 @@ img {
 }
 .heading--transparent-box {
   margin: 0 0 1.5rem 0rem;
+  position: relative;
+  display: flex;
 }
 
 .form-error-msg {

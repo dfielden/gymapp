@@ -128,7 +128,7 @@ const editSelectedSet = function(e) {
     forms.showForm(c.formEditSet, -34);
     setBlock = e.target.closest('.exercise-block__set-container');
     c.formEditSetWeight.value = parseFloat(setBlock.querySelector('.weight').innerText);
-    c.formEditSetReps.value = parseInt(setBlock.querySelector('.reps').innerText);
+    c.formEditSetReps.value = parseInt(setBlock.querySelector('.Reps').innerText);
     slidingBtns.resetSlidingDivs();
 }
 
