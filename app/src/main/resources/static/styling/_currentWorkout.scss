@@ -28,6 +28,7 @@
     flex-direction: column;
     background-color: $color-off-white;
     padding: 1rem;
+    transition: all 500ms;
 
     &:not(:last-of-type) {
       margin-bottom: 0.6rem;
@@ -58,7 +59,8 @@
       height: 3.5rem;
       align-items: center;
       position: relative;
-      transition: transform 1s;
+      transition: all 500ms cubic-bezier(0.46, -0.36, 1, 1), background-color, font-weight, color 0s;
+
 
 
       &:not(:last-of-type) {
@@ -149,4 +151,3 @@
   display: flex;
   align-items: center;
 }
-

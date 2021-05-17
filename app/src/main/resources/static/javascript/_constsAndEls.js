@@ -1,6 +1,29 @@
+// COMMON
 export const elContainer = document.querySelector(".container");
 export const elBody = document.querySelector(".main-body");
+export const elFooter = document.querySelector(".footer");
 
+// WELCOME
+export const myWorkouts = document.querySelectorAll('.saved-workout');
+export const footerCreateWorkout = document.querySelector(".footer__icon--create");
+export const footerEditWorkout = document.querySelector(".footer__icon--edit");
+export const footerStart = document.querySelector(".footer__btn");
+
+
+// DEFINE WORKOUT
+export const addExerciseBtn = document.querySelector('#btn-new-exercise');
+export const createNewExForm = document.querySelector('#form-new-exercise');
+export const createNewExFormClose = document.querySelector('#new-exercise-close');
+export const createExerciseName = document.querySelector('#create-exercise-name');
+export const containerMuscleGroups = document.querySelector(".muscle-group-container");
+export const btnCreateExercise = document.querySelector('#btn-create-exercise');
+export const btnsMoveExerciseUp = document.querySelectorAll('.fa-sort-up');
+export const btnsMoveExerciseDown = document.querySelectorAll('.fa-sort-down');
+export const selectExercise = document.querySelector('#select-exercise');
+export const exercises = document.querySelector('.exercises');
+
+
+// CURRENT WORKOUT
 export let slidingDivs = document.querySelectorAll(".slider");
 export let slidingBtnContainer = document.querySelectorAll(".slide-on-btn-container");
 export let allSetContainers = document.querySelectorAll(".exercise-block__set-container");

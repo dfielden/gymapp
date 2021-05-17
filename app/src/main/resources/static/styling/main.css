@@ -34,18 +34,15 @@ img {
   height: 100%;
 }
 
-.createEdit-workout-overview {
-  height: 100%;
-  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  align-items: center;
-  padding: 1rem 2rem 1rem 2rem;
-}
-
 .new-exercise-content {
   overflow-y: scroll;
+}
+
+.exercises {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container {
@@ -73,6 +70,7 @@ img {
   flex-direction: column;
   background-color: #fdfdfd;
   padding: 1rem;
+  transition: all 500ms;
 }
 .main-body .exercise-block:not(:last-of-type) {
   margin-bottom: 0.6rem;
@@ -97,7 +95,7 @@ img {
   height: 3.5rem;
   align-items: center;
   position: relative;
-  transition: transform 1s;
+  transition: all 500ms cubic-bezier(0.46, -0.36, 1, 1), background-color, font-weight, color 0s;
 }
 .main-body .exercise-block__set-container__stats {
   display: flex;
@@ -390,6 +388,7 @@ img {
   margin: 0.5rem 0rem 0.5rem 0rem;
   align-items: center;
   font-size: 1.6rem;
+  transition: all 500ms cubic-bezier(0.46, -0.36, 1, 1);
 }
 .footer {
   display: flex;
@@ -409,6 +408,9 @@ img {
   justify-content: center;
   align-items: center;
 }
+.footer__btn--inactive {
+  opacity: 0.5;
+}
 .footer__btn--main {
   height: 6rem;
   width: 6rem;
@@ -416,7 +418,7 @@ img {
   color: #fdfdfd;
   font-size: 2rem;
   font-family: "Nanum Gothic", sans-serif;
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0rem 3rem rgba(0, 0, 0, 0.4);
 }
 
 .icons-container {
@@ -451,6 +453,16 @@ img {
   justify-content: center;
   height: 40%;
   width: 22%;
+}
+
+.body-background {
+  height: 100%;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  align-items: center;
+  padding: 1rem 2rem 1rem 2rem;
 }
 
 .display-none {
@@ -528,6 +540,32 @@ img {
   font-size: 1.6rem;
   color: #e91235;
   transform: translateY(-1.8rem);
+}
+
+.chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  height: 15rem;
+  width: 100%;
+}
+
+.saved-workout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  height: 5rem;
+  width: 100%;
+}
+.saved-workout:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+.saved-workout--selected {
+  background: linear-gradient(145deg, rgba(252, 199, 40, 0.8) 0%, rgba(252, 233, 185, 0.8) 100%);
 }
 
 /*# sourceMappingURL=main.css.map */

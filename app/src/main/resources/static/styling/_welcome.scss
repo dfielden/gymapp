@@ -1,0 +1,27 @@
+.chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-off-white;
+  border-radius: 5px;
+  height: 15rem;
+  width: 100%;
+}
+
+.saved-workout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-off-white;
+  border-radius: 5px;
+  height: 5rem;
+  width: 100%;
+
+  &:not(:last-of-type) {
+    margin-bottom: 1rem;
+  }
+
+  &--selected {
+    background: $gradient-secondary;
+  }
+}

@@ -1,9 +1,7 @@
-import * as c from './_constsAndEls.js';
-import * as slidingBtns from './_slidingBtns.js';
-import * as ex from '../exercise.js';
+import * as c from '../_constsAndEls.js';
+import * as sh from '../_showAndHide.js';
 
-import * as forms from './_slideUpForms.js';
-import {weightPlusBtns} from "./_constsAndEls.js";
+
 
 // Declare variable to hold the exercise-block__sets to which we wish to append our new set
 let exerciseBlock;
@@ -20,8 +18,8 @@ function getAllExercises() {
 
 const resetAll = function() {
     unselectAllRows();
-    slidingBtns.resetSlidingDivs();
-    forms.resetAllForms();
+    sh.resetSlidingDivs();
+    sh.resetAllForms();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +48,7 @@ const selectSet = function(selectedRow) {
         c.footerUndo.classList.remove('footer__icon--inactive');
 
     }
-    slidingBtns.resetSlidingDivs();
+    sh.resetSlidingDivs();
 }
 
 
@@ -64,9 +62,6 @@ const markSetComplete = function(doneBtn) {
     // remove ability to slide row and format as completed.
     doneBtn.closest('.exercise-block__set-container').classList.add('complete');
     doneBtn.closest('.exercise-block__set-container').classList.remove('active', 'slider', 'undo');
-    //doneBtn.closest('.exercise-block__set-container').classList.remove('slider');
-    //doneBtn.closest('.exercise-block__set-container').classList.remove('undo');
-
     doneBtn.classList.add('display-none');
     resetAll();
 }
@@ -76,10 +71,7 @@ const undoSetComplete = function() {
     const setContainer = document.querySelector('.undo');
     setContainer.classList.add('slider');
     setContainer.classList.remove('undo', 'complete');
-    //setContainer.classList.remove('complete');
-    setContainer.querySelector('.done-container').classList.add('display-none');
-    setContainer.querySelector('.timer-container').classList.add('display-none');
-
+    ['.done-container', '.timer-container'].forEach(el => setContainer.querySelector(el).classList.add('display-none'));
     c.footerUndo.classList.add('footer__icon--inactive');
 }
 
@@ -125,23 +117,27 @@ c.elBody.addEventListener('click', function(e) {
 const editSelectedSet = function(e) {
     c.formEditSetHeader.innerText = 'Update set';
     c.formEditSetSubmit.innerText = 'Update';
-    forms.showForm(c.formEditSet, -34);
+    sh.showForm(c.formEditSet, -34);
     setBlock = e.target.closest('.exercise-block__set-container');
     c.formEditSetWeight.value = parseFloat(setBlock.querySelector('.weight').innerText);
-    c.formEditSetReps.value = parseInt(setBlock.querySelector('.Reps').innerText);
-    slidingBtns.resetSlidingDivs();
+    c.formEditSetReps.value = parseInt(setBlock.querySelector('.reps').innerText);
+    sh.resetSlidingDivs();
 }
 
 const removeSelectedSet = function(e) {
-    e.target.closest('.slider').remove();
+    e.target.closest('.slide-on-btn-container').style.display = 'none';
+
+    const setContainer = e.target.closest('.exercise-block__set-container');
+    const parentContainer = setContainer.closest('.exercise-block');
+    sh.SlideOffAndDelete(setContainer,'.exercise-block__set-container', '.exercise-block');
     resetAll();
-    // TODO: remove container if it is now empty
+
 }
 
 
 c.footerAddExercise.addEventListener('click', function() {
     resetAll();
-    forms.showForm(c.formAddToCurrent, -43);
+    sh.showForm(c.formAddToCurrent, -43);
 })
 
 
@@ -196,13 +192,13 @@ const decreaseInputValue = function(formInput, amount) {
 }
 
 c.formAddToCurrentClose.addEventListener('click', function() {
-    forms.hideForm(c.formAddToCurrent);
+    sh.hideForm(c.formAddToCurrent);
     // Reset exerciseBlock param
     exerciseBlock = "";
 })
 
 c.formEditSetClose.addEventListener('click', function() {
-    forms.hideForm(c.formEditSet);
+    sh.hideForm(c.formEditSet);
     // Reset setBlock param
     setBlock = "";
 })
@@ -232,7 +228,7 @@ const activateFormAddEditSet = function () {
     resetAll();
     c.formEditSetHeader.innerText = 'Add set';
     c.formEditSetSubmit.innerText = 'Add!';
-    forms.showForm(c.formEditSet, -35);
+    sh.showForm(c.formEditSet, -35);
     //editWeightInput.select(); buggy on iphone - causes large area under footer to become visible
 
 }
@@ -258,7 +254,7 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
         setBlock.querySelector('.reps').innerText = `${reps} reps`;
         setBlock = "";
     }
-    forms.resetAllForms();
+    sh.resetAllForms();
 })
 
 // APPENDING NEW SET
@@ -305,7 +301,7 @@ c.formAddToCurrentSubmit.addEventListener('click', function(e) {
     const reps = c.formAddToCurrentReps.value;
 
     appendNewExercise(name, weight, reps);
-    forms.resetAllForms();
+    sh.resetAllForms();
     exerciseBlock = "";
 })
 

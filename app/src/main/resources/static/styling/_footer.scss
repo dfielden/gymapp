@@ -16,6 +16,10 @@
        justify-content: center;
        align-items: center;
 
+    &--inactive {
+      opacity: 0.5;
+    }
+
   &--main {
        height: 6rem;
        width: 6rem;
@@ -23,7 +27,9 @@
        color: $color-off-white;
        font-size: 2rem;
        font-family: $font-display;
-       box-shadow: 0 2rem 4rem rgba($color-black, .4);
+       box-shadow: 0 0rem 3rem rgba($color-black, .4);
+
+
    }
 
   }

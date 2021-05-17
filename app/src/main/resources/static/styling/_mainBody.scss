@@ -1,0 +1,9 @@
+.body-background {
+  height: 100%;
+  background: $gradient-primary;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  align-items: center;
+  padding: 1rem 2rem 1rem 2rem;
+}

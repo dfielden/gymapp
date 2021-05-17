@@ -20,6 +20,11 @@ public class GymAppApplication {
         return "index";
     }
 
+    @GetMapping("/welcome")
+    public String welcome() throws Exception {
+        return "welcome";
+    }
+
     @GetMapping("/defineworkout")
     public String defineWorkout() throws Exception {
         return "define-workout";
