@@ -1,0 +1,39 @@
+Barbell row, BACK, BICEPS
+Barbell shrug, SHOULDERS
+Bench press, CHEST, TRICEPS
+Bench press (decline), CHEST, TRICEPS
+Bench press (incline), CHEST, TRICEPS
+Cable fly, CHEST
+Cable press, CHEST, TRICEPS
+Deadlift, BACK, CORE, LATS, LEGS, HAMSTRINGS
+Dips, TRICEPS
+Dumbbell fly, CHEST
+Dumbbell fly (decline), CHEST
+Dumbbell fly (incline), CHEST
+Dumbbell press, CHEST
+Dumbbell press (decline), CHEST
+Dumbbell press (incline), CHEST
+Dumbell row, BACK, BICEPS
+Flutter kicks, ABS, CORE
+Forward raise, SHOULDERS
+Hamstring curl, HAMSTRINGS
+Lateral raise, SHOULDERS
+Lat pulldown, BACK, BICEPS, LATS
+Leg extension, LEGS, QUADS
+Lunge, LEGS, HAMSTRINGS, QUADS
+Kickback, TRICEPS
+Mountain climber, ABS, CORE
+Push-up, CHEST, TRICEPS
+Plank, ABS, CORE
+Pull-up, BACK, BICEPS
+Reverse fly, BACK
+Russian twist, ABS, CORE, OBLIQUES
+Tricep extension (bar), TRICEPS
+Tricep extension (rope), TRICEPS
+TRX row, BACK, BICEPS
+Seated row, BACK, BICEPS
+Shoulder press, SHOULDERS, TRICEPS
+Side plank, ABS, CORE, OBLIQUES
+Sit-up, ABS, CORE
+Skull crusher, TRICEPS
+Squat, LEGS, QUADS, CORE

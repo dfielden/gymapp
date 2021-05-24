@@ -348,7 +348,6 @@ img {
   border-bottom: 3px solid #fcc728;
   background-color: #fdfdfd;
 }
-
 .new-exercise {
   display: flex;
   flex-direction: column;
@@ -412,13 +411,13 @@ img {
   opacity: 0.5;
 }
 .footer__btn--main {
-  height: 6rem;
-  width: 6rem;
+  height: 5rem;
+  width: 5rem;
   background-color: #177ede;
   color: #fdfdfd;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-family: "Nanum Gothic", sans-serif;
-  box-shadow: 0 0rem 3rem rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 3rem rgba(0, 0, 0, 0.4);
 }
 
 .icons-container {
@@ -470,7 +469,7 @@ img {
 }
 
 .visibility-hidden {
-  display: none;
+  visibility: hidden;
 }
 
 .gradient {
@@ -506,6 +505,10 @@ img {
   align-items: center;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .heading {
   font-family: "Nanum Gothic", sans-serif;
   margin: 0 0 1.5rem 2rem;
@@ -527,11 +530,20 @@ img {
 .heading--4 {
   font-size: 1.6rem;
 }
+.heading--label {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+}
+.heading--login-form {
+  font-size: 3rem;
+  margin: 0 0 1.5rem 0;
+  align-self: center;
+}
 .heading--current-exercise {
   margin-bottom: 0.5rem;
 }
 .heading--transparent-box {
-  margin: 0 0 1.5rem 0rem;
+  margin: 0 0 1.5rem 0;
   position: relative;
   display: flex;
 }
@@ -565,7 +577,8 @@ img {
   margin-bottom: 1rem;
 }
 .saved-workout--selected {
-  background: linear-gradient(145deg, rgba(252, 199, 40, 0.8) 0%, rgba(252, 233, 185, 0.8) 100%);
+  background-color: #fcc728;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 /*# sourceMappingURL=main.css.map */

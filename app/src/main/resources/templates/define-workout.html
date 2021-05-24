@@ -19,7 +19,7 @@
     </div>
 
     <div class="main-body">
-        <div class="body-background">
+        <form class="body-background" id="form-create-workout">
             <div class="transparent-form-group">
                 <div class="transparent-form-group__title">
                     <div class="heading heading--3 heading--transparent-box">Workout name:</div>
@@ -30,35 +30,33 @@
             <div class="exercises">
                 <div class="transparent-form-group">
                     <div class="transparent-form-group__title">
-                        <div class="heading heading--3 heading--transparent-box">Bench press
-                            <span class="far fa-plus-square far-title"></span>
-                        </div>
+                        <div class="heading heading--3 heading--transparent-box">Bench press<span class="far fa-plus-square far-title"></span></div>
                         <div class="flex-container--col">
                             <div class="fas fa-sort-up"></div>
                             <div class="fas fa-sort-down"></div>
                         </div>
                     </div>
                     <div class="two-input-container">
-                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
                         <span class="far fa-trash-alt"></span>
                     </div>
                     <div class="two-input-container">
-                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
                         <span class="far fa-trash-alt"></span>
                     </div>
                     <div class="two-input-container">
-                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
                         <span class="far fa-trash-alt"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="btn btn--main btn--primary">Create workout!</div>
+            <button class="btn btn--main btn--primary" id="btn-create-workout">Create workout!</button>
 
-        </div>
+        </form>
 
         <div class="new-exercise display-none" id="form-new-exercise">
             <div class="new-exercise-content">

@@ -24,12 +24,24 @@
     font-size: 1.6rem;
   }
 
+  &--label {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  &--login-form {
+    font-size: 3rem;
+    margin: 0 0 1.5rem 0;
+    align-self: center;
+
+  }
+
   &--current-exercise {
     margin-bottom: 0.5rem;
   }
 
   &--transparent-box {
-    margin: 0 0 1.5rem 0rem;
+    margin: 0 0 1.5rem 0;
     position: relative;
     display: flex;
   }

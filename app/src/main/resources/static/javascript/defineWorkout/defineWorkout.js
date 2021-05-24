@@ -1,6 +1,7 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
-
+import {Set} from "../exercise.js";
+import {Exercise} from "../exercise.js";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// ADDING EXERCISE TP WORKOUT ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10,17 +11,15 @@ const addExercise = function() {
         const html = `
             <div class="transparent-form-group">
                 <div class="transparent-form-group__title">
-                    <div class="heading heading--3 heading--transparent-box">${c.selectExercise.value}
-                        <span class="far fa-plus-square far-title"></span>
-                    </div>
+                    <div class="heading heading--3 heading--transparent-box">${c.selectExercise.value}<span class="far fa-plus-square far-title"></span></div>
                     <div class="flex-container--col">
                         <div class="fas fa-sort-up"></div>
                         <div class="fas fa-sort-down"></div>
                     </div>
                 </div>
                 <div class="two-input-container">
-                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-                    <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+                    <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+                    <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
                     <span class="far fa-trash-alt"></span>
             </div>
         `;
@@ -83,8 +82,8 @@ c.elBody.addEventListener('click', function(e) {
 const appendNewSet = function(exerciseGroupEl) {
     const html = `
         <div class="two-input-container">
-            <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout">
-            <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout">
+            <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+            <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
             <span class="far fa-trash-alt"></span>
         </div>
     `;
@@ -165,3 +164,36 @@ const closeCreateExerciseForm = function (index= 0) {
 }
 
 c.createNewExFormClose.addEventListener('click', closeCreateExerciseForm);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// CREATE WORKOUT ////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const createWorkout = function(workout) {
+    console.log(workout);
+}
+
+c.btnCreateWorkout.addEventListener('click', function(e) {
+    e.preventDefault();
+    const workout = {};
+    workout.workoutName = c.formWorkoutName.value;
+    workout.exercises = [];
+
+    // get all transparent form groups (each contains one exercise)
+    const exercises = c.exercises.querySelectorAll('.transparent-form-group');
+    exercises.forEach(el => {
+        const exercise = new Exercise(el.querySelector('.heading').textContent.trim());
+
+        // get all sets
+        const sets = el.querySelectorAll('.two-input-container');
+        sets.forEach(set => {
+            const weight = set.querySelector('.w').value;
+            const reps = set.querySelector('.r').value;
+            exercise.addSet(new Set(weight, reps));
+        });
+        workout.exercises.push(exercise);
+    });
+
+
+    createWorkout(workout);
+})

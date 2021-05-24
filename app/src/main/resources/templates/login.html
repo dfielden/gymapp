@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0"/>
+  <link rel="stylesheet" href="styling/main.css">
+  <script src="https://kit.fontawesome.com/558b08b205.js" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" type="image/png" href="images/dumbbell-solid.png">
+  <title>Gymapp - login</title>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1 class="heading heading--1">Gymapp</h1>
+      <div class="header__icon">
+        <img src="images/gymapp_logo.png" alt="Gymapp logo">
+      </div>
+    </div>
+
+    <div class="main-body body-background justify-center">
+      <form class="transparent-form-group" id="form-create-workout">
+        <div class="heading heading--login-form">Login</div>
+        <label class="heading heading--label" for="login-email">Email:</label>
+        <input type="text" inputmode="email" required autocomplete="off" class="form-input form-input--full-length m-b" name="login-email" id="login-email">
+        <label class="heading heading--label" for="login-password">Password:</label>
+        <input type="text" required autocomplete="off" class="form-input form-input--full-length m-b" name="login-password" id="login-password">
+        <button class="btn btn--main btn--primary" id="btn-login">Login</button>
+        <div class="form-error-msg visibility-hidden">Content</div>
+      </form>
+      <div>New user? <a href="/signup">Create account here</a></div>
+    </div>
+
+    <div class="footer">
+    </div>
+  </div>
+  <script type="module" src="/javascript/currentWorkout/currentWorkout.js"></script>
+</body>
+</html>

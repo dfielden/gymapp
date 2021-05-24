@@ -21,13 +21,13 @@
     }
 
   &--main {
-       height: 6rem;
-       width: 6rem;
+       height: 5rem;
+       width: 5rem;
        background-color: $color-primary;
        color: $color-off-white;
-       font-size: 2rem;
+       font-size: 1.6rem;
        font-family: $font-display;
-       box-shadow: 0 0rem 3rem rgba($color-black, .4);
+       box-shadow: 0 0 3rem rgba($color-black, .4);
 
 
    }

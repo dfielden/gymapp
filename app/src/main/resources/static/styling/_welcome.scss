@@ -22,6 +22,7 @@
   }
 
   &--selected {
-    background: $gradient-secondary;
+    background-color: $color-secondary;
+    box-shadow: 0 0.5rem 1rem rgba($color-black, .1);
   }
 }

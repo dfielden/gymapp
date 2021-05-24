@@ -21,6 +21,9 @@ export const btnsMoveExerciseUp = document.querySelectorAll('.fa-sort-up');
 export const btnsMoveExerciseDown = document.querySelectorAll('.fa-sort-down');
 export const selectExercise = document.querySelector('#select-exercise');
 export const exercises = document.querySelector('.exercises');
+export const btnCreateWorkout = document.querySelector('#btn-create-workout');
+export const formCreateWorkout = document.querySelector('#form-create-workout');
+export const formWorkoutName = document.querySelector('#workout-name');
 
 
 // CURRENT WORKOUT
