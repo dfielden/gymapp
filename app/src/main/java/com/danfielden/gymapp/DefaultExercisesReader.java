@@ -32,7 +32,6 @@ public class DefaultExercisesReader {
                 }
 
                 exercises.add(ex);
-                System.out.println(line);
                 line = reader.readLine();
             }
         } catch (IOException e) {
