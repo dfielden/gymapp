@@ -1,7 +1,6 @@
 package com.danfielden.gymapp;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class InitiateDBQueries {
 

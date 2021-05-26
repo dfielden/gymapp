@@ -1,11 +1,16 @@
 export class Exercise {
-    constructor(name) {
-        this.name = name;
+    constructor(exerciseName) {
+        this.exerciseName = exerciseName;
         this.sets = [];
+        this.muscleGroups = [];
     }
 
     addSet(set) {
         this.sets.push(set);
+    }
+
+    addMuscleGroup(muscleGroup) {
+        this.muscleGroups.push(muscleGroup);
     }
 
 

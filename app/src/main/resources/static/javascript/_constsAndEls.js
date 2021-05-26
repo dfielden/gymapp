@@ -1,6 +1,7 @@
 // CONFIG
 export const ajaxTimeoutMillis = 5000;
 export const getExercisesURL = '/exercises';
+export const createExerciseURL = '/createexercise';
 
 // COMMON
 export const elContainer = document.querySelector(".container");

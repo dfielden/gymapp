@@ -2,10 +2,10 @@ import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {Set} from "../exercise.js";
 import {Exercise} from "../exercise.js";
-import {getExercisesURL} from "../_constsAndEls.js";
+import {createExerciseURL, getExercisesURL} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
 
-const exercises = [];
+let exercises = {};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// LOAD DATA UPON PAGE LOAD ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,10 @@ const getExercises = async function() {
     try {
         const data = await AJAX(getExercisesURL);
         console.log(data);
+        exercises = data;
+        for (const key in exercises) {
+            addExerciseToSelect(exercises[key].exerciseName, key);
+        }
     } catch (err) {
         console.error('Unable to load exercises. Please try again.');
     }
@@ -148,6 +152,11 @@ const toggleFooterEls = function() {
     [c.selectExercise, c.addExerciseBtn, c.btnCreateExercise].forEach(el => el.classList.toggle('display-none'));
 }
 
+const addExerciseToSelect = function(text, value) {
+    // Add newly-created element to penultimate position of select - so add new exercise always at end
+    c.selectExercise.options.add(new Option(text, value),c.selectExercise.length-1)
+
+}
 
 const createNewExercise = function() {
     let exerciseName = c.createExerciseName.value;
@@ -157,9 +166,14 @@ const createNewExercise = function() {
     // TODO: Check exercise of same name does not exist
 
     // TODO: Create new exercise object, incorporating targeted muscles, and save it to db
+    const exercise = new Exercise(exerciseName);
+    exercise.addMuscleGroup('CHEST');
+    exercise.addMuscleGroup('LEGS');
+
+    AJAX(createExerciseURL, exercise);
 
     // Add newly-created element to penultimate position of select - so add new exercise always at end
-    c.selectExercise.options.add(new Option(exerciseName, exerciseName),c.selectExercise.length-1);
+    addExerciseToSelect(exerciseName, exerciseName);
 
     c.selectExercise.value = exerciseName;
     addExercise();

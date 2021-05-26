@@ -1,12 +1,13 @@
 package com.danfielden.gymapp;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,10 +64,17 @@ public class GymAppApplication {
     @GetMapping("/exercises")
     public String getSavedExercises(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         HashMap<Long, Exercise> exercises = db.getAllExercises(0);
-        for (Exercise e : exercises.values()) {
-            System.out.println(e);
-        }
         return gson.toJson(exercises);
+    }
+
+    @ResponseBody
+    @PostMapping(value="/createexercise",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createExercise(@RequestBody Exercise exercise, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        System.out.println(exercise);
+        //return exercise.toJson().toString();
+        return "hello";
     }
 
 }

@@ -1,11 +1,13 @@
 package com.danfielden.gymapp;
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Exercise implements Comparable<Exercise>{
-    private String exerciseName;
-    private List<MuscleGroup> muscleGroups;
+    private final String exerciseName;
+    private final List<MuscleGroup> muscleGroups;
 
     public Exercise(String exerciseName) {
         this(exerciseName, new ArrayList<>());
@@ -48,24 +50,44 @@ public final class Exercise implements Comparable<Exercise>{
     }
 
     public enum MuscleGroup {
-        ADDUCTORS,
-        ABDUCTORS,
-        ABS,
-        ARMS,
-        BACK,
-        BICEPS,
-        CALVES,
-        CHEST,
-        CORE,
-        FOREARMS,
-        GLUTES,
-        HAMSTRINGS,
-        LATS,
-        LEGS,
-        OBLIQUES,
-        QUADS,
-        SHOULDERS,
-        TRAPS,
-        TRICEPS
+        ADDUCTORS("Adductors"),
+        ABDUCTORS("Abductors"),
+        ABS("Abs"),
+        ARMS("Arms"),
+        BACK("Back"),
+        BICEPS("Biceps"),
+        CALVES("Calves"),
+        CHEST("Chest"),
+        CORE("Core"),
+        FOREARMS("Forearms"),
+        GLUTES("Glutes"),
+        HAMSTRINGS("Hamstrings"),
+        LATS("Lats"),
+        LEGS("Legs"),
+        OBLIQUES("Obliques"),
+        QUADS("Quads"),
+        SHOULDERS("Shoulders"),
+        TRAPS("Traps"),
+        TRICEPS("Triceps");
+
+        private String name;
+
+        private MuscleGroup(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
+//        public JsonObject toJson() {
+//            JsonObject o = new JsonObject();
+//
+//            o.addProperty("exerciseName", getExerciseName());
+//
+//
+//            return o;
+//        }
     }
 }
