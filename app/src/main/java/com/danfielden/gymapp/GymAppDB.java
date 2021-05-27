@@ -41,13 +41,13 @@ public final class GymAppDB {
 
     public synchronized long getMuscleGroupId(Exercise.MuscleGroup muscleGroup) throws Exception {
         String query = "SELECT * FROM MuscleGroup WHERE muscle_group = ?";
-        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setString(1, muscleGroup.toString());
-            ResultSet rs = stmt.getGeneratedKeys();
+            ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
-                throw new IllegalStateException("Unable to get muscle group id for " + muscleGroup.toString());
+                throw new IllegalStateException("Unable to get muscle group id for " + muscleGroup);
             }
-            return rs.getLong(1);
+            return rs.getLong("id");
         }
     }
 
@@ -116,7 +116,7 @@ public final class GymAppDB {
         }
     }
 
-    private synchronized void linkExerciseToMuscleGroup(long exerciseId, long muscleGroupId) throws Exception {
+    public synchronized void linkExerciseToMuscleGroup(long exerciseId, long muscleGroupId) throws Exception {
         String query = "INSERT INTO ExercisesToMuscleGroup (exercise_id, muscle_group_id) VALUES (?, ?)";
 
         try (PreparedStatement stmt = connect.prepareStatement(query)) {

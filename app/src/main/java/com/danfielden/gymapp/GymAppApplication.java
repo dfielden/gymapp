@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+
 
 
 @SpringBootApplication
@@ -73,8 +72,17 @@ public class GymAppApplication {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String createExercise(@RequestBody Exercise exercise, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         System.out.println(exercise);
-        //return exercise.toJson().toString();
-        return "hello";
+        // add exercise
+        // TODO: link to user id
+        long exerciseId = db.addExercise(exercise.getExerciseName(), 1);
+
+        // add exercise muscle groups
+        for (Exercise.MuscleGroup mg : exercise.getMuscleGroups()) {
+            long muscleGroupId = db.getMuscleGroupId(mg);
+            System.out.println(muscleGroupId);
+            db.linkExerciseToMuscleGroup(exerciseId, muscleGroupId);
+        }
+        return exercise.toJson().toString();
     }
 
 }

@@ -165,17 +165,21 @@ const createNewExercise = function() {
     }
     // TODO: Check exercise of same name does not exist
 
-    // TODO: Create new exercise object, incorporating targeted muscles, and save it to db
+    // Create new exercise object
     const exercise = new Exercise(exerciseName);
-    exercise.addMuscleGroup('CHEST');
-    exercise.addMuscleGroup('LEGS');
 
+    // Add muscle groups to exercise
+    const selectedMuscleGroups = document.querySelectorAll('.btn--ghost--selected');
+    selectedMuscleGroups.forEach(btn => exercise.addMuscleGroup(btn.textContent.toUpperCase()));
+
+    // Submit data
     AJAX(createExerciseURL, exercise);
 
-    // Add newly-created element to penultimate position of select - so add new exercise always at end
+    // Add newly-created exercise to penultimate position of select
     addExerciseToSelect(exerciseName, exerciseName);
-
     c.selectExercise.value = exerciseName;
+
+    // Add exercise to workout schedule
     addExercise();
     closeCreateExerciseForm(c.selectExercise.length-2);
 }
