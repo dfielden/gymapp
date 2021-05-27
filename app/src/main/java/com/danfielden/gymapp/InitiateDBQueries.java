@@ -60,11 +60,11 @@ public final class InitiateDBQueries {
     private static String createWorkoutTemplateSetTable() {
         return "CREATE TABLE IF NOT EXISTS WorkoutTemplateSet (" +
                 "id INTEGER PRIMARY KEY NOT NULL, " +
-                "template_exercise_id INTEGER, " +
+                "exercise_template_id INTEGER, " +
                 "weight NUMERIC, " +
                 "reps INTEGER, " +
                 "order_in_exercise INTEGER, " +
-                "FOREIGN KEY (template_exercise_id) REFERENCES WorkoutTemplateExercise(id)" +
+                "FOREIGN KEY (exercise_template_id) REFERENCES WorkoutTemplateExercise(id)" +
                 ")";
     }
 

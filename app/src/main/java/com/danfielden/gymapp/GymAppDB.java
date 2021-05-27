@@ -36,7 +36,6 @@ public final class GymAppDB {
             }
             return rs.getLong(1);
         }
-
     }
 
     public synchronized long getMuscleGroupId(Exercise.MuscleGroup muscleGroup) throws Exception {
@@ -53,7 +52,7 @@ public final class GymAppDB {
 
 
 
-    public synchronized HashMap<Long, Exercise> getAllExercises(int userId) throws Exception {
+    public synchronized HashMap<Long, Exercise> getAllExercises(long userId) throws Exception {
         HashMap<Long, Exercise> exercises = new HashMap<>();
         String query = "SELECT * FROM ExerciseName";
 
@@ -69,6 +68,73 @@ public final class GymAppDB {
             }
         }
         return exercises;
+    }
+
+    public synchronized long getExerciseIdFromName(String exerciseName, long userId) throws Exception {
+        String query = "SELECT id FROM ExerciseName WHERE exercise_name = ? AND user_id = 0 OR user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, exerciseName);
+            stmt.setLong(2, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to identify exercise id for " + exerciseName);
+            }
+            return rs.getLong(1);
+
+        }
+    }
+
+    public synchronized long addWorkoutTemplate(String workoutName, long userId) throws Exception {
+        String query = "INSERT INTO WorkoutTemplate (workout_name, user_id) VALUES (?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, workoutName);
+            stmt.setLong(2, userId);
+
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to get generated key for added Workout");
+            }
+            return rs.getLong(1);
+        }
+    }
+
+    public synchronized long addExerciseTemplate(long workoutId, long exerciseId, long orderInWorkout) throws Exception {
+        String query = "INSERT INTO WorkoutTemplateExercise (workout_template_id, exercise_id, order_in_workout) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, workoutId);
+            stmt.setLong(2, exerciseId);
+            stmt.setLong(3, orderInWorkout);
+
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to get generated key for added Exercise");
+            }
+            return rs.getLong(1);
+        }
+    }
+
+    public synchronized long addSetTemplate(long exerciseTemplateId, Set set, long orderInGroup) throws Exception {
+        String query = "INSERT INTO WorkoutTemplateSet (exercise_template_id, weight, reps, order_in_exercise) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, exerciseTemplateId);
+            stmt.setDouble(2, set.getWeight());
+            stmt.setLong(3, set.getReps());
+            stmt.setLong(4, orderInGroup);
+
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to get generated key for added Set");
+            }
+            return rs.getLong(1);
+        }
     }
 
     private synchronized void initiateTables() throws Exception {

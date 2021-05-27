@@ -91,8 +91,27 @@ public class GymAppApplication {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String createWorkout(@RequestBody WorkoutTemplate workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         System.out.println(workout);
-        // add exercise
+
         // TODO: link to user id
+        // add workout to WorkoutTemplate and get id back
+        long workoutId = db.addWorkoutTemplate(workout.getWorkoutName(), 1);
+
+        // for each exercise group, add to WorkoutExerciseTemplate amd get id
+        for (int i = 0; i < workout.getExercises().size(); i++) {
+            ExerciseGroup eg = workout.getExercises().get(i);
+            // TODO: link to user id
+            long exerciseId = db.getExerciseIdFromName(eg.getExercise().getExerciseName(), 1);
+
+            long exerciseTemplateId = db.addExerciseTemplate(workoutId, exerciseId, i);
+
+            // add sets for each exercise
+            for (int j = 0; j < eg.getSets().size(); j++) {
+                db.addSetTemplate(exerciseTemplateId, eg.getSets().get(j), j);
+            }
+        }
+
+
+
 
         return workout.toJson().toString();
     }

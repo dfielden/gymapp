@@ -19,6 +19,10 @@ public final class ExerciseGroup {
         return this.sets;
     }
 
+    public Exercise getExercise() {
+        return this.exercise;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
