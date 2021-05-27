@@ -2,6 +2,7 @@
 export const ajaxTimeoutMillis = 5000;
 export const getExercisesURL = '/exercises';
 export const createExerciseURL = '/createexercise';
+export const createWorkoutURL = '/createworkout';
 
 // COMMON
 export const elContainer = document.querySelector(".container");

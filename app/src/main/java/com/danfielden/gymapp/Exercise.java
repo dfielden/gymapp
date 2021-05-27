@@ -34,13 +34,16 @@ public final class Exercise implements Comparable<Exercise>{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getExerciseName());
-        sb.append(" (");
-        for (MuscleGroup mg : this.muscleGroups) {
-            sb.append(mg);
-            sb.append(", ");
+        if (!this.muscleGroups.isEmpty()) {
+            sb.append(" (");
+            for (MuscleGroup mg : this.muscleGroups) {
+                sb.append(mg);
+                sb.append(", ");
+            }
+            sb.delete(sb.length() - 2, sb.length());
+            sb.append(")");
         }
-        sb.delete(sb.length() - 2, sb.length());
-        sb.append(")");
+
         return sb.toString();
     }
 

@@ -1,14 +1,22 @@
 package com.danfielden.gymapp;
 
-import java.util.List;
+import com.google.gson.*;
+
+import java.util.ArrayList;
 
 public final class ExerciseGroup {
     private final Exercise exercise;
-    private final List<Set> sets;
+    private final ArrayList<Set> sets;
+    private static final Gson gson = new Gson();
 
-    public ExerciseGroup(Exercise exercise, List<Set> sets) {
+
+    public ExerciseGroup(Exercise exercise, ArrayList<Set> sets) {
         this.exercise = exercise;
         this.sets = sets;
+    }
+
+    public ArrayList<Set> getSets() {
+        return this.sets;
     }
 
     @Override
@@ -19,7 +27,16 @@ public final class ExerciseGroup {
         for (Set set : sets) {
             sb.append("\t");
             sb.append(set.toString());
+            sb.append("\n");
+
         }
         return sb.toString();
+    }
+
+    public JsonObject toJson() {
+        JsonObject o = new JsonObject();
+        o.addProperty("exercise", exercise.toJson().toString());
+        o.addProperty("sets", gson.toJson(this.getSets()));
+        return o;
     }
 }

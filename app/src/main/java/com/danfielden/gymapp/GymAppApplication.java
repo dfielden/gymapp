@@ -85,4 +85,16 @@ public class GymAppApplication {
         return exercise.toJson().toString();
     }
 
+    @ResponseBody
+    @PostMapping(value="/createworkout",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createWorkout(@RequestBody WorkoutTemplate workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        System.out.println(workout);
+        // add exercise
+        // TODO: link to user id
+
+        return workout.toJson().toString();
+    }
+
 }

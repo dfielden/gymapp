@@ -1,8 +1,7 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
-import {Set} from "../exercise.js";
-import {Exercise} from "../exercise.js";
-import {createExerciseURL, getExercisesURL} from "../_constsAndEls.js";
+import {ExerciseGroup, Exercise, Set} from "../exercise.js";
+import {createExerciseURL, getExercisesURL, createWorkoutURL} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
 
 let exercises = {};
@@ -28,7 +27,7 @@ window.addEventListener('load', e => {
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//// ADDING EXERCISE TP WORKOUT ////
+//// ADDING EXERCISE TO WORKOUT ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const addExercise = function() {
@@ -154,7 +153,9 @@ const toggleFooterEls = function() {
 
 const addExerciseToSelect = function(text, value) {
     // Add newly-created element to penultimate position of select - so add new exercise always at end
-    c.selectExercise.options.add(new Option(text, value),c.selectExercise.length-1)
+    const option = new Option(text, text);
+    option.setAttribute("data-id", value);
+    c.selectExercise.options.add(option,c.selectExercise.length-1)
 
 }
 
@@ -210,6 +211,9 @@ c.createNewExFormClose.addEventListener('click', closeCreateExerciseForm);
 
 const createWorkout = function(workout) {
     console.log(workout);
+
+    // Submit data
+    AJAX(createWorkoutURL, workout);
 }
 
 c.btnCreateWorkout.addEventListener('click', function(e) {
@@ -222,15 +226,15 @@ c.btnCreateWorkout.addEventListener('click', function(e) {
     const exercises = c.exercises.querySelectorAll('.transparent-form-group');
     exercises.forEach(el => {
         const exercise = new Exercise(el.querySelector('.heading').textContent.trim());
-
+        const exerciseGroup = new ExerciseGroup(exercise);
         // get all sets
         const sets = el.querySelectorAll('.two-input-container');
         sets.forEach(set => {
             const weight = set.querySelector('.w').value;
             const reps = set.querySelector('.r').value;
-            exercise.addSet(new Set(weight, reps));
+            exerciseGroup.addSet(new Set(weight, reps));
         });
-        workout.exercises.push(exercise);
+        workout.exercises.push(exerciseGroup);
     });
 
 
