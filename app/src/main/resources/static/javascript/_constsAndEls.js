@@ -11,6 +11,7 @@ export const getCurrentWorkoutURL = '/workout/';
 export const elContainer = document.querySelector(".container");
 export const elBody = document.querySelector(".main-body");
 export const elFooter = document.querySelector(".footer");
+export const title = document.querySelector(".heading--1");
 
 // WELCOME
 export const myWorkoutsContainer = document.querySelector('.saved-workouts');

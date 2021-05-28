@@ -36,12 +36,15 @@ const getCurrentWorkout = async function() {
         console.log('id = ' + id);
         const workout = await AJAX(getCurrentWorkoutURL + id);
         console.log(workout);
-        // console.log(data);
-        // exercises = data;
-        // for (const key in exercises) {
-        //     addExerciseToSelect(exercises[key].exerciseName, key);
+        c.title.textContent = workout.workoutName;
+        // for (let i = 0; i < workout.exercises.length; i++) {
+        //     const exercise = workout.exercises[i].exercise;
+        //     appendNewExercise(exercise.exerciseName);
+        //     const sets = workout.exercises[i].sets
+        //     for (let j = 0; j < sets.length; j++) {
+        //         appendNewSet(sets[j].weight, sets[j].reps, c.elBody.lastChild);
+        //     }
         // }
-        //const myWorkouts = document.querySelectorAll('.saved-workout');
 
     } catch (err) {
         console.error('Unable to load workout. Please try again.');

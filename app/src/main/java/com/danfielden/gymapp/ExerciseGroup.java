@@ -9,6 +9,10 @@ public final class ExerciseGroup {
     private final ArrayList<Set> sets;
     private static final Gson gson = new Gson();
 
+    public ExerciseGroup(Exercise exercise) {
+        this(exercise, new ArrayList<>());
+
+    }
 
     public ExerciseGroup(Exercise exercise, ArrayList<Set> sets) {
         this.exercise = exercise;

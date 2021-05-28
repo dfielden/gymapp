@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -128,8 +129,10 @@ public class GymAppApplication {
     public String loadWorkout(@PathVariable(value="id") long id) throws Exception {
         // TODO: link to user id
         String workoutName = db.getWorkoutNameFromId(id, 1);
-        System.out.println(workoutName);
-        return gson.toJson(workoutName);
+        ArrayList<ExerciseGroup> exercises = db.getExercisesFromWorkoutId(id);
+        WorkoutTemplate workout = new WorkoutTemplate(workoutName, exercises);
+        System.out.println(workout);
+        return gson.toJson(workout);
     }
 
 

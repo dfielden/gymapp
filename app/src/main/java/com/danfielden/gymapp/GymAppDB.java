@@ -86,6 +86,21 @@ public final class GymAppDB {
         }
     }
 
+    public synchronized String getExerciseNameFromId(long exerciseNameId) throws Exception {
+        String query = "SELECT exercise_name FROM ExerciseName WHERE id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, exerciseNameId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to identify exercise name for id " + exerciseNameId);
+            }
+            return rs.getString(1);
+
+        }
+    }
+
     public synchronized long addWorkoutTemplate(String workoutName, long userId) throws Exception {
         String query = "INSERT INTO WorkoutTemplate (workout_name, user_id) VALUES (?, ?)";
         try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -176,16 +191,43 @@ public final class GymAppDB {
                 throw new IllegalStateException("Unable to identify workout name");
             }
             return rs.getString(1);
-
         }
     }
 
-    private ArrayList<ExerciseGroup> getExercisesFromWorkoutId(long workoutId) {
+    public ArrayList<ExerciseGroup> getExercisesFromWorkoutId(long workoutId) throws Exception {
+        String query = "SELECT * FROM WorkoutTemplateExercise WHERE workout_template_id = ? ORDER BY order_in_workout";
+        ArrayList<ExerciseGroup> exercises = new ArrayList<>();
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, workoutId);
 
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                long exerciseTemplateId = rs.getLong("id");
+                long exerciseNameId = rs.getLong("exercise_id");
+                String exerciseName = getExerciseNameFromId(exerciseNameId);
+                ArrayList<Set> sets = getSetsFromExerciseId(exerciseTemplateId);
+                ExerciseGroup eg = new ExerciseGroup(new Exercise(exerciseName), sets);
+
+               exercises.add(eg);
+            }
+            return exercises;
+        }
     }
 
-    private ArrayList<Set> getSetsFromExerciseId(long exerciseId) {
-        
+    private ArrayList<Set> getSetsFromExerciseId(long exerciseId) throws Exception {
+        String query = "SELECT * FROM WorkoutTemplateSet WHERE exercise_template_id = ? ORDER BY order_in_exercise";
+        ArrayList<Set> sets = new ArrayList<>();
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, exerciseId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                double weight = rs.getDouble("weight");
+                long reps = rs.getLong("reps");
+                sets.add(new Set(weight, (int)reps));
+            }
+            return sets;
+        }
     }
 
     private synchronized void initiateTables() throws Exception {

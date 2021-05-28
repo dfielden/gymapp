@@ -11,7 +11,7 @@ public final class WorkoutTemplate {
     private static final Gson gson = new Gson();
 
     public WorkoutTemplate(String workoutName) {
-        this(workoutName, new ArrayList<ExerciseGroup>());
+        this(workoutName, new ArrayList<>());
     }
 
     public WorkoutTemplate(String workoutName, ArrayList<ExerciseGroup> exercises) {
