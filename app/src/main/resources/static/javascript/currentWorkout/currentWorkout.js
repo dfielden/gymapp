@@ -1,5 +1,7 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
+import {AJAX} from "../helper.js";
+import {getCurrentWorkoutURL} from "../_constsAndEls.js";
 
 
 
@@ -21,6 +23,35 @@ const resetAll = function() {
     sh.resetSlidingDivs();
     sh.resetAllForms();
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// LOAD WORKOUT DATA UPON PAGE LOAD ////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const getCurrentWorkout = async function() {
+    try {
+        const url = window.location.href;
+        const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
+        console.log('id = ' + id);
+        const workout = await AJAX(getCurrentWorkoutURL + id);
+        console.log(workout);
+        // console.log(data);
+        // exercises = data;
+        // for (const key in exercises) {
+        //     addExerciseToSelect(exercises[key].exerciseName, key);
+        // }
+        //const myWorkouts = document.querySelectorAll('.saved-workout');
+
+    } catch (err) {
+        console.error('Unable to load workout. Please try again.');
+    }
+}
+
+window.addEventListener('load', e => {
+    getCurrentWorkout();
+})
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// COMPLETING AN EXERCISE ////

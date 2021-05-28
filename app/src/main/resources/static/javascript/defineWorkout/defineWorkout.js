@@ -17,6 +17,8 @@ const getExercises = async function() {
         for (const key in exercises) {
             addExerciseToSelect(exercises[key].exerciseName, key);
         }
+        const myWorkouts = document.querySelectorAll('.saved-workout');
+
     } catch (err) {
         console.error('Unable to load exercises. Please try again.');
     }

@@ -38,10 +38,10 @@ public final class WorkoutTemplate {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("******************\n");
         sb.append(this.workoutName.toUpperCase());
-        sb.append(":\n");
+        sb.append("\n******************\n");
         for (ExerciseGroup eg : exercises) {
-            sb.append("******************\n");
             sb.append(eg.toString());
             sb.append("\n");
         }

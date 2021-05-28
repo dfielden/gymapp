@@ -3,6 +3,9 @@ export const ajaxTimeoutMillis = 5000;
 export const getExercisesURL = '/exercises';
 export const createExerciseURL = '/createexercise';
 export const createWorkoutURL = '/createworkout';
+export const getUserWorkoutsURL = '/workoutnames';
+export const getCurrentWorkoutURL = '/workout/';
+
 
 // COMMON
 export const elContainer = document.querySelector(".container");
@@ -10,7 +13,7 @@ export const elBody = document.querySelector(".main-body");
 export const elFooter = document.querySelector(".footer");
 
 // WELCOME
-export const myWorkouts = document.querySelectorAll('.saved-workout');
+export const myWorkoutsContainer = document.querySelector('.saved-workouts');
 export const footerCreateWorkout = document.querySelector(".footer__icon--create");
 export const footerEditWorkout = document.querySelector(".footer__icon--edit");
 export const footerStart = document.querySelector(".footer__btn");

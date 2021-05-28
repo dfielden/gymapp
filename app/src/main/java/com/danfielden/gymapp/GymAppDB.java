@@ -137,6 +137,57 @@ public final class GymAppDB {
         }
     }
 
+    public synchronized void linkExerciseToMuscleGroup(long exerciseId, long muscleGroupId) throws Exception {
+        String query = "INSERT INTO ExercisesToMuscleGroup (exercise_id, muscle_group_id) VALUES (?, ?)";
+
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, exerciseId);
+            stmt.setLong(2, muscleGroupId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public synchronized HashMap<Long, String> getUserWorkouts(long userId) throws Exception {
+        String query = "SELECT * FROM WorkoutTemplate WHERE user_id = ?";
+        HashMap<Long, String> workouts = new HashMap<>();
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                String workoutName = rs.getString("workout_name");
+                workouts.put(id, workoutName);
+            }
+            return workouts;
+        }
+    }
+
+    public synchronized String getWorkoutNameFromId(long workoutId, long userId) throws Exception{
+        String query = "SELECT workout_name FROM WorkoutTemplate WHERE id = ? AND user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, workoutId);
+            stmt.setLong(2, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to identify workout name");
+            }
+            return rs.getString(1);
+
+        }
+    }
+
+    private ArrayList<ExerciseGroup> getExercisesFromWorkoutId(long workoutId) {
+
+    }
+
+    private ArrayList<Set> getSetsFromExerciseId(long exerciseId) {
+        
+    }
+
     private synchronized void initiateTables() throws Exception {
         ArrayList<String> queries = InitiateDBQueries.createTableQueries();
         for (String q : queries) {
@@ -182,13 +233,5 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized void linkExerciseToMuscleGroup(long exerciseId, long muscleGroupId) throws Exception {
-        String query = "INSERT INTO ExercisesToMuscleGroup (exercise_id, muscle_group_id) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setLong(1, exerciseId);
-            stmt.setLong(2, muscleGroupId);
-            stmt.executeUpdate();
-        }
-    }
 }
