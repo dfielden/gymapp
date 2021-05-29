@@ -38,3 +38,14 @@ export class ExerciseGroup {
         this.sets.push(set);
     }
 }
+
+export class Workout {
+    constructor(workoutName, exercises = []) {
+        this.workoutName = workoutName;
+        this.exercises = exercises;
+    }
+
+    addExerciseGroup(exerciseGroup) {
+        this.exercises.push(exerciseGroup);
+    }
+}

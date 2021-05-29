@@ -1,6 +1,6 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
-import {ExerciseGroup, Exercise, Set} from "../exercise.js";
+import {ExerciseGroup, Exercise, Set, Workout} from "../exercise.js";
 import {createExerciseURL, getExercisesURL, createWorkoutURL} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
 
@@ -220,9 +220,10 @@ const createWorkout = function(workout) {
 
 c.btnCreateWorkout.addEventListener('click', function(e) {
     e.preventDefault();
-    const workout = {};
-    workout.workoutName = c.formWorkoutName.value;
-    workout.exercises = [];
+    //const workout = {};
+    const workout = new Workout(c.formWorkoutName.value);
+    //workout.workoutName = c.formWorkoutName.value;
+    //workout.exercises = [];
 
     // get all transparent form groups (each contains one exercise)
     const exercises = c.exercises.querySelectorAll('.transparent-form-group');
@@ -236,7 +237,7 @@ c.btnCreateWorkout.addEventListener('click', function(e) {
             const reps = set.querySelector('.r').value;
             exerciseGroup.addSet(new Set(weight, reps));
         });
-        workout.exercises.push(exerciseGroup);
+        workout.addExerciseGroup(exerciseGroup);
     });
 
 

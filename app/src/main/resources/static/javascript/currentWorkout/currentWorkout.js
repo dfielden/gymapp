@@ -2,6 +2,7 @@ import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {AJAX} from "../helper.js";
 import {getCurrentWorkoutURL} from "../_constsAndEls.js";
+import {ExerciseGroup, Exercise, Set} from "../exercise.js";
 
 
 
@@ -33,18 +34,16 @@ const getCurrentWorkout = async function() {
     try {
         const url = window.location.href;
         const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
-        console.log('id = ' + id);
         const workout = await AJAX(getCurrentWorkoutURL + id);
-        console.log(workout);
-        c.title.textContent = workout.workoutName;
-        // for (let i = 0; i < workout.exercises.length; i++) {
-        //     const exercise = workout.exercises[i].exercise;
-        //     appendNewExercise(exercise.exerciseName);
-        //     const sets = workout.exercises[i].sets
-        //     for (let j = 0; j < sets.length; j++) {
-        //         appendNewSet(sets[j].weight, sets[j].reps, c.elBody.lastChild);
-        //     }
-        // }
+        //console.log(workout);
+        const {workoutName, exercises} = workout;
+        c.title.textContent = workoutName;
+
+        for (let i = 0; i < exercises.length; i++) {
+            const {exercise, sets} = exercises[i];
+            console.log(exercise, sets);
+            renderExercise(new ExerciseGroup(exercise, sets));
+        }
 
     } catch (err) {
         console.error('Unable to load workout. Please try again.');
@@ -280,7 +279,7 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
 
     // if not a blank string, exerciseBlock will evaluate to true
     if (exerciseBlock) {
-        appendNewSet(weight, reps, exerciseBlock);
+        renderNewSet(weight, reps, exerciseBlock);
         exerciseBlock = "";
     } else {
         console.log('Code for Updating an existing set');
@@ -292,29 +291,8 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
 })
 
 // APPENDING NEW SET
-const appendNewSet = function(weight, reps, parentNode) {
-    let html = `
-        <div class="exercise-block__set-container slider">
-        <div class="exercise-block__set-container__stats">
-            <div class="weight">${weight} kg</div><div class="reps">${reps} reps</div>
-        </div>
-        <div class="exercise-block__set-container__timer">
-            <div class="timer-container display-none"><span class="far fa-clock"></span> Completed: 00:00</div>
-            <div class="done-container display-none"><span class="txt-btn">Done</span>&nbsp&nbsp<span class="fas fa-check-square"></span></div>
-        </div>
-        <div class="slide-on-btn-container">
-            <div class="slide-on-btn slide-on-btn--remove">
-                <div class="far fa-trash-alt"></div>
-                <div class="icon-descriptor">remove</div>
-            </div>
-            <div class="slide-on-btn slide-on-btn--edit">
-                <div class="far fa-edit"></div>
-                <div class="icon-descriptor">edit</div>
-            </div>
-        </div>
-    </div>
-    `;
-    parentNode.insertAdjacentHTML('beforeend', html);
+const renderNewSet = function(weight, reps, parentNode) {
+    parentNode.insertAdjacentHTML('beforeend', generateNewSetMarkup(weight, reps));
 }
 
 
@@ -329,50 +307,64 @@ c.formAddToCurrentSubmit.addEventListener('click', function(e) {
         c.formAddToCurrentError.innerText = 'Form inputs must not left empty.'
         return;
     }
-
-    const name = c.formAddToCurrentName.value;
-    const weight = c.formAddToCurrentWeight.value;
-    const reps = c.formAddToCurrentReps.value;
-
-    appendNewExercise(name, weight, reps);
+    const exerciseGroup = new ExerciseGroup(new Exercise(c.formAddToCurrentName.value));
+    exerciseGroup.addSet(new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value))
+    renderExercise(exerciseGroup);
     sh.resetAllForms();
     exerciseBlock = "";
 })
 
-// APPEND NEW EXERCISE
-const appendNewExercise = function(name, weight, reps) {
+// RENDER EXERCISE
+const renderExercise = function(exerciseGroup) {
     let html = `
         <div class="exercise-block">
             <div class="exercise-block__title">
-                <div class="heading heading--current-exercise heading--3">${name}</div>
+                <div class="heading heading--current-exercise heading--3">${exerciseGroup.exercise.exerciseName}</div>
                 <div class="far fa-plus-square"></div>
             </div>
-        
             <div class="exercise-block__sets">
-                <div class="exercise-block__set-container slider">
-                <div class="exercise-block__set-container__stats">
-                    <div class="weight">${weight} kg</div><div class="reps">${reps} reps</div>
+    `;
+
+    // add sets
+    for (let i = 0; i < exerciseGroup.sets.length; i++) {
+        const set = exerciseGroup.sets[i];
+        html += generateNewSetMarkup(set.weight, set.reps);
+    }
+
+    html += `
+            </div>
+        </div>
+    `;
+
+    c.elBody.insertAdjacentHTML('beforeend', html);
+}
+
+const generateNewSetMarkup = function(weight, reps) {
+    return `
+        <div class="exercise-block__set-container slider">
+            <div class="exercise-block__set-container__stats">
+                <div class="weight">${weight} kg</div>
+                <div class="reps">${reps} reps</div>
+            </div>
+            <div class="exercise-block__set-container__timer">
+                <div class="timer-container display-none"><span class="far fa-clock"></span> Completed: 00:00
                 </div>
-                <div class="exercise-block__set-container__timer">
-                    <div class="timer-container display-none"><span class="far fa-clock"></span> Completed: 00:00</div>
-                    <div class="done-container display-none"><span class="txt-btn">Done</span>&nbsp&nbsp<span class="fas fa-check-square"></span></div>
+                <div class="done-container display-none"><span class="txt-btn">Done</span>&nbsp&nbsp<span
+                    class="fas fa-check-square"></span></div>
+            </div>
+            <div class="slide-on-btn-container">
+                <div class="slide-on-btn slide-on-btn--remove">
+                    <div class="far fa-trash-alt"></div>
+                    <div class="icon-descriptor">remove</div>
                 </div>
-                <div class="slide-on-btn-container">
-                    <div class="slide-on-btn slide-on-btn--remove">
-                        <div class="far fa-trash-alt"></div>
-                        <div class="icon-descriptor">remove</div>
-                    </div>
-                    <div class="slide-on-btn slide-on-btn--edit">
-                        <div class="far fa-edit"></div>
-                        <div class="icon-descriptor">edit</div>
-                    </div>
+                <div class="slide-on-btn slide-on-btn--edit">
+                    <div class="far fa-edit"></div>
+                    <div class="icon-descriptor">edit</div>
                 </div>
             </div>
         </div>
     `;
-    c.elBody.insertAdjacentHTML('beforeend', html);
 }
-
 
 const validateFormFilledIn = function(formEl) {
     const inputs = formEl.querySelectorAll('.form-input');
