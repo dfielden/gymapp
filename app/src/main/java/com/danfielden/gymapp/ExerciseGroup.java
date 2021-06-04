@@ -44,7 +44,13 @@ public final class ExerciseGroup {
     public JsonObject toJson() {
         JsonObject o = new JsonObject();
         o.addProperty("exercise", exercise.toJson().toString());
-        o.addProperty("sets", gson.toJson(this.getSets()));
+
+        JsonArray jsonSets = new JsonArray(getSets().size());
+        for (Set set : this.getSets()) {
+            jsonSets.add(set.toJson());
+        }
+
+        o.addProperty("sets", jsonSets.toString());
         return o;
     }
 }

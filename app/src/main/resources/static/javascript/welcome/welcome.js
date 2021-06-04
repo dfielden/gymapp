@@ -11,9 +11,10 @@ let myWorkouts;
 const getWorkouts = async function() {
     try {
         const data = await AJAX(getUserWorkoutsURL);
-        console.log(data);
         for (const key in data) {
-            displayWorkout(data[key], key);
+            const id = key;
+            const workout = JSON.parse(data[key]);
+            displayWorkout(workout.workoutName, id);
         }
         c.myWorkoutsContainer.querySelector('.default-msg').classList.add('display-none');
         myWorkouts = document.querySelectorAll('.saved-workout');

@@ -55,7 +55,12 @@ public final class Exercise implements Comparable<Exercise>{
     public JsonObject toJson() {
         JsonObject o = new JsonObject();
         o.addProperty("exerciseName", getExerciseName());
-        o.addProperty("muscleGroups", gson.toJson(getMuscleGroups()));
+
+        JsonArray jsonMuscleGroups = new JsonArray(getMuscleGroups().size());
+        for (MuscleGroup mg : muscleGroups) {
+            jsonMuscleGroups.add(gson.toJson(mg));
+        }
+        o.addProperty("muscleGroups", jsonMuscleGroups.toString());
 
         return o;
     }

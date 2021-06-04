@@ -7,8 +7,6 @@ export class Exercise {
     addMuscleGroup(muscleGroup) {
         this.muscleGroups.push(muscleGroup);
     }
-
-
 }
 
 

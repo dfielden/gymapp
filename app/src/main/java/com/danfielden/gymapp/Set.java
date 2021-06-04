@@ -37,7 +37,7 @@ public final class Set {
 
     public JsonObject toJson() {
         JsonObject o = new JsonObject();
-        o.addProperty("weight", getWeight());
+        o.addProperty("weight", gson.toJson(getWeight()));
         o.addProperty("reps", gson.toJson(getReps()));
 
         return o;

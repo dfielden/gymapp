@@ -3,6 +3,7 @@ import * as sh from '../_showAndHide.js';
 import {AJAX} from "../helper.js";
 import {getCurrentWorkoutURL} from "../_constsAndEls.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
+import {Timer} from "../welcome/timer.js";
 
 
 
@@ -35,15 +36,14 @@ const getCurrentWorkout = async function() {
         const url = window.location.href;
         const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
         const workout = await AJAX(getCurrentWorkoutURL + id);
-        //console.log(workout);
+        console.log(workout);
         const {workoutName, exercises} = workout;
         c.title.textContent = workoutName;
 
         for (let i = 0; i < exercises.length; i++) {
-            const {exercise, sets} = exercises[i];
-            console.log(exercise, sets);
-            renderExercise(new ExerciseGroup(exercise, sets));
-        }
+             const {exercise, sets} = exercises[i];
+             renderExercise(new ExerciseGroup(exercise, sets));
+         }
 
     } catch (err) {
         console.error('Unable to load workout. Please try again.');
@@ -90,7 +90,11 @@ const selectSet = function(selectedRow) {
 const markSetComplete = function(doneBtn) {
     unselectAllRows();
     // show the completed counter
-    doneBtn.previousElementSibling.classList.remove('display-none');
+    const counter = doneBtn.previousElementSibling;
+    counter.classList.remove('display-none');
+    const timer = new Timer(counter);
+    // add id of setInterval to timer so we can stop it running if user 'undoes' completion of exercise
+    counter.setAttribute("data-timerid", String(timer.init()));
 
     // remove ability to slide row and format as completed.
     doneBtn.closest('.exercise-block__set-container').classList.add('complete');
@@ -106,7 +110,12 @@ const undoSetComplete = function() {
     setContainer.classList.remove('undo', 'complete');
     ['.done-container', '.timer-container'].forEach(el => setContainer.querySelector(el).classList.add('display-none'));
     c.footerUndo.classList.add('footer__icon--inactive');
+
+    const timerId = +setContainer.querySelector('.timer-container').dataset.timerid;
+    clearInterval(timerId);
 }
+
+
 
 c.footerUndo.addEventListener('click', function(e) {
     if (!e.target.classList.contains('footer__icon--inactive')) {
@@ -347,7 +356,7 @@ const generateNewSetMarkup = function(weight, reps) {
                 <div class="reps">${reps} reps</div>
             </div>
             <div class="exercise-block__set-container__timer">
-                <div class="timer-container display-none"><span class="far fa-clock"></span> Completed: 00:00
+                <div class="timer-container display-none"><span class="far fa-clock">&nbsp</span><span class="counter">00:00</span>
                 </div>
                 <div class="done-container display-none"><span class="txt-btn">Done</span>&nbsp&nbsp<span
                     class="fas fa-check-square"></span></div>

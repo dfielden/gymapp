@@ -1,6 +1,7 @@
 package com.danfielden.gymapp;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -50,8 +51,14 @@ public final class WorkoutTemplate {
 
     public JsonObject toJson() {
         JsonObject o = new JsonObject();
-        o.addProperty(workoutName, getWorkoutName());
-        o.addProperty("exercises", gson.toJson(this.getExercises()));
+        o.addProperty("workoutName", getWorkoutName());
+
+        JsonArray jsonExerciseGroups = new JsonArray(getExercises().size());
+        for (ExerciseGroup exerciseGroup : getExercises()) {
+            jsonExerciseGroups.add(exerciseGroup.toJson());
+        }
+
+        o.addProperty("exercises", jsonExerciseGroups.toString());
 
         return o;
     }

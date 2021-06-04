@@ -220,10 +220,7 @@ const createWorkout = function(workout) {
 
 c.btnCreateWorkout.addEventListener('click', function(e) {
     e.preventDefault();
-    //const workout = {};
     const workout = new Workout(c.formWorkoutName.value);
-    //workout.workoutName = c.formWorkoutName.value;
-    //workout.exercises = [];
 
     // get all transparent form groups (each contains one exercise)
     const exercises = c.exercises.querySelectorAll('.transparent-form-group');
@@ -240,6 +237,6 @@ c.btnCreateWorkout.addEventListener('click', function(e) {
         workout.addExerciseGroup(exerciseGroup);
     });
 
-
+    console.log(JSON.stringify(workout));
     createWorkout(workout);
 })
