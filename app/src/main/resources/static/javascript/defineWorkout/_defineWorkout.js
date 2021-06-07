@@ -1,7 +1,8 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
+import * as def from "./_defineWorkout.js";
 import {ExerciseGroup, Exercise, Set, Workout} from "../exercise.js";
-import {createExerciseURL, getExercisesURL, createWorkoutURL} from "../_constsAndEls.js";
+import {createExerciseURL, getExercisesURL, createWorkoutURL, title} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
 
 let exercises = {};
@@ -17,7 +18,6 @@ const getExercises = async function() {
         for (const key in exercises) {
             addExerciseToSelect(exercises[key].exerciseName, key);
         }
-        const myWorkouts = document.querySelectorAll('.saved-workout');
 
     } catch (err) {
         console.error('Unable to load exercises. Please try again.');
@@ -53,13 +53,7 @@ const addExercise = function() {
     }
 }
 
-
-
 c.addExerciseBtn.addEventListener('click', addExercise);
-
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// UPDATING ORDER OF EXERCISES ////
@@ -207,36 +201,3 @@ const closeCreateExerciseForm = function (index= 0) {
 
 c.createNewExFormClose.addEventListener('click', closeCreateExerciseForm);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//// CREATE WORKOUT ////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const createWorkout = function(workout) {
-    console.log(workout);
-
-    // Submit data
-    AJAX(createWorkoutURL, workout);
-}
-
-c.btnCreateWorkout.addEventListener('click', function(e) {
-    e.preventDefault();
-    const workout = new Workout(c.formWorkoutName.value);
-
-    // get all transparent form groups (each contains one exercise)
-    const exercises = c.exercises.querySelectorAll('.transparent-form-group');
-    exercises.forEach(el => {
-        const exercise = new Exercise(el.querySelector('.heading').textContent.trim());
-        const exerciseGroup = new ExerciseGroup(exercise);
-        // get all sets
-        const sets = el.querySelectorAll('.two-input-container');
-        sets.forEach(set => {
-            const weight = set.querySelector('.w').value;
-            const reps = set.querySelector('.r').value;
-            exerciseGroup.addSet(new Set(weight, reps));
-        });
-        workout.addExerciseGroup(exerciseGroup);
-    });
-
-    console.log(JSON.stringify(workout));
-    createWorkout(workout);
-})

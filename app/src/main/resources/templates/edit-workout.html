@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+      <html lang="en">
+      <head>
+      <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0"/>
+      <link rel="stylesheet" href="../styling/main.css">
+      <script src="https://kit.fontawesome.com/558b08b205.js" crossorigin="anonymous"></script>
+      <link rel="shortcut icon" type="image/png" href="../images/dumbbell-solid.png">
+      <title>Edit workout</title>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1 class="heading heading--1" id="create-edit-title">Edit workout</h1>
+    <div class="header__icon">
+      <img src="../images/gymapp_logo.png" alt="Gymapp logo">
+    </div>
+  </div>
+
+  <div class="main-body">
+    <form class="body-background" id="form-create-workout">
+      <div class="transparent-form-group">
+        <div class="transparent-form-group__title">
+          <div class="heading heading--3 heading--transparent-box">Workout name:</div>
+        </div>
+        <input type="text" required autocomplete="off" class="form-input form-input--full-length" name="workout-name" id="workout-name">
+      </div>
+
+      <div class="exercises">
+
+      </div>
+
+      <button class="btn btn--main btn--primary" id="btn-edit-workout">Confirm edits</button>
+
+    </form>
+
+    <div class="new-exercise display-none" id="form-new-exercise">
+      <div class="new-exercise-content">
+        <div class="form form-create-new-exercise">
+
+          <a href="#" class="close-btn close-btn--white close-btn--fs" id="new-exercise-close">&times;</a>
+          <h2 class="heading heading--white heading--2" id="new-exercise-heading">
+            Create new exercise
+          </h2>
+
+          <h4 class="heading heading--white heading--4">Exercise name</h4>
+
+          <div class="input-container">
+            <input type="text" required autocomplete="off" class="form-input" name="create-exercise-name" id="create-exercise-name">
+          </div>
+          <h4 class="heading heading--white heading--4">Select muscles targeted:</h4>
+          <div class="ghost-btn-container muscle-group-container">
+            <div class="btn btn--ghost">adductors</div>
+            <div class="btn btn--ghost">abductors</div>
+            <div class="btn btn--ghost">abs</div>
+            <div class="btn btn--ghost">arms</div>
+            <div class="btn btn--ghost">back</div>
+            <div class="btn btn--ghost">biceps</div>
+            <div class="btn btn--ghost">calves</div>
+            <div class="btn btn--ghost">chest</div>
+            <div class="btn btn--ghost">core</div>
+            <div class="btn btn--ghost">forearms</div>
+            <div class="btn btn--ghost">glutes</div>
+            <div class="btn btn--ghost">hamstrings</div>
+            <div class="btn btn--ghost">lats</div>
+            <div class="btn btn--ghost">legs</div>
+            <div class="btn btn--ghost">obliques</div>
+            <div class="btn btn--ghost">quads</div>
+            <div class="btn btn--ghost">shoulders</div>
+            <div class="btn btn--ghost">traps</div>
+            <div class="btn btn--ghost">triceps</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="footer">
+    <select class="form-input width70 form-input--select" name="select-exercise" id="select-exercise">
+      <option value="-1" selected disabled hidden>Select exercise to add</option>
+      <option value="NEW">New exercise (not listed)</option>
+    </select>
+    <div class="btn btn--footer btn--secondary" id="btn-new-exercise">Add</div>
+    <div class="btn btn--main btn--primary display-none" id="btn-create-exercise">Add exercise!</div>
+  </div>
+
+</div>
+
+<script type="module" src="/javascript/defineWorkout/editWorkout.js"></script>
+
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

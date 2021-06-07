@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="styling/main.css">
     <script src="https://kit.fontawesome.com/558b08b205.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" type="image/png" href="images/dumbbell-solid.png">
-    <title>Define workout</title>
+    <title>Create workout</title>
 </head>
 <body>
 
@@ -28,30 +28,7 @@
             </div>
 
             <div class="exercises">
-                <div class="transparent-form-group">
-                    <div class="transparent-form-group__title">
-                        <div class="heading heading--3 heading--transparent-box">Bench press<span class="far fa-plus-square far-title"></span></div>
-                        <div class="flex-container--col">
-                            <div class="fas fa-sort-up"></div>
-                            <div class="fas fa-sort-down"></div>
-                        </div>
-                    </div>
-                    <div class="two-input-container">
-                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
-                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
-                        <span class="far fa-trash-alt"></span>
-                    </div>
-                    <div class="two-input-container">
-                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
-                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
-                        <span class="far fa-trash-alt"></span>
-                    </div>
-                    <div class="two-input-container">
-                        <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
-                        <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
-                        <span class="far fa-trash-alt"></span>
-                    </div>
-                </div>
+
             </div>
 
             <button class="btn btn--main btn--primary" id="btn-create-workout">Create workout!</button>
@@ -108,12 +85,12 @@
             <option value="NEW">New exercise (not listed)</option>
         </select>
         <div class="btn btn--footer btn--secondary" id="btn-new-exercise">Add</div>
-        <div class="btn btn--main btn--primary display-none" id="btn-create-exercise">Create new exercise!</div>
+        <div class="btn btn--main btn--primary display-none" id="btn-create-exercise">Add exercise!</div>
     </div>
 
 </div>
 
-<script type="module" src="/javascript/defineWorkout/defineWorkout.js"></script>
+<script type="module" src="/javascript/defineWorkout/createWorkout.js"></script>
 
 </body>
 </html>

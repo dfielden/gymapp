@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -42,9 +41,15 @@ public class GymAppApplication {
         return "welcome";
     }
 
-    @GetMapping("/defineworkout")
+    @GetMapping("/createworkout")
     public String defineWorkout() throws Exception {
-        return "define-workout";
+        return "create-workout";
+    }
+
+    @GetMapping("/editworkout/{id}")
+    public String editWorkout(@PathVariable(value="id") long id) throws Exception {
+        // TODO: link to user id
+        return "edit-workout";
     }
 
     @GetMapping("/login")
@@ -104,7 +109,7 @@ public class GymAppApplication {
 
     @GetMapping("/currentworkout/{id}")
     public String currentWorkout() throws Exception {
-        return "currentWorkout";
+        return "current-workout";
     }
 
     @ResponseBody

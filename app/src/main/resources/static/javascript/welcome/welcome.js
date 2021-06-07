@@ -47,7 +47,8 @@ c.elBody.addEventListener('click', function(e) {
 
 const navEditSelectedWorkout = function() {
     if (!c.footerEditWorkout.classList.contains('footer__icon--inactive')) {
-        window.location = '/defineworkout';
+        const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid
+        window.location = `/editworkout/${workoutId}`;
     }
 }
 
