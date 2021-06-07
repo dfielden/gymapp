@@ -1,5 +1,6 @@
 import {AJAX} from "../helper.js";
 import * as c from "../_constsAndEls.js";
+import * as def from "./_defineWorkout.js";
 import {Exercise, ExerciseGroup, Set, Workout} from "../exercise.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -26,9 +26,6 @@ public class GymAppApplication {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(GymAppApplication.class);
         app.run(args);
-
-
-
     }
 
     @GetMapping("/")

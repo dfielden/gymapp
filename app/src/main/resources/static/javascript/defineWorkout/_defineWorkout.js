@@ -47,6 +47,7 @@ const addExercise = function() {
                     <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
                     <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
                     <span class="far fa-trash-alt"></span>
+                </div>
             </div>
         `;
         c.exercises.insertAdjacentHTML('beforeend', html);
