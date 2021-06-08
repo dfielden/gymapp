@@ -46,6 +46,15 @@ public final class InitiateDBQueries {
                 ")";
     }
 
+    private static String createCurrentWorkoutTable() {
+        return  "CREATE TABLE IF NOT EXISTS CurrentWorkout (" +
+                "id INTEGER PRIMARY KEY NOT NULL, " +
+                "user_id INTEGER, " +
+                "current_workout TEXT, " +
+                "FOREIGN KEY (user_id) REFERENCES Users(id)" +
+                ")";
+    }
+
 //    private static String createWorkoutTemplateTable() {
 //        return "CREATE TABLE IF NOT EXISTS WorkoutTemplate (" +
 //                "id INTEGER PRIMARY KEY NOT NULL, " +
@@ -85,6 +94,8 @@ public final class InitiateDBQueries {
         queries.add(createMuscleGroupTable());
         queries.add(createExerciseToMuscleGroupTable());
         queries.add(createWorkoutTable());
+        queries.add(createCurrentWorkoutTable());
+
         //queries.add(createWorkoutTemplateExerciseTable());
         //queries.add(createWorkoutTemplateSetTable());
 

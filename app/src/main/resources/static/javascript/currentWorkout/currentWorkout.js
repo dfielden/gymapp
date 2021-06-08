@@ -351,9 +351,6 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
         setBlock.querySelector('.weight').innerText = `${weight} kg`;
         setBlock.querySelector('.reps').innerText = `${reps} reps`;
         setBlock = "";
-
-
-
     }
     sh.resetAllForms();
 })
@@ -370,7 +367,6 @@ const renderNewSet = function(weight, reps, parentNode) {
         reps: reps,
         key: workout.keyCount,
         completed: false});
-
 
     workout.keyCount += 1;
 }

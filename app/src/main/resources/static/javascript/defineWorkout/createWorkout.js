@@ -34,7 +34,7 @@ c.btnCreateWorkout.addEventListener('click', function(e) {
         workout.addExerciseGroup(exerciseGroup);
     });
 
-    console.log(JSON.stringify(workout));
+    //console.log(JSON.stringify(workout));
     createWorkout(workout);
 });
 
