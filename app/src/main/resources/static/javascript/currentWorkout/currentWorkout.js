@@ -57,6 +57,19 @@ window.addEventListener('load', e => {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// TRAVERSING JSON WORKOUT ////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const removeSetFromJson = function(dataid) {
+    const {exercises} = workout;
+    for (let i = 0; i < exercises.length; i++) {
+        let {sets} = exercises[i];
+        exercises[i].sets = sets.filter(set => set.key !== dataid)
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// COMPLETING AN EXERCISE ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -193,9 +206,15 @@ const editSelectedSet = function(e) {
 }
 
 const removeSelectedSet = function(e) {
+    // hide slide-on buttons
     e.target.closest('.slide-on-btn-container').style.display = 'none';
 
     const setContainer = e.target.closest('.exercise-block__set-container');
+
+    // update json workout
+    const setDataKey = parseInt(setContainer.dataset.key);
+    removeSetFromJson(setDataKey);
+
     const parentContainer = setContainer.closest('.exercise-block');
     sh.SlideOffAndDelete(setContainer,'.exercise-block__set-container', '.exercise-block');
     resetAll();
