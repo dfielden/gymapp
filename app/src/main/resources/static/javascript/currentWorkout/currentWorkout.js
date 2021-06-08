@@ -64,8 +64,26 @@ const removeSetFromJson = function(dataid) {
     const {exercises} = workout;
     for (let i = 0; i < exercises.length; i++) {
         let {sets} = exercises[i];
-        exercises[i].sets = sets.filter(set => set.key !== dataid)
+        exercises[i].sets = sets.filter(set => set.key !== dataid);
     }
+
+    // if all sets removed from any exercise, remove it from teh
+    workout.exercises = exercises.filter(exercise => exercise.sets.length !== 0);
+    workout.maxExerciseIndex = workout.exercises.length - 1;
+}
+
+const getSetFromKey = function(key) {
+    const {exercises} = workout;
+
+    for (let i = 0; i < exercises.length; i++) {
+        const {sets} = exercises[i];
+        for (let j = 0; j < sets.length; j++) {
+            if (sets[j].key === key) {
+                return sets[j];
+            }
+        }
+    }
+    throw Error("Unable to find set to mark complete");
 }
 
 
@@ -146,21 +164,6 @@ c.footerUndo.addEventListener('click', function(e) {
         undoSetComplete();
     }
 });
-
-
-const getSetFromKey = function(key) {
-    const {exercises} = workout;
-
-    for (let i = 0; i < exercises.length; i++) {
-        const {sets} = exercises[i];
-        for (let j = 0; j < sets.length; j++) {
-            if (sets[j].key === key) {
-                return sets[j];
-            }
-        }
-    }
-    throw Error("Unable to find set to mark complete");
-}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -337,9 +340,20 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
         exerciseBlock = "";
     } else {
         console.log('Code for Updating an existing set');
+
+        // update json workout
+        const setDataKey = parseInt(setBlock.dataset.key);
+        const set = getSetFromKey(setDataKey);
+        set.weight = weight;
+        set.reps = reps;
+
+        // update dom
         setBlock.querySelector('.weight').innerText = `${weight} kg`;
         setBlock.querySelector('.reps').innerText = `${reps} reps`;
         setBlock = "";
+
+
+
     }
     sh.resetAllForms();
 })
