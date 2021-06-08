@@ -13,19 +13,19 @@ let exerciseBlock;
 // Declare variable to hold the set block whose values to which we wish to edit
 let setBlock;
 
+// Declare variable to hold the current workout
+let workout;
+
 
 function getAllExercises() {
     return document.querySelectorAll(`.exercise-block__set__info`);
 }
-
-
 
 const resetAll = function() {
     unselectAllRows();
     sh.resetSlidingDivs();
     sh.resetAllForms();
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// LOAD WORKOUT DATA UPON PAGE LOAD ////
@@ -35,14 +35,15 @@ const getCurrentWorkout = async function() {
     try {
         const url = window.location.href;
         const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
-        const workout = await AJAX(getCurrentWorkoutURL + id);
+        workout = await AJAX(getCurrentWorkoutURL + id);
+        workout.keyCount = 0;
         console.log(workout);
         const {workoutName, exercises} = workout;
         c.title.textContent = workoutName;
 
         for (let i = 0; i < exercises.length; i++) {
              const {exercise, sets} = exercises[i];
-             renderExercise(new ExerciseGroup(exercise, sets));
+             renderExercise(new ExerciseGroup(exercise, sets), i);
          }
 
     } catch (err) {
@@ -96,11 +97,17 @@ const markSetComplete = function(doneBtn) {
     // add id of setInterval to timer so we can stop it running if user 'undoes' completion of exercise
     counter.setAttribute("data-timerid", String(timer.init()));
 
+
+    // mark set completed in the workout object
+    const key = doneBtn.closest('.exercise-block__set-container').dataset.key;
+    getSetFromKey(parseInt(key)).completed = true;
+
     // remove ability to slide row and format as completed.
     doneBtn.closest('.exercise-block__set-container').classList.add('complete');
     doneBtn.closest('.exercise-block__set-container').classList.remove('active', 'slider', 'undo');
     doneBtn.classList.add('display-none');
     resetAll();
+    console.log(workout);
 }
 
 // UNDO MARKING SET AS COMPLETE
@@ -113,6 +120,10 @@ const undoSetComplete = function() {
 
     const timerId = +setContainer.querySelector('.timer-container').dataset.timerid;
     clearInterval(timerId);
+
+    // mark set as not complete in the workout object
+    const key = setContainer.dataset.key;
+    getSetFromKey(parseInt(key)).completed = false;
 }
 
 
@@ -122,6 +133,21 @@ c.footerUndo.addEventListener('click', function(e) {
         undoSetComplete();
     }
 });
+
+
+const getSetFromKey = function(key) {
+    const {exercises} = workout;
+
+    for (let i = 0; i < exercises.length; i++) {
+        const {sets} = exercises[i];
+        for (let j = 0; j < sets.length; j++) {
+            if (sets[j].key === key) {
+                return sets[j];
+            }
+        }
+    }
+    throw Error("Unable to find set to mark complete");
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,7 +327,19 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
 
 // APPENDING NEW SET
 const renderNewSet = function(weight, reps, parentNode) {
-    parentNode.insertAdjacentHTML('beforeend', generateNewSetMarkup(weight, reps));
+    parentNode.insertAdjacentHTML('beforeend', generateNewSetMarkup(weight, reps, workout.keyCount));
+
+    // update workout object
+    const exerciseIndex = parseInt(parentNode.closest('.exercise-block').dataset.exindex);
+    console.log(exerciseIndex);
+    workout.exercises[exerciseIndex].sets.push({
+        weight: weight,
+        reps: reps,
+        key: workout.keyCount,
+        completed: false});
+
+
+    workout.keyCount += 1;
 }
 
 
@@ -317,16 +355,26 @@ c.formAddToCurrentSubmit.addEventListener('click', function(e) {
         return;
     }
     const exerciseGroup = new ExerciseGroup(new Exercise(c.formAddToCurrentName.value));
-    exerciseGroup.addSet(new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value))
-    renderExercise(exerciseGroup);
+    const set = new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value);
+    exerciseGroup.addSet(set)
+
+    // update workout object
+    workout.exercises.push({
+        exercise: {exerciseName: exerciseGroup.exercise.exerciseName, muscleGroups: []},
+        sets: [{weight: set.weight, reps: set.reps, key: workout.keyCount, completed: false}]
+    });
+
+    // render exercise
+    renderExercise(exerciseGroup, workout.maxExerciseIndex);
     sh.resetAllForms();
     exerciseBlock = "";
 })
 
 // RENDER EXERCISE
-const renderExercise = function(exerciseGroup) {
+const renderExercise = function(exerciseGroup, exerciseIndex) {
+   workout.maxExerciseIndex = exerciseIndex;
     let html = `
-        <div class="exercise-block">
+        <div class="exercise-block" data-exIndex="${exerciseIndex}">
             <div class="exercise-block__title">
                 <div class="heading heading--current-exercise heading--3">${exerciseGroup.exercise.exerciseName}</div>
                 <div class="far fa-plus-square"></div>
@@ -337,7 +385,10 @@ const renderExercise = function(exerciseGroup) {
     // add sets
     for (let i = 0; i < exerciseGroup.sets.length; i++) {
         const set = exerciseGroup.sets[i];
-        html += generateNewSetMarkup(set.weight, set.reps);
+        set.key = workout.keyCount;
+        set.completed = false;
+        html += generateNewSetMarkup(set.weight, set.reps, set.key);
+        workout.keyCount += 1;
     }
 
     html += `
@@ -348,9 +399,9 @@ const renderExercise = function(exerciseGroup) {
     c.elBody.insertAdjacentHTML('beforeend', html);
 }
 
-const generateNewSetMarkup = function(weight, reps) {
+const generateNewSetMarkup = function(weight, reps, key) {
     return `
-        <div class="exercise-block__set-container slider">
+        <div class="exercise-block__set-container slider" data-key="${key}">
             <div class="exercise-block__set-container__stats">
                 <div class="weight">${weight} kg</div>
                 <div class="reps">${reps} reps</div>
