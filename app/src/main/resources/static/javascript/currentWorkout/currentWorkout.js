@@ -1,7 +1,6 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {AJAX} from "../helper.js";
-import {getCurrentWorkoutURL} from "../_constsAndEls.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
 import {Timer} from "../welcome/timer.js";
 
@@ -33,21 +32,55 @@ const resetAll = function() {
 
 const getCurrentWorkout = async function() {
     try {
-        const url = window.location.href;
-        const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
-        workout = await AJAX(getCurrentWorkoutURL + id);
-        workout.keyCount = 0;
-        console.log(workout);
-        const {workoutName, exercises} = workout;
-        c.title.textContent = workoutName;
-
-        for (let i = 0; i < exercises.length; i++) {
-             const {exercise, sets} = exercises[i];
-             renderExercise(new ExerciseGroup(exercise, sets), i);
-         }
-
+        // load workout in progress if it exists
+        workout = await AJAX(c.getWorkoutInProgressURL);
     } catch (err) {
-        console.error('Unable to load workout. Please try again.');
+        // otherwise load the selected workout from the workouts table
+        try {
+            const url = window.location.href;
+            const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
+            workout = await AJAX(c.getCurrentWorkoutURL + id);
+
+            // add exercise and set keys
+            workout.maxExerciseIndex = 0;
+            workout.maxKeyId = 0;
+            const {exercises} = workout
+            for (let i = 0; i < exercises.length; i++) {
+                exercises[i].exIndex = i;
+                workout.maxExerciseIndex += 1;
+
+                const {sets} = exercises[i];
+                for (let j = 0; j < sets.length; j++) {
+                    sets[j].key = workout.maxKeyId;
+                    sets[j].completed = false;
+                    workout.maxKeyId += 1;
+                }
+            }
+
+            // post the workout to the workout in progress table so user can save progress throughout workout
+            try {
+                await AJAX(c.createWorkoutInProgressURL, workout);
+            } catch (err) {
+                console.error("Unable to save current workout progress.")
+            }
+
+        } catch (err) {
+            console.error('Unable to load workout. Please try again.');
+        }
+    }
+
+    // finally render workout on screen
+    renderWorkout();
+
+}
+
+const renderWorkout = function() {
+    const {workoutName, exercises} = workout;
+    c.title.textContent = workoutName;
+
+    for (let i = 0; i < exercises.length; i++) {
+        const {exercise, sets, exIndex} = exercises[i];
+        renderExercise(new ExerciseGroup(exercise, sets), exIndex);
     }
 }
 
@@ -85,7 +118,6 @@ const getSetFromKey = function(key) {
     }
     throw Error("Unable to find set to mark complete");
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// COMPLETING AN EXERCISE ////
@@ -138,7 +170,8 @@ const markSetComplete = function(doneBtn) {
     doneBtn.closest('.exercise-block__set-container').classList.remove('active', 'slider', 'undo');
     doneBtn.classList.add('display-none');
     resetAll();
-    console.log(workout);
+
+    updateWorkoutProgress();
 }
 
 // UNDO MARKING SET AS COMPLETE
@@ -155,6 +188,7 @@ const undoSetComplete = function() {
     // mark set as not complete in the workout object
     const key = setContainer.dataset.key;
     getSetFromKey(parseInt(key)).completed = false;
+    updateWorkoutProgress();
 }
 
 
@@ -205,7 +239,7 @@ const editSelectedSet = function(e) {
     setBlock = e.target.closest('.exercise-block__set-container');
     c.formEditSetWeight.value = parseFloat(setBlock.querySelector('.weight').innerText);
     c.formEditSetReps.value = parseInt(setBlock.querySelector('.reps').innerText);
-    sh.resetSlidingDivs();
+
 }
 
 const removeSelectedSet = function(e) {
@@ -221,6 +255,7 @@ const removeSelectedSet = function(e) {
     const parentContainer = setContainer.closest('.exercise-block');
     sh.SlideOffAndDelete(setContainer,'.exercise-block__set-container', '.exercise-block');
     resetAll();
+    updateWorkoutProgress();
 
 }
 
@@ -336,11 +371,12 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
 
     // if not a blank string, exerciseBlock will evaluate to true
     if (exerciseBlock) {
-        renderNewSet(weight, reps, exerciseBlock);
+        const set = new Set(weight, reps);
+        set.key = workout.maxKeyId;
+        workout.maxKeyId += 1;
+        renderNewSet(set, exerciseBlock);
         exerciseBlock = "";
     } else {
-        console.log('Code for Updating an existing set');
-
         // update json workout
         const setDataKey = parseInt(setBlock.dataset.key);
         const set = getSetFromKey(setDataKey);
@@ -353,22 +389,21 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
         setBlock = "";
     }
     sh.resetAllForms();
+    updateWorkoutProgress();
 })
 
 // APPENDING NEW SET
-const renderNewSet = function(weight, reps, parentNode) {
-    parentNode.insertAdjacentHTML('beforeend', generateNewSetMarkup(weight, reps, workout.keyCount));
+const renderNewSet = function(set, parentNode) {
+    parentNode.insertAdjacentHTML('beforeend', generateNewSetMarkup(set));
 
     // update workout object
     const exerciseIndex = parseInt(parentNode.closest('.exercise-block').dataset.exindex);
-    console.log(exerciseIndex);
     workout.exercises[exerciseIndex].sets.push({
-        weight: weight,
-        reps: reps,
-        key: workout.keyCount,
+        weight: set.weight,
+        reps: set.reps,
+        key: set.key,
         completed: false});
 
-    workout.keyCount += 1;
 }
 
 
@@ -385,25 +420,29 @@ c.formAddToCurrentSubmit.addEventListener('click', function(e) {
     }
     const exerciseGroup = new ExerciseGroup(new Exercise(c.formAddToCurrentName.value));
     const set = new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value);
+    set.key = workout.maxKeyId;
+    workout.maxKeyId += 1;
     exerciseGroup.addSet(set)
 
     // update workout object
     workout.exercises.push({
         exercise: {exerciseName: exerciseGroup.exercise.exerciseName, muscleGroups: []},
-        sets: [{weight: set.weight, reps: set.reps, key: workout.keyCount, completed: false}]
+        sets: [{weight: set.weight, reps: set.reps, key: workout.maxKeyId, completed: false}],
+        exIndex: workout.maxExerciseIndex,
     });
 
     // render exercise
     renderExercise(exerciseGroup, workout.maxExerciseIndex);
+    workout.maxExerciseIndex += 1;
     sh.resetAllForms();
     exerciseBlock = "";
+    updateWorkoutProgress();
 })
 
 // RENDER EXERCISE
-const renderExercise = function(exerciseGroup, exerciseIndex) {
-   workout.maxExerciseIndex = exerciseIndex;
+const renderExercise = function(exerciseGroup, index) {
     let html = `
-        <div class="exercise-block" data-exIndex="${exerciseIndex}">
+        <div class="exercise-block" data-exindex="${index}">
             <div class="exercise-block__title">
                 <div class="heading heading--current-exercise heading--3">${exerciseGroup.exercise.exerciseName}</div>
                 <div class="far fa-plus-square"></div>
@@ -414,10 +453,9 @@ const renderExercise = function(exerciseGroup, exerciseIndex) {
     // add sets
     for (let i = 0; i < exerciseGroup.sets.length; i++) {
         const set = exerciseGroup.sets[i];
-        set.key = workout.keyCount;
-        set.completed = false;
-        html += generateNewSetMarkup(set.weight, set.reps, set.key);
-        workout.keyCount += 1;
+        set.key = exerciseGroup.sets[i].key;
+        html += generateNewSetMarkup(set);
+        //workout.maxKeyId += 1;
     }
 
     html += `
@@ -428,12 +466,12 @@ const renderExercise = function(exerciseGroup, exerciseIndex) {
     c.elBody.insertAdjacentHTML('beforeend', html);
 }
 
-const generateNewSetMarkup = function(weight, reps, key) {
-    return `
-        <div class="exercise-block__set-container slider" data-key="${key}">
+const generateNewSetMarkup = function(set) {
+;    return `
+        <div class="exercise-block__set-container ${set.completed ? 'complete done' : 'slider'}" data-key="${set.key}">
             <div class="exercise-block__set-container__stats">
-                <div class="weight">${weight} kg</div>
-                <div class="reps">${reps} reps</div>
+                <div class="weight">${set.weight} kg</div>
+                <div class="reps">${set.reps} reps</div>
             </div>
             <div class="exercise-block__set-container__timer">
                 <div class="timer-container display-none"><span class="far fa-clock">&nbsp</span><span class="counter">00:00</span>
@@ -475,3 +513,14 @@ const validateFormFilledIn = function(formEl) {
     return filledIn;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// UPDATE WORKOUT PROGRESS ////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const updateWorkoutProgress = function() {
+    try {
+        AJAX(c.updateWorkoutInProgressURL, workout);
+    } catch (err) {
+        console.error(err.message, err.errorCode, "unable to update workout progress");
+    }
+}

@@ -46,8 +46,8 @@ public final class InitiateDBQueries {
                 ")";
     }
 
-    private static String createCurrentWorkoutTable() {
-        return  "CREATE TABLE IF NOT EXISTS CurrentWorkout (" +
+    private static String createWorkoutInProgressTable() {
+        return  "CREATE TABLE IF NOT EXISTS WorkoutInProgress (" +
                 "id INTEGER PRIMARY KEY NOT NULL, " +
                 "user_id INTEGER, " +
                 "current_workout TEXT, " +
@@ -94,7 +94,7 @@ public final class InitiateDBQueries {
         queries.add(createMuscleGroupTable());
         queries.add(createExerciseToMuscleGroupTable());
         queries.add(createWorkoutTable());
-        queries.add(createCurrentWorkoutTable());
+        queries.add(createWorkoutInProgressTable());
 
         //queries.add(createWorkoutTemplateExerciseTable());
         //queries.add(createWorkoutTemplateSetTable());

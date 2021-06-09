@@ -79,7 +79,6 @@ public class GymAppApplication {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String createExercise(@RequestBody Exercise exercise, HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        System.out.println(exercise);
         // add exercise
         // TODO: link to user id
         long exerciseId = db.addExercise(exercise.getExerciseName(), 1);
@@ -87,7 +86,6 @@ public class GymAppApplication {
         // add exercise muscle groups
         for (Exercise.MuscleGroup mg : exercise.getMuscleGroups()) {
             long muscleGroupId = db.getMuscleGroupId(mg);
-            System.out.println(muscleGroupId);
             db.linkExerciseToMuscleGroup(exerciseId, muscleGroupId);
         }
         return exercise.toJson().toString();
@@ -98,7 +96,6 @@ public class GymAppApplication {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String createWorkout(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        System.out.println(workout);
         // TODO: link to user id
         db.addWorkoutTemplate(1, workout);
         return workout;
@@ -107,6 +104,33 @@ public class GymAppApplication {
     @GetMapping("/currentworkout/{id}")
     public String currentWorkout() throws Exception {
         return "current-workout";
+    }
+
+    @ResponseBody
+    @GetMapping("/workoutinprogress")
+    public String workoutInProgress() throws Exception {
+        // TODO: link to user id
+        return db.getWorkoutInProgress(1);
+    }
+
+    @ResponseBody
+    @PostMapping(value="/createworkoutinprogress",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createWorkoutInProgress(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        // TODO: link to user id
+        db.addWorkoutInProgress(1, workout);
+        return workout;
+    }
+
+    @ResponseBody
+    @PostMapping(value="/updateworkoutinprogress",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateWorkoutInProgress(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        // TODO: link to user id
+        db.updateWorkoutInProgress(1, workout);
+        return workout;
     }
 
     @ResponseBody

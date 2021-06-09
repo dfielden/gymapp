@@ -67,7 +67,7 @@ c.footerStart.addEventListener('click',navStartWorkout);
 
 
 const navCreateWorkout = function() {
-    window.location = '/defineworkout';
+    window.location = '/createworkout';
 }
 
 c.footerCreateWorkout.addEventListener('click',navCreateWorkout);

@@ -1,5 +1,6 @@
 package com.danfielden.gymapp;
 
+import javax.swing.tree.ExpandVetoException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,6 +119,66 @@ public final class GymAppDB {
             }
             return rs.getString(1);
         }
+    }
+
+    public synchronized String getWorkoutInProgress(long userId) throws Exception{
+        String query = "SELECT current_workout FROM WorkoutInProgress WHERE user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("No current workout found for user " + userId);
+            }
+            return rs.getString(1);
+        }
+    }
+
+    public synchronized String addWorkoutInProgress(long userId, String workout) throws Exception {
+        if (checkIfUserHasWorkoutInProgress(userId)) {
+            throw new IllegalStateException("User already has a workout in progress");
+        }
+
+        String query = "INSERT INTO WorkoutInProgress (user_id, current_workout) VALUES (?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1,userId);
+            stmt.setString(2, workout);
+            stmt.executeUpdate();
+            System.out.println(workout);
+            return workout;
+        }
+    }
+
+
+    public synchronized String updateWorkoutInProgress(long userId, String workout) throws Exception {
+        if (!checkIfUserHasWorkoutInProgress(userId)) {
+            throw new IllegalStateException("Cannot find current workout in database");
+        }
+
+        String query = "UPDATE WorkoutInProgress SET current_workout = ? WHERE user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, workout);
+            stmt.setLong(2,userId);
+            stmt.executeUpdate();
+            System.out.println(workout);
+            return workout;
+        }
+    }
+
+    private synchronized boolean checkIfUserHasWorkoutInProgress(long userId) throws Exception {
+        String query = "SELECT * FROM WorkoutInProgress WHERE user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        }
+
     }
 
     private synchronized void initiateTables() throws Exception {

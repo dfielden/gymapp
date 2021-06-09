@@ -5,6 +5,9 @@ export const createExerciseURL = '/createexercise';
 export const createWorkoutURL = '/createworkout';
 export const getUserWorkoutsURL = '/workoutnames';
 export const getCurrentWorkoutURL = '/workout/';
+export const getWorkoutInProgressURL = '/workoutinprogress';
+export const createWorkoutInProgressURL = '/createworkoutinprogress';
+export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
 
 
 // COMMON
