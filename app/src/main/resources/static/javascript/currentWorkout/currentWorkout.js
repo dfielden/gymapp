@@ -72,6 +72,32 @@ const getCurrentWorkout = async function() {
     // finally render workout on screen
     renderWorkout();
 
+    // add timer to completed sets
+    const domSetsCompleted = document.querySelectorAll('.done');
+
+    const {exercises} = workout
+    for (let i = 0; i < exercises.length; i++) {
+        const {sets} = exercises[i];
+        for (let j = 0; j < sets.length; j++) {
+            if (sets[j].completed) {
+                // find representation of set on dom
+                domSetsCompleted.forEach(el => {
+                    console.log(el);
+                    if (parseInt(el.dataset.key) === sets[j].key) {
+                        const completedTime = sets[j].completedTime;
+                        const counter = el.querySelector('.timer-container');
+                        counter.classList.remove('display-none');
+                        const timer = new Timer(counter, completedTime);
+                        // add id of setInterval to timer so we can stop it running if user 'undoes' completion of exercise
+                        counter.setAttribute("data-timerid", String(timer.init()));
+                    }
+                })
+            }
+        }
+    }
+
+
+
 }
 
 const renderWorkout = function() {
@@ -87,7 +113,6 @@ const renderWorkout = function() {
 window.addEventListener('load', e => {
     getCurrentWorkout();
 })
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// TRAVERSING JSON WORKOUT ////
@@ -161,9 +186,11 @@ const markSetComplete = function(doneBtn) {
     counter.setAttribute("data-timerid", String(timer.init()));
 
 
-    // mark set completed in the workout object
+    // mark set completed in the workout json object
     const key = doneBtn.closest('.exercise-block__set-container').dataset.key;
-    getSetFromKey(parseInt(key)).completed = true;
+    const set = getSetFromKey(parseInt(key));
+    set.completed = true;
+    set.completedTime = timer.getStartTime();
 
     // remove ability to slide row and format as completed.
     doneBtn.closest('.exercise-block__set-container').classList.add('complete');
@@ -192,7 +219,6 @@ const undoSetComplete = function() {
 }
 
 
-
 c.footerUndo.addEventListener('click', function(e) {
     if (!e.target.classList.contains('footer__icon--inactive')) {
         undoSetComplete();
@@ -207,7 +233,7 @@ c.footerUndo.addEventListener('click', function(e) {
 // EVENT BUBBLING
 c.elBody.addEventListener('click', function(e) {
     // DO NOTHING IF CLICK ON PART OF BLOCK THAT HAS NO ASSOCIATED FUNCTIONALITY
-    if (e.target.classList.contains("exercise-block") && e.target.classList.length === 1) {
+    if ((e.target.classList.contains("exercise-block") && e.target.classList.length === 1) || e.target === c.elBody) {
         return;
     }
     // REMOVE CURRENT SET
@@ -252,7 +278,6 @@ const removeSelectedSet = function(e) {
     const setDataKey = parseInt(setContainer.dataset.key);
     removeSetFromJson(setDataKey);
 
-    const parentContainer = setContainer.closest('.exercise-block');
     sh.SlideOffAndDelete(setContainer,'.exercise-block__set-container', '.exercise-block');
     resetAll();
     updateWorkoutProgress();
@@ -402,8 +427,8 @@ const renderNewSet = function(set, parentNode) {
         weight: set.weight,
         reps: set.reps,
         key: set.key,
-        completed: false});
-
+        completed: false
+    });
 }
 
 
@@ -422,12 +447,17 @@ c.formAddToCurrentSubmit.addEventListener('click', function(e) {
     const set = new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value);
     set.key = workout.maxKeyId;
     workout.maxKeyId += 1;
-    exerciseGroup.addSet(set)
+    exerciseGroup.addSet(set);
 
     // update workout object
     workout.exercises.push({
         exercise: {exerciseName: exerciseGroup.exercise.exerciseName, muscleGroups: []},
-        sets: [{weight: set.weight, reps: set.reps, key: workout.maxKeyId, completed: false}],
+        sets: [{
+            weight: set.weight,
+            reps: set.reps,
+            key: set.key,
+            completed: false
+        }],
         exIndex: workout.maxExerciseIndex,
     });
 
@@ -455,7 +485,6 @@ const renderExercise = function(exerciseGroup, index) {
         const set = exerciseGroup.sets[i];
         set.key = exerciseGroup.sets[i].key;
         html += generateNewSetMarkup(set);
-        //workout.maxKeyId += 1;
     }
 
     html += `
@@ -474,7 +503,7 @@ const generateNewSetMarkup = function(set) {
                 <div class="reps">${set.reps} reps</div>
             </div>
             <div class="exercise-block__set-container__timer">
-                <div class="timer-container display-none"><span class="far fa-clock">&nbsp</span><span class="counter">00:00</span>
+                <div class="timer-container ${set.completed ? '' : 'display-none'}"><span class="far fa-clock">&nbsp</span><span class="counter">00:00</span>
                 </div>
                 <div class="done-container display-none"><span class="txt-btn">Done</span>&nbsp&nbsp<span
                     class="fas fa-check-square"></span></div>
@@ -509,7 +538,6 @@ const validateFormFilledIn = function(formEl) {
             }
         }
     }
-
     return filledIn;
 }
 
