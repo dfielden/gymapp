@@ -15,7 +15,6 @@ let setBlock;
 // Declare variable to hold the current workout
 let workout;
 
-
 function getAllExercises() {
     return document.querySelectorAll(`.exercise-block__set__info`);
 }
@@ -48,7 +47,6 @@ const getCurrentWorkout = async function() {
             for (let i = 0; i < exercises.length; i++) {
                 exercises[i].exIndex = i;
                 workout.maxExerciseIndex += 1;
-
                 const {sets} = exercises[i];
                 for (let j = 0; j < sets.length; j++) {
                     sets[j].key = workout.maxKeyId;
@@ -73,29 +71,18 @@ const getCurrentWorkout = async function() {
     renderWorkout();
 
     // add timer to completed sets
-    const domSetsCompleted = document.querySelectorAll('.done');
-
-    const {exercises} = workout
+    const allSets = []
+    const {exercises} = workout;
     for (let i = 0; i < exercises.length; i++) {
-        const {sets} = exercises[i];
-        for (let j = 0; j < sets.length; j++) {
-            if (sets[j].completed) {
-                // find representation of set on dom
-                domSetsCompleted.forEach(el => {
-                    console.log(el);
-                    if (parseInt(el.dataset.key) === sets[j].key) {
-                        const completedTime = sets[j].completedTime;
-                        const counter = el.querySelector('.timer-container');
-                        counter.classList.remove('display-none');
-                        const timer = new Timer(counter, completedTime);
-                        // add id of setInterval to timer so we can stop it running if user 'undoes' completion of exercise
-                        counter.setAttribute("data-timerid", String(timer.init()));
-                    }
-                })
-            }
-        }
+        allSets.push(exercises[i].sets);
     }
-
+    allSets.flat().filter(set => set.completed).forEach(set => {
+        const el = document.querySelector(`.exercise-block__set-container[data-key="${set.key}"`)
+        const completedTime = set.completedTime;
+        const timerContainer = el.querySelector('.timer-container');
+        const timer = new Timer(timerContainer, completedTime);
+        markSetComplete(el, timer);
+    });
 
 
 }
@@ -125,9 +112,8 @@ const removeSetFromJson = function(dataid) {
         exercises[i].sets = sets.filter(set => set.key !== dataid);
     }
 
-    // if all sets removed from any exercise, remove it from teh
+    // if all sets removed from any exercise, remove it from the json object - do not decrement maxExIndex to avoid duplicates
     workout.exercises = exercises.filter(exercise => exercise.sets.length !== 0);
-    workout.maxExerciseIndex = workout.exercises.length - 1;
 }
 
 const getSetFromKey = function(key) {
@@ -154,7 +140,6 @@ const unselectAllRows = function() {
     c.footerUndo.classList.add('footer__icon--inactive');
     for (let i = 0; i < c.allSetContainers.length; i++) {
         c.allSetContainers[i].closest('.exercise-block__set-container').classList.remove('active', 'undo');
-        //c.allSetContainers[i].closest('.exercise-block__set-container').classList.remove('undo');
         c.allSetContainers[i].querySelector('.done-container').classList.add('display-none');
     }
 }
@@ -173,29 +158,26 @@ const selectSet = function(selectedRow) {
     sh.resetSlidingDivs();
 }
 
-
-
 // MARK SET AS COMPLETE
-const markSetComplete = function(doneBtn) {
+const markSetComplete = function(selectedRow, timer) {
     unselectAllRows();
     // show the completed counter
-    const counter = doneBtn.previousElementSibling;
-    counter.classList.remove('display-none');
-    const timer = new Timer(counter);
+    const timerContainer = selectedRow.querySelector('.timer-container');
+    timerContainer.classList.remove('display-none');
     // add id of setInterval to timer so we can stop it running if user 'undoes' completion of exercise
-    counter.setAttribute("data-timerid", String(timer.init()));
+    timerContainer.setAttribute("data-timerid", String(timer.init()));
 
 
     // mark set completed in the workout json object
-    const key = doneBtn.closest('.exercise-block__set-container').dataset.key;
+    const key = selectedRow.dataset.key;
     const set = getSetFromKey(parseInt(key));
     set.completed = true;
     set.completedTime = timer.getStartTime();
 
     // remove ability to slide row and format as completed.
-    doneBtn.closest('.exercise-block__set-container').classList.add('complete');
-    doneBtn.closest('.exercise-block__set-container').classList.remove('active', 'slider', 'undo');
-    doneBtn.classList.add('display-none');
+    selectedRow.classList.add('complete');
+    selectedRow.classList.remove('active', 'slider', 'undo');
+    selectedRow.querySelector('.done-container').classList.add('display-none');
     resetAll();
 
     updateWorkoutProgress();
@@ -243,20 +225,21 @@ c.elBody.addEventListener('click', function(e) {
     } else if (e.target.closest('.slide-on-btn--edit') !== null) {
         editSelectedSet(e);
     } else {
+        const selectedRow = e.target.closest('.exercise-block__set-container');
+
         // COMPLETE CURRENT SET
         const doneBtn = e.target.closest('.done-container');
         if (doneBtn != null) {
-            markSetComplete(doneBtn);
+            const timerContainer = selectedRow.querySelector('.timer-container');
+            markSetComplete(selectedRow, new Timer(timerContainer));
             return;
         }
         // SELECT CURRENT SET
         if (e.target.closest('.exercise-block__title') == null) {
-            const selectedRow = e.target.closest('.exercise-block__set-container');
             selectSet(selectedRow);
         }
     }
 })
-
 
 const editSelectedSet = function(e) {
     c.formEditSetHeader.innerText = 'Update set';
@@ -265,7 +248,6 @@ const editSelectedSet = function(e) {
     setBlock = e.target.closest('.exercise-block__set-container');
     c.formEditSetWeight.value = parseFloat(setBlock.querySelector('.weight').innerText);
     c.formEditSetReps.value = parseInt(setBlock.querySelector('.reps').innerText);
-
 }
 
 const removeSelectedSet = function(e) {
@@ -281,9 +263,7 @@ const removeSelectedSet = function(e) {
     sh.SlideOffAndDelete(setContainer,'.exercise-block__set-container', '.exercise-block');
     resetAll();
     updateWorkoutProgress();
-
 }
-
 
 c.footerAddExercise.addEventListener('click', function() {
     resetAll();
@@ -353,7 +333,6 @@ c.formEditSetClose.addEventListener('click', function() {
     setBlock = "";
 })
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// ADDING NEW SET ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -380,7 +359,6 @@ const activateFormAddEditSet = function () {
     c.formEditSetSubmit.innerText = 'Add!';
     sh.showForm(c.formEditSet, -35);
     //editWeightInput.select(); buggy on iphone - causes large area under footer to become visible
-
 }
 
 // SUBMIT ADD SET FORM
@@ -421,14 +399,16 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
 const renderNewSet = function(set, parentNode) {
     parentNode.insertAdjacentHTML('beforeend', generateNewSetMarkup(set));
 
-    // update workout object
+    // update workout json object
     const exerciseIndex = parseInt(parentNode.closest('.exercise-block').dataset.exindex);
-    workout.exercises[exerciseIndex].sets.push({
+    workout.exercises.filter(el => el.exIndex === exerciseIndex)[0].sets.push({
         weight: set.weight,
         reps: set.reps,
         key: set.key,
         completed: false
     });
+    console.log(workout)
+    updateWorkoutProgress();
 }
 
 
@@ -496,7 +476,7 @@ const renderExercise = function(exerciseGroup, index) {
 }
 
 const generateNewSetMarkup = function(set) {
-;    return `
+    return `
         <div class="exercise-block__set-container ${set.completed ? 'complete done' : 'slider'}" data-key="${set.key}">
             <div class="exercise-block__set-container__stats">
                 <div class="weight">${set.weight} kg</div>

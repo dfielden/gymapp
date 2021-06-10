@@ -21,17 +21,18 @@ export class Timer {
             this.hours = elapsedTime % 60;
 
             this.el.querySelector('.counter').innerHTML = this.getTime();
-        }, 10);
+        }, 111);
         return id;
     }
 
+    // Renders the current elapsed time as a string.
     getTime = () => {
         let time = this.hours === 0 ? `` : `${this.formatNum(this.hours)}:`;
         time += `${this.formatNum(this.mins)}:${this.formatNum(this.secs)}.${this.formatNum(this.millis)}`;
         return time;
     }
 
-    getStartTime =  () => {
+    getStartTime = () => {
         return this.startTime;
     }
 

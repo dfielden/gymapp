@@ -74,7 +74,6 @@ public final class GymAppDB {
             stmt.setLong(1,userId);
             stmt.setString(2, workout);
             stmt.executeUpdate();
-            System.out.println(workout);
             return workout;
         }
     }
@@ -145,7 +144,6 @@ public final class GymAppDB {
             stmt.setLong(1,userId);
             stmt.setString(2, workout);
             stmt.executeUpdate();
-            System.out.println(workout);
             return workout;
         }
     }
@@ -161,7 +159,6 @@ public final class GymAppDB {
             stmt.setString(1, workout);
             stmt.setLong(2,userId);
             stmt.executeUpdate();
-            System.out.println(workout);
             return workout;
         }
     }
@@ -213,7 +210,6 @@ public final class GymAppDB {
                 DefaultExercisesReader dfr = new DefaultExercisesReader("./app/src/main/resources/static/base_exercises.txt");
                 dfr.readExercises();
                 for (Exercise ex : dfr.getExercises()) {
-                    //System.out.println(ex);
                     long exerciseId = addExercise(ex.getExerciseName(), 0);
 
                     // Add muscle group to ExercisesToMuscleGroup table
