@@ -2,7 +2,7 @@ import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {AJAX} from "../helper.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
-import {Timer} from "../welcome/timer.js";
+import {Timer} from "../timer.js";
 
 
 
@@ -39,10 +39,11 @@ const getCurrentWorkout = async function() {
             const url = window.location.href;
             const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
             workout = await AJAX(c.getCurrentWorkoutURL + id);
-
+            console.log(workout);
             // add exercise and set keys
             workout.maxExerciseIndex = 0;
             workout.maxKeyId = 0;
+            workout.workoutId = id;
             const {exercises} = workout
             for (let i = 0; i < exercises.length; i++) {
                 exercises[i].exIndex = i;
@@ -68,6 +69,7 @@ const getCurrentWorkout = async function() {
     }
 
     // finally render workout on screen
+    console.log(workout);
     renderWorkout();
 
     // add timer to completed sets
@@ -530,5 +532,18 @@ const updateWorkoutProgress = function() {
         AJAX(c.updateWorkoutInProgressURL, workout);
     } catch (err) {
         console.error(err.message, err.errorCode, "unable to update workout progress");
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// COMPLETE WORKOUT ////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const finishWorkout = function() {
+    try {
+        AJAX()
+    } catch (err) {
+        console.error(err.message, err.errorCode, "Unable to complete workout.")
     }
 }

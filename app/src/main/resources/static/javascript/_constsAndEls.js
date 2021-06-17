@@ -21,6 +21,8 @@ export const myWorkoutsContainer = document.querySelector('.saved-workouts');
 export const footerCreateWorkout = document.querySelector(".footer__icon--create");
 export const footerEditWorkout = document.querySelector(".footer__icon--edit");
 export const footerStart = document.querySelector(".footer__btn");
+export const tabInProgress = document.querySelector(".in-progress");
+export const btnWorkoutInProgress = document.querySelector(".in-progress-workout");
 
 
 // DEFINE WORKOUT

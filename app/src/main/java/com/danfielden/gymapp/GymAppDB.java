@@ -175,7 +175,6 @@ public final class GymAppDB {
             }
             return false;
         }
-
     }
 
     private synchronized void initiateTables() throws Exception {

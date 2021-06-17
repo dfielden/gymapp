@@ -570,7 +570,7 @@ img {
   width: 100%;
 }
 
-.saved-workout {
+.saved-workout, .in-progress-workout {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -579,10 +579,10 @@ img {
   height: 5rem;
   width: 100%;
 }
-.saved-workout:not(:last-of-type) {
+.saved-workout:not(:last-of-type), .in-progress-workout:not(:last-of-type) {
   margin-bottom: 1rem;
 }
-.saved-workout--selected {
+.saved-workout--selected, .in-progress-workout--selected {
   background-color: #fcc728;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
