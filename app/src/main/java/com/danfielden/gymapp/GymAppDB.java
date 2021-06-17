@@ -177,6 +177,14 @@ public final class GymAppDB {
         }
     }
 
+    public synchronized void deleteWorkoutInProgress(long userId) throws Exception {
+        String query = "DELETE FROM WorkoutInProgress WHERE user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
+            stmt.executeUpdate();
+        }
+    }
+
     private synchronized void initiateTables() throws Exception {
         ArrayList<String> queries = InitiateDBQueries.createTableQueries();
         for (String q : queries) {
@@ -220,4 +228,6 @@ public final class GymAppDB {
             }
         }
     }
+
+
 }

@@ -140,5 +140,12 @@ public class GymAppApplication {
         return db.getWorkoutFromId(id, 1);
     }
 
+    @ResponseBody
+    @GetMapping("/finishworkout")
+    public boolean finishWorkout() throws Exception {
+        // TODO: link to user id
+        db.deleteWorkoutInProgress(1);
+        return true;
+    }
 
 }

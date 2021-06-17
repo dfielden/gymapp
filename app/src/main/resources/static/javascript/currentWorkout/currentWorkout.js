@@ -34,16 +34,17 @@ const getCurrentWorkout = async function() {
         // load workout in progress if it exists
         workout = await AJAX(c.getWorkoutInProgressURL);
     } catch (err) {
-        // otherwise load the selected workout from the workouts table
+        // otherwise load the selected workout from the workout templates table
         try {
             const url = window.location.href;
             const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
             workout = await AJAX(c.getCurrentWorkoutURL + id);
-            console.log(workout);
             // add exercise and set keys
             workout.maxExerciseIndex = 0;
             workout.maxKeyId = 0;
             workout.workoutId = id;
+            workout.completedSets = 0;
+            console.log(workout);
             const {exercises} = workout
             for (let i = 0; i < exercises.length; i++) {
                 exercises[i].exIndex = i;
@@ -70,6 +71,7 @@ const getCurrentWorkout = async function() {
 
     // finally render workout on screen
     console.log(workout);
+    toggleFinishBtnState();
     renderWorkout();
 
     // add timer to completed sets
@@ -160,6 +162,14 @@ const selectSet = function(selectedRow) {
     sh.resetSlidingDivs();
 }
 
+const toggleFinishBtnState = function() {
+    if (workout.completedSets > 0) {
+        c.footerBtnFinish.classList.remove('footer__btn--inactive');
+    } else {
+        c.footerBtnFinish.classList.add('footer__btn--inactive');
+    }
+}
+
 // MARK SET AS COMPLETE
 const markSetComplete = function(selectedRow, timer) {
     unselectAllRows();
@@ -180,9 +190,9 @@ const markSetComplete = function(selectedRow, timer) {
     selectedRow.classList.add('complete');
     selectedRow.classList.remove('active', 'slider', 'undo');
     selectedRow.querySelector('.done-container').classList.add('display-none');
-    resetAll();
+    toggleFinishBtnState();
 
-    updateWorkoutProgress();
+    resetAll();
 }
 
 // UNDO MARKING SET AS COMPLETE
@@ -199,6 +209,9 @@ const undoSetComplete = function() {
     // mark set as not complete in the workout object
     const key = setContainer.dataset.key;
     getSetFromKey(parseInt(key)).completed = false;
+
+    workout.completedSets -= 1;
+    toggleFinishBtnState();
     updateWorkoutProgress();
 }
 
@@ -233,7 +246,9 @@ c.elBody.addEventListener('click', function(e) {
         const doneBtn = e.target.closest('.done-container');
         if (doneBtn != null) {
             const timerContainer = selectedRow.querySelector('.timer-container');
+            workout.completedSets += 1;
             markSetComplete(selectedRow, new Timer(timerContainer));
+            updateWorkoutProgress();
             return;
         }
         // SELECT CURRENT SET
@@ -540,10 +555,17 @@ const updateWorkoutProgress = function() {
 //// COMPLETE WORKOUT ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const finishWorkout = function() {
+const finishWorkout = async function() {
     try {
-        AJAX()
+        await AJAX(c.finishWorkoutURL);
+        window.location = '/welcome';
     } catch (err) {
-        console.error(err.message, err.errorCode, "Unable to complete workout.")
+        console.error(err.message, "Unable to finish workout.")
     }
 }
+
+c.footerBtnFinish.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('footer__btn--inactive')) {
+        finishWorkout();
+    }
+})

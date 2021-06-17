@@ -1,11 +1,5 @@
 import * as c from '../_constsAndEls.js';
 import {AJAX} from "../helper.js";
-import {
-    btnWorkoutInProgress,
-    getCurrentWorkoutURL,
-    getUserWorkoutsURL,
-    getWorkoutInProgressURL
-} from "../_constsAndEls.js";
 
 let myWorkouts;
 
@@ -20,7 +14,7 @@ const workoutInProgress = {
 
 const getWorkouts = async function() {
     try {
-        const data = await AJAX(getUserWorkoutsURL);
+        const data = await AJAX(c.getUserWorkoutsURL);
         for (const key in data) {
             const id = key;
             const workout = JSON.parse(data[key]);
@@ -36,11 +30,12 @@ const getWorkouts = async function() {
 
 const getWorkoutInProgress = async function() {
     try {
-        const data = await AJAX(getWorkoutInProgressURL);
+        const data = await AJAX(c.getWorkoutInProgressURL);
         if (data.workoutId) {
             workoutInProgress.inProgress = true;
             workoutInProgress.id = data.workoutId;
             c.tabInProgress.classList.remove('display-none');
+            c.btnWorkoutInProgress.textContent = data.workoutName;
         }
     } catch (err) {
         console.error('Unable to fetch workout currently in progress.');
@@ -60,7 +55,7 @@ const displayWorkout = function(name, id) {
 
 c.elBody.addEventListener('click', function(e) {
     unselectAllWorkouts();
-    if (e.target.classList.contains('saved-workout') && !(currentWorkout.inProgress)) {
+    if (e.target.classList.contains('saved-workout') && !(workoutInProgress.inProgress)) {
         e.target.classList.add('saved-workout--selected');
         c.footerEditWorkout.classList.remove('footer__icon--inactive');
         c.footerStart.classList.remove('footer__btn--inactive');

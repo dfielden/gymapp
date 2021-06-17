@@ -8,6 +8,7 @@ export const getCurrentWorkoutURL = '/workout/';
 export const getWorkoutInProgressURL = '/workoutinprogress';
 export const createWorkoutInProgressURL = '/createworkoutinprogress';
 export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
+export const finishWorkoutURL = '/finishworkout';
 
 
 // COMMON
@@ -56,6 +57,8 @@ export const repsMinusBtns = document.querySelectorAll('.reps-minus');
 export const selectExercises = document.querySelector("#exercises");
 export const footerAddExercise = document.querySelector(".footer__icon--add");
 export const footerUndo = document.querySelector(".footer__icon--undo");
+export const footerBtnFinish = document.querySelector(".footer__btn--main");
+
 
 export const formAddToCurrent = document.querySelector(".add-to-current");
 export const formAddToCurrentClose = document.querySelector(".add-to-current--close");
