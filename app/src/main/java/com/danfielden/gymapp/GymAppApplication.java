@@ -1,16 +1,22 @@
 package com.danfielden.gymapp;
 
+import com.danfielden.gymapp.auth.Login;
+import com.danfielden.gymapp.auth.PasswordSecurity;
 import com.google.gson.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @SpringBootApplication
@@ -18,6 +24,10 @@ import java.util.HashMap;
 public class GymAppApplication {
     private final GymAppDB db;
     private static final Gson gson = new Gson();
+    private final Map<String, Long> sessions = new ConcurrentHashMap<>(); // cookieValue, user_id
+    private static final String GYMAPP_COOKIE_NAME = "GYMAPPCOOKIE";
+    private static final Random rand = new Random();
+
 
     public GymAppApplication() throws Exception {
         db = new GymAppDB();
@@ -146,6 +156,73 @@ public class GymAppApplication {
         // TODO: link to user id
         db.deleteWorkoutInProgress(1);
         return true;
+    }
+
+
+    @Nonnull
+    private synchronized long getOrCreateSession(HttpServletRequest req, HttpServletResponse resp) {
+        // First, get the Cookie from the request.
+        Cookie cookie = findOrSetSessionCookie(req, resp);
+
+        // Use the cookie value as the session ID.
+        String sessionId = cookie.getValue();
+
+        // Then, look up the corresponding session for this Cookie ID.
+        long userId = sessions.get(sessionId);
+
+        if (userId == 0L) {
+            // Create a new session (findOrSetSessionCookie probably just created the Cookie, so there is not yet a
+            // corresponding session).
+            // Todo: link to user id
+            long id = 1;
+            sessions.put(sessionId, id);
+        }
+
+        return userId;
+    }
+
+    @PostMapping(value="/loginsubmit",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Long returnUser(@RequestBody Login login, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        try {
+            String email = login.getEmail();
+            String enteredPassword = login.getPassword();
+            Map userDetails = db.getuserDetails(email);
+            String salt = (String)userDetails.get("salt");
+            String hashedPassword = (String)userDetails.get("hashedPassword");
+
+            if (hashedPassword.equals(PasswordSecurity.hashString(enteredPassword + salt))) {
+                // User credentials OK.
+                // TODO: link to user id
+                return 1L;
+            } else {
+                // User credentials BAD.
+                throw new Exception("Incorrect password. Please try again.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1L;
+    }
+
+    @Nonnull
+    private static Cookie findOrSetSessionCookie(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (GYMAPP_COOKIE_NAME.equals(c.getName())) {
+                    // Found our cookie.
+                    return c;
+                }
+            }
+        }
+
+        // No cookie. Set a new one.
+        Cookie cookie = new Cookie(GYMAPP_COOKIE_NAME, String.format("%x%xgym", rand.nextLong(), rand.nextLong()));
+        resp.addCookie(cookie);
+        return cookie;
     }
 
 }

@@ -4,6 +4,7 @@ import javax.swing.tree.ExpandVetoException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public final class GymAppDB {
     private final Connection connect;
@@ -161,6 +162,28 @@ public final class GymAppDB {
             stmt.executeUpdate();
             return workout;
         }
+    }
+
+    // AUTHENTICATION
+    public synchronized Map<String, String> getuserDetails(String username) throws Exception {
+        HashMap<String, String> userDetails = new HashMap<>();
+
+        String query = "SELECT * FROM Users WHERE user_name = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.isBeforeFirst() ) {
+                throw new IllegalArgumentException("User not found: " + username);
+            }
+
+            while (rs.next()) {
+                userDetails.put("email",rs.getString("email"));
+                userDetails.put("hashedPassword",rs.getString("password"));
+                userDetails.put("salt",rs.getString("salt"));
+            }
+        }
+        return userDetails;
     }
 
     private synchronized boolean checkIfUserHasWorkoutInProgress(long userId) throws Exception {
