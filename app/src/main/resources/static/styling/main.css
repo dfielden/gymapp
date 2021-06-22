@@ -548,16 +548,16 @@ img {
   display: flex;
 }
 
-.form-error-msg {
+.form-msg {
   font-size: 1.6rem;
-  color: #e91235;
-  transform: translateY(-1.8rem);
+  position: relative;
+  top: 1rem;
 }
-
-.default-msg {
-  font-size: 2rem;
-  align-self: center;
-  justify-self: center;
+.form-msg--success {
+  color: #007d26;
+}
+.form-msg--error {
+  color: #e91235;
 }
 
 .chart {

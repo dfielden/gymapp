@@ -28,6 +28,10 @@ public class GymAppApplication {
     private static final String GYMAPP_COOKIE_NAME = "GYMAPPCOOKIE";
     private static final Random rand = new Random();
 
+    public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
+    public static final String SIGNUP_SUCCESS_RESPONSE_VALUE = "SIGNUP_SUCCESS";
+    public static final String PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS";
+
 
     public GymAppApplication() throws Exception {
         db = new GymAppDB();
@@ -172,7 +176,7 @@ public class GymAppApplication {
         } catch (IllegalStateException e) {
             return gson.toJson(e.getMessage());
         }
-        return gson.toJson("hi there");
+        return gson.toJson(SIGNUP_SUCCESS_RESPONSE_VALUE);
     }
 
 

@@ -129,7 +129,7 @@ public final class GymAppDB {
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                throw new IllegalStateException("No current workout found for user " + userId);
+                return "No current workout found for user " + userId;
             }
             return rs.getString(1);
         }

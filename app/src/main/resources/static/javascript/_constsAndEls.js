@@ -23,7 +23,7 @@ export const elContainer = document.querySelector(".container");
 export const elBody = document.querySelector(".main-body");
 export const elFooter = document.querySelector(".footer");
 export const title = document.querySelector(".heading--1");
-export const formErrorMessage = document.querySelector('.form-error-msg');
+export const formMessage = document.querySelector('.form-msg');
 
 // WELCOME
 export const myWorkoutsContainer = document.querySelector('.saved-workouts');

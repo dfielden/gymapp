@@ -47,16 +47,20 @@
   }
 }
 
-.form-error-msg {
+.form-msg {
   font-size: 1.6rem;
-  color: $color-danger;
-  transform: translateY(-1.8rem);
+  position: relative;
+  top: 1rem;
+
+  &--success {
+    color: $color-success;
+
+  }
+
+  &--error {
+    color: $color-danger;
+  }
 }
 
-.default-msg {
-  font-size: 2rem;
-  align-self: center;
-  justify-self: center;
-}
 
 
