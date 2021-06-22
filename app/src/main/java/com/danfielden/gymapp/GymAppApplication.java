@@ -158,6 +158,23 @@ public class GymAppApplication {
         return true;
     }
 
+    @ResponseBody
+    @PostMapping(value="/signup",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String signup(@RequestBody Login login, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        try {
+            String email = login.getEmail();
+            String typedPassword = login.getPassword();
+            String[] hashedPassword = PasswordSecurity.createHashedPassword(typedPassword);
+
+            db.signup(email, hashedPassword[0], hashedPassword[1]);
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+        return gson.toJson("hi there");
+    }
+
 
     @Nonnull
     private synchronized long getOrCreateSession(HttpServletRequest req, HttpServletResponse resp) {
@@ -189,7 +206,7 @@ public class GymAppApplication {
         try {
             String email = login.getEmail();
             String enteredPassword = login.getPassword();
-            Map userDetails = db.getuserDetails(email);
+            HashMap userDetails = db.getuserDetails(email);
             String salt = (String)userDetails.get("salt");
             String hashedPassword = (String)userDetails.get("hashedPassword");
 

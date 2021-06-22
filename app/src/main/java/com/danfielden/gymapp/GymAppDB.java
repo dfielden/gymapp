@@ -121,7 +121,7 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized String getWorkoutInProgress(long userId) throws Exception{
+    public synchronized String getWorkoutInProgress(long userId) throws Exception {
         String query = "SELECT current_workout FROM WorkoutInProgress WHERE user_id = ?";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setLong(1, userId);
@@ -165,7 +165,7 @@ public final class GymAppDB {
     }
 
     // AUTHENTICATION
-    public synchronized Map<String, String> getuserDetails(String username) throws Exception {
+    public synchronized HashMap<String, String> getuserDetails(String username) throws Exception {
         HashMap<String, String> userDetails = new HashMap<>();
 
         String query = "SELECT * FROM Users WHERE user_name = ?";
@@ -205,6 +205,34 @@ public final class GymAppDB {
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setLong(1, userId);
             stmt.executeUpdate();
+        }
+    }
+
+    public synchronized void signup(String email, String hashedPassword, String salt) throws Exception {
+        if (checkIfEmailExists(email)) {
+            throw new IllegalStateException("Email is already in use. Please log in or sign up with a different email address.");
+        }
+
+        String query = "INSERT INTO Users (email, hashed_pw, salt) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, email);
+            stmt.setString(2, hashedPassword);
+            stmt.setString(3, salt);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    private synchronized boolean checkIfEmailExists(String email) throws Exception {
+        String query = "SELECT * FROM Users WHERE email = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                return true;
+            }
+            return false;
         }
     }
 

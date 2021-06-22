@@ -9,6 +9,13 @@ export const getWorkoutInProgressURL = '/workoutinprogress';
 export const createWorkoutInProgressURL = '/createworkoutinprogress';
 export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
 export const finishWorkoutURL = '/finishworkout';
+export const signupURL = '/signup';
+
+// SIGNUP
+export const btnSignup = document.querySelector('#btn-signup');
+export const formSignupEmail = document.querySelector('#signup-email');
+export const formSignupPw1 = document.querySelector('#signup-password1');
+export const formSignupPw2 = document.querySelector('#signup-password2');
 
 
 // COMMON
@@ -16,6 +23,7 @@ export const elContainer = document.querySelector(".container");
 export const elBody = document.querySelector(".main-body");
 export const elFooter = document.querySelector(".footer");
 export const title = document.querySelector(".heading--1");
+export const formErrorMessage = document.querySelector('.form-error-msg');
 
 // WELCOME
 export const myWorkoutsContainer = document.querySelector('.saved-workouts');
