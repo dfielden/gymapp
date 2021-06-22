@@ -169,8 +169,8 @@ public class GymAppApplication {
             String[] hashedPassword = PasswordSecurity.createHashedPassword(typedPassword);
 
             db.signup(email, hashedPassword[0], hashedPassword[1]);
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
+        } catch (IllegalStateException e) {
+            return gson.toJson(e.getMessage());
         }
         return gson.toJson("hi there");
     }

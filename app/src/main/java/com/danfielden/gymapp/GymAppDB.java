@@ -210,7 +210,7 @@ public final class GymAppDB {
 
     public synchronized void signup(String email, String hashedPassword, String salt) throws Exception {
         if (checkIfEmailExists(email)) {
-            throw new IllegalStateException("Email is already in use. Please log in or sign up with a different email address.");
+            throw new IllegalStateException("Email is already in use. Please login or sign up with a different email address.");
         }
 
         String query = "INSERT INTO Users (email, hashed_pw, salt) VALUES (?, ?, ?)";
@@ -229,7 +229,7 @@ public final class GymAppDB {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
+            if (rs.next()) {
                 return true;
             }
             return false;

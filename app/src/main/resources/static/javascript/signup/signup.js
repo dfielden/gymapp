@@ -2,7 +2,7 @@
 import * as c from '../_constsAndEls.js';
 import {AJAX} from "../helper.js";
 
-c.btnSignup.addEventListener('click', (e) => {
+c.btnSignup.addEventListener('click', async (e) => {
     e.preventDefault();
 
     // validation
@@ -15,8 +15,7 @@ c.btnSignup.addEventListener('click', (e) => {
         c.formErrorMessage.classList.remove('visibility-hidden');
         return;
     }
-    console.log('hello')
-    const data = AJAX(c.signupURL, {
+    const data = await AJAX(c.signupURL, {
         email: email,
         password: pw1,
     });
