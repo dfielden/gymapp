@@ -10,13 +10,21 @@ export const createWorkoutInProgressURL = '/createworkoutinprogress';
 export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
 export const finishWorkoutURL = '/finishworkout';
 export const signupURL = '/signup';
+export const loginURL = '/login';
+export const userInfoURL = '/userinfo';
+
 
 // SIGNUP
 export const btnSignup = document.querySelector('#btn-signup');
 export const formSignupEmail = document.querySelector('#signup-email');
+export const formSignupUsername = document.querySelector('#signup-username');
 export const formSignupPw1 = document.querySelector('#signup-password1');
 export const formSignupPw2 = document.querySelector('#signup-password2');
 
+// LOGIN
+export const btnLogin = document.querySelector('#btn-login');
+export const formLoginEmail = document.querySelector('#login-email');
+export const formLoginPw = document.querySelector('#login-password');
 
 // COMMON
 export const elContainer = document.querySelector(".container");

@@ -1,5 +1,7 @@
 package com.danfielden.gymapp;
 
+import com.danfielden.gymapp.auth.PasswordSecurity;
+
 import javax.swing.tree.ExpandVetoException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -165,22 +167,25 @@ public final class GymAppDB {
     }
 
     // AUTHENTICATION
-    public synchronized HashMap<String, String> getuserDetails(String username) throws Exception {
+    public synchronized HashMap<String, String> getuserDetailsFromEmail(String email) throws Exception {
         HashMap<String, String> userDetails = new HashMap<>();
 
-        String query = "SELECT * FROM Users WHERE user_name = ?";
+        String query = "SELECT * FROM Users WHERE email = ?";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setString(1, username);
+            stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.isBeforeFirst() ) {
-                throw new IllegalArgumentException("User not found: " + username);
+                throw new IllegalStateException("User not found: " + email);
             }
 
             while (rs.next()) {
-                userDetails.put("email",rs.getString("email"));
-                userDetails.put("hashedPassword",rs.getString("password"));
-                userDetails.put("salt",rs.getString("salt"));
+                userDetails.put("userId", rs.getString("id"));
+                userDetails.put("userName", rs.getString("username"));
+                userDetails.put("email", rs.getString("email"));
+                userDetails.put("hashedPassword", rs.getString("hashed_pw"));
+                userDetails.put("salt", rs.getString("salt"));
+
             }
         }
         return userDetails;
@@ -208,20 +213,47 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized void signup(String email, String hashedPassword, String salt) throws Exception {
+    public synchronized void signup(String email, String username, String hashedPassword, String salt) throws Exception {
         if (checkIfEmailExists(email)) {
             throw new IllegalStateException("Email is already in use. Please login or sign up with a different email address.");
         }
 
-        String query = "INSERT INTO Users (email, hashed_pw, salt) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Users (email, username, hashed_pw, salt) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setString(1, email);
-            stmt.setString(2, hashedPassword);
-            stmt.setString(3, salt);
+            stmt.setString(2, username);
+            stmt.setString(3, hashedPassword);
+            stmt.setString(4, salt);
 
             stmt.executeUpdate();
         }
     }
+
+//    public synchronized long login(String email, String enteredPassword) throws Exception {
+//        if (!checkIfEmailExists(email)) {
+//            throw new IllegalStateException("Email address not found. Please try again.");
+//        }
+//
+//        String query = "SELECT * FROM Users WHERE email = ?";
+//        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+//            stmt.setString(1, email);
+//            ResultSet rs = stmt.executeQuery();
+//
+//            if (!rs.next()) {
+//                throw new IllegalStateException("Unable to login for email: " + email + ". Please try again.");
+//            }
+//
+//            long id = rs.getLong("id");
+//            String hashedPw = rs.getString("hashed_pw");
+//            String salt = rs.getString("salt");
+//
+//            if (PasswordSecurity.checkPassword(enteredPassword, salt, hashedPw)) {
+//                return id;
+//            }
+//
+//            throw new IllegalStateException("Incorrect password. Please try again.");
+//        }
+//    }
 
     private synchronized boolean checkIfEmailExists(String email) throws Exception {
         String query = "SELECT * FROM Users WHERE email = ?";

@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GymAppApplication {
     private final GymAppDB db;
     private static final Gson gson = new Gson();
-    private final Map<String, Long> sessions = new ConcurrentHashMap<>(); // cookieValue, user_id
+    private final Map<String, GymAppState> sessions = new ConcurrentHashMap<>(); // cookieValue, GymAppState
     private static final String GYMAPP_COOKIE_NAME = "GYMAPPCOOKIE";
     private static final Random rand = new Random();
 
@@ -48,8 +48,12 @@ public class GymAppApplication {
     }
 
     @GetMapping("/welcome")
-    public String welcome() throws Exception {
-        return "welcome";
+    public String welcome(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (state.isLoggedIn()) {
+            return "welcome";
+        }
+        return "login";
     }
 
     @GetMapping("/createworkout")
@@ -169,19 +173,62 @@ public class GymAppApplication {
     public String signup(@RequestBody Login login, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         try {
             String email = login.getEmail();
+            String username = login.getUsername();
             String typedPassword = login.getPassword();
             String[] hashedPassword = PasswordSecurity.createHashedPassword(typedPassword);
 
-            db.signup(email, hashedPassword[0], hashedPassword[1]);
+            db.signup(email, username, hashedPassword[0], hashedPassword[1]);
         } catch (IllegalStateException e) {
             return gson.toJson(e.getMessage());
         }
         return gson.toJson(SIGNUP_SUCCESS_RESPONSE_VALUE);
     }
 
+    @ResponseBody
+    @PostMapping(value="/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String login(@RequestBody Login login, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        try {
+            String email = login.getEmail();
+            String enteredPassword = login.getPassword();
+
+            HashMap<String, String> userDetails = db.getuserDetailsFromEmail(email);
+            String salt = userDetails.get("salt");
+            String hashedPassword = userDetails.get("hashedPassword");
+
+            if (hashedPassword.equals(PasswordSecurity.hashString(enteredPassword + salt))) {
+                // User credentials OK.
+
+                GymAppState state = getOrCreateSession(req, resp);
+                state.setUserName(userDetails.get("userName"));
+                state.setUserId(Long.parseLong(userDetails.get("userId")));
+                return gson.toJson(LOGIN_SUCCESS_RESPONSE_VALUE);
+            } else {
+                // User credentials BAD.
+                throw new Exception("Incorrect password. Please try again.");
+            }
+        } catch (IllegalStateException e) {
+            return gson.toJson(e.getMessage());
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/userinfo")
+    public String getUserNameAndId(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        String userName = state.getUserName();
+        long userId = state.getUserId();
+
+        HashMap<String, String> userDetails = new HashMap<>();
+        userDetails.put("userName", userName);
+        userDetails.put("userId", String.valueOf(userId));
+        return gson.toJson(userDetails);
+    }
+
 
     @Nonnull
-    private synchronized long getOrCreateSession(HttpServletRequest req, HttpServletResponse resp) {
+    private synchronized GymAppState getOrCreateSession(HttpServletRequest req, HttpServletResponse resp) {
         // First, get the Cookie from the request.
         Cookie cookie = findOrSetSessionCookie(req, resp);
 
@@ -189,43 +236,16 @@ public class GymAppApplication {
         String sessionId = cookie.getValue();
 
         // Then, look up the corresponding session for this Cookie ID.
-        long userId = sessions.get(sessionId);
+        GymAppState state = sessions.get(sessionId);
 
-        if (userId == 0L) {
+        if (state == null) {
             // Create a new session (findOrSetSessionCookie probably just created the Cookie, so there is not yet a
             // corresponding session).
-            // Todo: link to user id
-            long id = 1;
-            sessions.put(sessionId, id);
+            state = new GymAppState();
+            sessions.put(sessionId, state);
         }
 
-        return userId;
-    }
-
-    @PostMapping(value="/loginsubmit",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    Long returnUser(@RequestBody Login login, HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        try {
-            String email = login.getEmail();
-            String enteredPassword = login.getPassword();
-            HashMap userDetails = db.getuserDetails(email);
-            String salt = (String)userDetails.get("salt");
-            String hashedPassword = (String)userDetails.get("hashedPassword");
-
-            if (hashedPassword.equals(PasswordSecurity.hashString(enteredPassword + salt))) {
-                // User credentials OK.
-                // TODO: link to user id
-                return 1L;
-            } else {
-                // User credentials BAD.
-                throw new Exception("Incorrect password. Please try again.");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-        return -1L;
+        return state;
     }
 
     @Nonnull
@@ -244,6 +264,39 @@ public class GymAppApplication {
         Cookie cookie = new Cookie(GYMAPP_COOKIE_NAME, String.format("%x%xgym", rand.nextLong(), rand.nextLong()));
         resp.addCookie(cookie);
         return cookie;
+    }
+
+    private static final class GymAppState {
+        private long userId = -1;
+        @Nullable  // If logged out, this is null.
+        private String userName;
+
+        boolean isLoggedIn() {
+            return this.userId > 0;
+        }
+
+        @Nullable
+        public String getUserName() {
+            return this.userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public long getUserId() {
+            return this.userId;
+        }
+
+        public void setUserId(long userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        public String toString() {
+            return "id: " + this.getUserId() + ", user name: " + this.getUserName();
+        }
+
     }
 
 }

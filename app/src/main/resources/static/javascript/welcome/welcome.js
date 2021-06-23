@@ -42,10 +42,18 @@ const getWorkoutInProgress = async function() {
     }
 }
 
+const getAndShowUserName = async function() {
+    const data = await AJAX(c.userInfoURL);
+    if (parseInt(data.userId) > 0) {
+        c.title.textContent = `Welcome, ${data.userName}!`;
+    }
+}
+
 
 window.addEventListener('load', e => {
     getWorkouts();
-    getWorkoutInProgress()
+    getWorkoutInProgress();
+    getAndShowUserName();
 })
 
 const displayWorkout = function(name, id) {

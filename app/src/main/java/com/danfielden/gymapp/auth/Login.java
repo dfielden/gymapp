@@ -3,10 +3,16 @@ package com.danfielden.gymapp.auth;
 public class Login {
     private final String email;
     private final String password;
+    private final String username;
 
-    public Login(String username, String password) {
-        this.email = username;
+//    public Login(String email, String password) {
+//        this(email, password, "");
+//    }
+
+    public Login(String email, String password, String username) {
+        this.email = email;
         this.password = password;
+        this.username = username;
     }
 
     public String getEmail() {
@@ -17,11 +23,17 @@ public class Login {
         return password;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+
     @Override
     public String toString() {
         return "Login{" +
-                "username='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }

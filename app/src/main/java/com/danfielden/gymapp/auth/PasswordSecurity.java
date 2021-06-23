@@ -15,4 +15,8 @@ public class PasswordSecurity {
         return new String[] {hashString(s + salt), salt};
     }
 
+    public static boolean checkPassword(String enteredPassword, String salt, String hashedPassword) {
+        return hashString(enteredPassword + salt).equals(hashedPassword);
+    }
+
 }

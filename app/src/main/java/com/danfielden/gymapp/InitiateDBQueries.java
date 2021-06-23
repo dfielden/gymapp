@@ -7,6 +7,7 @@ public final class InitiateDBQueries {
     private static String createUserTable() {
         return "CREATE TABLE IF NOT EXISTS Users (" +
                 "id INTEGER PRIMARY KEY NOT NULL, " +
+                "username TEXT, " +
                 "email TEXT, " +
                 "hashed_pw TEXT, " +
                 "salt TEXT)";
