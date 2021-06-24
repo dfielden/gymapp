@@ -41,7 +41,7 @@ public final class InitiateDBQueries {
         return "CREATE TABLE IF NOT EXISTS ExercisesToMuscleGroup (" +
                 "id INTEGER PRIMARY KEY NOT NULL, " +
                 "exercise_id INTEGER, " +
-                "muscle_group_id  INTEGER, " +
+                "muscle_group_id INTEGER, " +
                 "FOREIGN KEY (exercise_id) REFERENCES ExerciseName(id), " +
                 "FOREIGN KEY (muscle_group_id) REFERENCES MuscleGroup(id)" +
                 ")";
@@ -56,6 +56,16 @@ public final class InitiateDBQueries {
                 ")";
     }
 
+    private static String createCompletedWorkoutTable() {
+        return  "CREATE TABLE IF NOT EXISTS CompletedWorkout (" +
+                "id INTEGER PRIMARY KEY NOT NULL, " +
+                "user_id INTEGER, " +
+                "time_completed TEXT, " +
+                "workout TEXT, " +
+                "FOREIGN KEY (user_id) REFERENCES Users(id)" +
+                ")";
+    }
+
     public static ArrayList<String> createTableQueries() {
         ArrayList<String> queries = new ArrayList<>();
         queries.add(createUserTable());
@@ -64,6 +74,7 @@ public final class InitiateDBQueries {
         queries.add(createExerciseToMuscleGroupTable());
         queries.add(createWorkoutTable());
         queries.add(createWorkoutInProgressTable());
+        queries.add(createCompletedWorkoutTable());
 
         return queries;
     }

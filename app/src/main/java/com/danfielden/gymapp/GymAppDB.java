@@ -91,6 +91,42 @@ public final class GymAppDB {
         }
     }
 
+    public synchronized HashMap<Long, String> getMuscleGroupsFromExerciseId(long exerciseId) throws Exception {
+        ArrayList<Long> muscleGroupIds = getMuscleGroupIdsFromExerciseId(exerciseId);
+        HashMap<Long, String> muscleGroups = new HashMap<>();
+
+        for (int i = 0; i < muscleGroupIds.size(); i++) {
+            String query = "SELECT * FROM MuscleGroup WHERE id = ?";
+
+            try (PreparedStatement stmt = connect.prepareStatement(query)) {
+                stmt.setLong(1, muscleGroupIds.get(i));
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    String exerciseGroup = rs.getString("muscle_group");
+                    muscleGroups.put(muscleGroupIds.get(i), exerciseGroup);
+                }
+            }
+        }
+        return muscleGroups;
+    }
+
+    private synchronized ArrayList<Long> getMuscleGroupIdsFromExerciseId(long exerciseId) throws Exception {
+        String query = "SELECT * FROM ExercisesToMuscleGroup WHERE exercise_id = ?";
+        ArrayList<Long> muscleGroupIds = new ArrayList<>();
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, exerciseId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                long muscleGroupId = rs.getLong("muscle_group_id");
+                muscleGroupIds.add(muscleGroupId);
+            }
+        }
+        return muscleGroupIds;
+
+    }
+
     public synchronized HashMap<Long, String> getUserWorkouts(long userId) throws Exception {
         String query = "SELECT * FROM WorkoutTemplate WHERE user_id = ?";
         HashMap<Long, String> workouts = new HashMap<>();
@@ -166,6 +202,17 @@ public final class GymAppDB {
         }
     }
 
+    public synchronized String addCompletedWorkout(long userId, String timeCompleted, String workout) throws Exception {
+        String query = "INSERT INTO CompletedWorkout (user_id, time_completed, workout) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1,userId);
+            stmt.setString(2, timeCompleted);
+            stmt.setString(3, workout);
+            stmt.executeUpdate();
+            return workout;
+        }
+    }
+
     // AUTHENTICATION
     public synchronized HashMap<String, String> getuserDetailsFromEmail(String email) throws Exception {
         HashMap<String, String> userDetails = new HashMap<>();
@@ -228,32 +275,6 @@ public final class GymAppDB {
             stmt.executeUpdate();
         }
     }
-
-//    public synchronized long login(String email, String enteredPassword) throws Exception {
-//        if (!checkIfEmailExists(email)) {
-//            throw new IllegalStateException("Email address not found. Please try again.");
-//        }
-//
-//        String query = "SELECT * FROM Users WHERE email = ?";
-//        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-//            stmt.setString(1, email);
-//            ResultSet rs = stmt.executeQuery();
-//
-//            if (!rs.next()) {
-//                throw new IllegalStateException("Unable to login for email: " + email + ". Please try again.");
-//            }
-//
-//            long id = rs.getLong("id");
-//            String hashedPw = rs.getString("hashed_pw");
-//            String salt = rs.getString("salt");
-//
-//            if (PasswordSecurity.checkPassword(enteredPassword, salt, hashedPw)) {
-//                return id;
-//            }
-//
-//            throw new IllegalStateException("Incorrect password. Please try again.");
-//        }
-//    }
 
     private synchronized boolean checkIfEmailExists(String email) throws Exception {
         String query = "SELECT * FROM Users WHERE email = ?";

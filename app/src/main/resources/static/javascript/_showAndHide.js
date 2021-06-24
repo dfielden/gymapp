@@ -127,7 +127,6 @@ export const SlideOffAndDelete = function(el, elClass, parentElClass) {
     setTimeout(function () {
         el.remove();
         if (parentEl.querySelector(elClass) === null) {
-            console.log('made it');
             shrinkToNothing(parentEl);
         }
     }, 500);

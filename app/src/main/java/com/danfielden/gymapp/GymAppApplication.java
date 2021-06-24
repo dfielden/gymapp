@@ -162,8 +162,15 @@ public class GymAppApplication {
     @GetMapping("/finishworkout")
     public boolean finishWorkout() throws Exception {
         // TODO: link to user id
+        db.addCompletedWorkout(1, "hello", "done");
         db.deleteWorkoutInProgress(1);
         return true;
+    }
+
+    @ResponseBody
+    @GetMapping("/musclegroups/{id}")
+    public String getExerciseMuscleGroups(@PathVariable(value="id") long id) throws Exception {
+        return gson.toJson(db.getMuscleGroupsFromExerciseId(id));
     }
 
     @ResponseBody
@@ -206,7 +213,7 @@ public class GymAppApplication {
                 return gson.toJson(LOGIN_SUCCESS_RESPONSE_VALUE);
             } else {
                 // User credentials BAD.
-                throw new Exception("Incorrect password. Please try again.");
+                return gson.toJson("Incorrect password. Please try again.");
             }
         } catch (IllegalStateException e) {
             return gson.toJson(e.getMessage());

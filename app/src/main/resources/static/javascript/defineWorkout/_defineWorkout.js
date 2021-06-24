@@ -1,8 +1,7 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
-import * as def from "./_defineWorkout.js";
 import {ExerciseGroup, Exercise, Set, Workout} from "../exercise.js";
-import {createExerciseURL, getExercisesURL, createWorkoutURL, title} from "../_constsAndEls.js";
+import {createExerciseURL, getExercisesURL, createWorkoutURL, title, getMuscleGroupsURL} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
 
 let exercises = {};
@@ -34,10 +33,12 @@ window.addEventListener('load', e => {
 
 const addExercise = function() {
     if (c.selectExercise.selectedIndex !== 0) {
+        const selectedExerciseId = c.selectExercise.querySelector(':checked').getAttribute('data-id');
+
         const html = `
             <div class="transparent-form-group">
                 <div class="transparent-form-group__title">
-                    <div class="heading heading--3 heading--transparent-box">${c.selectExercise.value}<span class="far fa-plus-square far-title"></span></div>
+                    <div class="heading heading--3 heading--transparent-box" data-id=${selectedExerciseId}>${c.selectExercise.value}<span class="far fa-plus-square far-title"></span></div>
                     <div class="flex-container--col">
                         <div class="fas fa-sort-up"></div>
                         <div class="fas fa-sort-down"></div>
