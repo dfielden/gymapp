@@ -139,7 +139,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn--main btn--primary" id="exercise-submit">Add!</button>
-            <div class="form-error-msg" id="add-to-current-err"></div>
+            <div class="form-msg form-msg--error" id="add-to-current-err"></div>
         </form>
     </div>
 
@@ -171,10 +171,32 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn--main btn--primary" id="set-submit">Update</button>
-                <div class="form-error-msg" id="edit-set-err"></div>
+                <div class="form-msg form-msg--error" id="edit-set-err"></div>
 
         </form>
     </div>
+
+    <div class="finish-workout form--slide-up display-none">
+        <div class="transparent-form-group">
+            <div class="flex-container space-between align-center">
+                <div class="heading heading--3 heading--transparent-box">Alert</div>
+                <a href="#" class="close-btn finish-workout--close">&times;</a>
+            </div>
+            <p class="paragraph">After finishing this workout you will not be able to add or complete any further sets.
+                <br>
+                <br>
+                Do you still wish to finish your workout?
+            </p>
+            <div class="flex-container justify-center">
+                <button class="btn btn--yesno btn--secondary" id="cancel-finish">Cancel</button>
+                <button class="btn btn--yesno btn--primary" id="confirm-finish">Finish</button>
+            </div>
+            <div class="form-msg visibility-hidden">Content</div>
+
+        </div>
+    </div>
+
+
 
     <script type="module" src="../javascript/currentWorkout/currentWorkout.js"></script>
 

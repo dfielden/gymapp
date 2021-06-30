@@ -50,6 +50,14 @@
     width: 20%;
   }
 
+  &--yesno {
+    border: 1px solid $color-primary-dark;
+    height: 2.8rem;
+    font-size: 1.6rem;
+    width: 30%;
+    margin: 1rem;
+  }
+
 
   &--ghost {
     border: 1px solid $color-grey;

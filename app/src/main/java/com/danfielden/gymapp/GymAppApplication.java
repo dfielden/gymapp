@@ -30,6 +30,8 @@ public class GymAppApplication {
 
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
     public static final String SIGNUP_SUCCESS_RESPONSE_VALUE = "SIGNUP_SUCCESS";
+    public static final String FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE = "FINISH_SUCCESS";
+
     public static final String PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS";
 
 
@@ -160,11 +162,15 @@ public class GymAppApplication {
 
     @ResponseBody
     @GetMapping("/finishworkout")
-    public boolean finishWorkout() throws Exception {
+    public String finishWorkout() {
         // TODO: link to user id
-        db.addCompletedWorkout(1, "hello", "done");
-        db.deleteWorkoutInProgress(1);
-        return true;
+        try {
+            db.addCompletedWorkout(1, "hello", "done");
+            db.deleteWorkoutInProgress(1);
+        } catch (Exception e) {
+            return gson.toJson(e.getMessage());
+        }
+        return gson.toJson(FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE);
     }
 
     @ResponseBody

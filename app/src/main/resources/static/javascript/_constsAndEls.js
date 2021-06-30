@@ -75,7 +75,10 @@ export const selectExercises = document.querySelector("#exercises");
 export const footerAddExercise = document.querySelector(".footer__icon--add");
 export const footerUndo = document.querySelector(".footer__icon--undo");
 export const footerBtnFinish = document.querySelector(".footer__btn--main");
-
+export const formFinishWorkout = document.querySelector(".finish-workout");
+export const formFinishWorkoutClose = document.querySelector(".finish-workout--close");
+export const btnConfirmFinish = document.querySelector("#confirm-finish");
+export const btnCancelFinish = document.querySelector("#cancel-finish");
 
 export const formAddToCurrent = document.querySelector(".add-to-current");
 export const formAddToCurrentClose = document.querySelector(".add-to-current--close");

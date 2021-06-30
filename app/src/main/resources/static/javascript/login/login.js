@@ -26,9 +26,9 @@ c.btnLogin.addEventListener('click', async (e) => {
     } else {
         showFormMessage(data, false);
     }
-
 });
 
+// TODO: remove duplicate function
 const showFormMessage = (message, success) => {
     c.formMessage.textContent =  message;
     c.formMessage.classList.remove('visibility-hidden');

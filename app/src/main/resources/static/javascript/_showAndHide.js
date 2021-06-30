@@ -106,7 +106,7 @@ export const hideFormWithoutAnimation = function(formElement) {
 
 const clearAllFormValues = function(formEl) {
     const inputs = formEl.querySelectorAll('.form-input');
-    formEl.querySelector('.form-error-msg').innerText='';
+    formEl.querySelector('.form-msg').innerText='';
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains("form-input--select")) {
             inputs[i].selectedIndex = 0;

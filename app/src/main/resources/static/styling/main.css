@@ -151,18 +151,26 @@ img {
 
 .add-to-current {
   display: flex;
-  height: 35rem;
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  height: 35rem;
 }
 
 .edit-set {
   display: flex;
-  height: 27rem;
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  height: 27rem;
+}
+
+.finish-workout {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 25rem;
 }
 
 .done-container {
@@ -211,6 +219,13 @@ img {
   height: 2.8rem;
   font-size: 1.6rem;
   width: 20%;
+}
+.btn--yesno {
+  border: 1px solid #05376b;
+  height: 2.8rem;
+  font-size: 1.6rem;
+  width: 30%;
+  margin: 1rem;
 }
 .btn--ghost {
   border: 1px solid #a4a4a4;
@@ -546,6 +561,11 @@ img {
   margin: 0 0 1.5rem 0;
   position: relative;
   display: flex;
+}
+
+.paragraph {
+  font-size: 1.6rem;
+  margin: 0 0 1.5rem 2rem;
 }
 
 .form-msg {

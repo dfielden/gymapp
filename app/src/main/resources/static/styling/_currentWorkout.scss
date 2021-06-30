@@ -131,20 +131,26 @@
   background-color: $color-off-white;
 }
 
-.add-to-current {
+
+@mixin slideUpForm {
   display: flex;
-  height: 35rem;
   background: $gradient-primary;
   padding: 0.5rem;
   transition: transform 500ms;
 }
+.add-to-current {
+  @include slideUpForm;
+  height: 35rem;
+}
 
 .edit-set {
-  display: flex;
+  @include slideUpForm;
   height: 27rem;
-  background: $gradient-primary;
-  padding: 0.5rem;
-  transition: transform 500ms;
+}
+
+.finish-workout {
+  @include slideUpForm;
+  height: 25rem;
 }
 
 .done-container {

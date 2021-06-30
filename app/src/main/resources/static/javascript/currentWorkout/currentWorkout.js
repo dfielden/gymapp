@@ -3,6 +3,8 @@ import * as sh from '../_showAndHide.js';
 import {AJAX} from "../helper.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
 import {Timer} from "../timer.js";
+import {formFinishWorkout, formFinishWorkoutClose} from "../_constsAndEls.js";
+const FINISH_VALUE = 'FINISH_SUCCESS'; // must match PSFS FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 
 
@@ -546,7 +548,7 @@ const updateWorkoutProgress = function() {
     try {
         AJAX(c.updateWorkoutInProgressURL, workout);
     } catch (err) {
-        console.error(err.message, err.errorCode, "unable to update workout progress");
+        console.error(err.message, err.errorCode, "Unable to update workout progress");
     }
 }
 
@@ -555,17 +557,68 @@ const updateWorkoutProgress = function() {
 //// COMPLETE WORKOUT ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const finishWorkout = async function() {
-    try {
-        await AJAX(c.finishWorkoutURL);
-        window.location = '/welcome';
-    } catch (err) {
-        console.error(err.message, "Unable to finish workout.")
+
+c.formFinishWorkoutClose.addEventListener('click', function() {
+    sh.hideForm(c.formFinishWorkout);
+})
+
+c.btnCancelFinish.addEventListener('click', function() {
+    sh.hideForm(c.formFinishWorkout);
+})
+
+c.btnConfirmFinish.addEventListener('click', async function() {
+    const data = await AJAX(c.finishWorkoutURL);
+    if (data === FINISH_VALUE) {
+        showFormMessage("Successfully saved workout", true);
+        setTimeout(() => {
+            window.location.href = "/welcome";
+        }, 500)
+    } else {
+        showFormMessage(data, false);
     }
-}
+})
 
 c.footerBtnFinish.addEventListener('click', function(e) {
     if (!e.target.classList.contains('footer__btn--inactive')) {
-        finishWorkout();
+        sh.showForm(c.formFinishWorkout, -35);
+        getAllCompletedSets();
     }
 })
+
+const getAllCompletedSets = () => {
+    const done = document.querySelectorAll('.done');
+    const exercises = []
+    console.log(done);
+
+    for (let i = 0; i < done.length; i++) {
+        const title = done[i].closest('.exercise-block').querySelector('.heading').innerText;
+        const weight = parseFloat(done[i].querySelector('.weight'));
+        const reps = parseInt(done[i].querySelector('.reps'));;
+        const exericseId = 1;
+        const timeCompleted =  new Date().toISOString();
+
+        const exercise = {
+            exerciseName: title,
+            weight: weight,
+            reps: reps,
+            exericseId: exericseId,
+            timeCompleted: timeCompleted
+        }
+        exercises.push(exercise);
+        console.log(exercise);
+    }
+}
+
+// TODO: remove duplicate function
+const showFormMessage = (message, success) => {
+    c.formMessage.textContent =  message;
+    c.formMessage.classList.remove('visibility-hidden');
+
+    if (success) {
+        c.formMessage.classList.remove('form-msg--error');
+        c.formMessage.classList.add('form-msg--success');
+    } else {
+        c.formMessage.classList.remove('form-msg--success');
+        c.formMessage.classList.add('form-msg--error');
+    }
+}
