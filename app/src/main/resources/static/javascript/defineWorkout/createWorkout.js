@@ -30,7 +30,6 @@ const createWorkoutFromPage = async() => {
     for (const el of exercises) {
         const exerciseId = el.querySelector('.heading').dataset.id;
         const muscleGroups = await AJAX(getMuscleGroupsURL + exerciseId);
-        console.log(muscleGroups);
         const exercise = new Exercise(el.querySelector('.heading').textContent.trim(), muscleGroups);
         exercise.id = parseInt(exerciseId);
         const exerciseGroup = new ExerciseGroup(exercise);
@@ -43,7 +42,6 @@ const createWorkoutFromPage = async() => {
         });
         workout.addExerciseGroup(exerciseGroup);
     }
-    console.log(workout);
     return workout;
 }
 
@@ -53,5 +51,4 @@ export const setViewForCreate = function(btn) {
     c.title.innerHTML = 'Create workout';
     btn.setAttribute('id', 'btn-create-workout');
     btn.innerHTML = 'Create workout!';
-    formCreateWorkout();
 }

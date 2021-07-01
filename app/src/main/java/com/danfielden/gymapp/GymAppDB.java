@@ -202,11 +202,11 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized String addCompletedWorkout(long userId, String timeCompleted, String workout) throws Exception {
+    public synchronized String addCompletedWorkout(long userId, long timeCompleted, String workout) throws Exception {
         String query = "INSERT INTO CompletedWorkout (user_id, time_completed, workout) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setLong(1,userId);
-            stmt.setString(2, timeCompleted);
+            stmt.setLong(2, timeCompleted);
             stmt.setString(3, workout);
             stmt.executeUpdate();
             return workout;

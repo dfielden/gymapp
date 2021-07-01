@@ -3,29 +3,9 @@ import * as sh from '../_showAndHide.js';
 import {ExerciseGroup, Exercise, Set, Workout} from "../exercise.js";
 import {createExerciseURL, getExercisesURL, createWorkoutURL, title, getMuscleGroupsURL} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
+import * as select from '../selectExercisesInput.js';
 
-let exercises = {};
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//// LOAD DATA UPON PAGE LOAD ////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const getExercises = async function() {
-    try {
-        const data = await AJAX(getExercisesURL);
-        console.log(data);
-        exercises = data;
-        for (const key in exercises) {
-            addExerciseToSelect(exercises[key].exerciseName, key);
-        }
-
-    } catch (err) {
-        console.error('Unable to load exercises. Please try again.');
-    }
-}
-
-window.addEventListener('load', e => {
-    getExercises();
-})
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// ADDING EXERCISE TO WORKOUT ////
@@ -149,13 +129,6 @@ const toggleFooterEls = function() {
     [c.selectExercise, c.addExerciseBtn, c.btnCreateExercise].forEach(el => el.classList.toggle('display-none'));
 }
 
-const addExerciseToSelect = function(text, value) {
-    // Add newly-created element to penultimate position of select - so add new exercise always at end
-    const option = new Option(text, text);
-    option.setAttribute("data-id", value);
-    c.selectExercise.options.add(option,c.selectExercise.length-1)
-
-}
 
 const createNewExercise = function() {
     let exerciseName = c.createExerciseName.value;
@@ -175,7 +148,7 @@ const createNewExercise = function() {
     AJAX(createExerciseURL, exercise);
 
     // Add newly-created exercise to penultimate position of select
-    addExerciseToSelect(exerciseName, exerciseName);
+    select.addExerciseToSelect(exerciseName, exerciseName);
     c.selectExercise.value = exerciseName;
 
     // Add exercise to workout schedule

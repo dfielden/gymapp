@@ -161,11 +161,11 @@ public class GymAppApplication {
     }
 
     @ResponseBody
-    @GetMapping("/finishworkout")
-    public String finishWorkout() {
+    @PostMapping("/finishworkout")
+    public String finishWorkout(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) {
         // TODO: link to user id
         try {
-            db.addCompletedWorkout(1, "hello", "done");
+            db.addCompletedWorkout(1, System.currentTimeMillis(), workout);
             db.deleteWorkoutInProgress(1);
         } catch (Exception e) {
             return gson.toJson(e.getMessage());

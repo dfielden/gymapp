@@ -3,7 +3,8 @@ import * as sh from '../_showAndHide.js';
 import {AJAX} from "../helper.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
 import {Timer} from "../timer.js";
-import {formFinishWorkout, formFinishWorkoutClose} from "../_constsAndEls.js";
+import * as select from '../selectExercisesInput.js';
+import {getMuscleGroupsURL, selectExercises} from "../_constsAndEls.js";
 const FINISH_VALUE = 'FINISH_SUCCESS'; // must match PSFS FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 
@@ -46,7 +47,6 @@ const getCurrentWorkout = async function() {
             workout.maxKeyId = 0;
             workout.workoutId = id;
             workout.completedSets = 0;
-            console.log(workout);
             const {exercises} = workout
             for (let i = 0; i < exercises.length; i++) {
                 exercises[i].exIndex = i;
@@ -58,21 +58,18 @@ const getCurrentWorkout = async function() {
                     workout.maxKeyId += 1;
                 }
             }
-
             // post the workout to the workout in progress table so user can save progress throughout workout
             try {
                 await AJAX(c.createWorkoutInProgressURL, workout);
             } catch (err) {
-                console.error("Unable to save current workout progress.")
+                console.error("Unable to save progress of current workout.")
             }
-
         } catch (err) {
             console.error('Unable to load workout. Please try again.');
         }
     }
 
     // finally render workout on screen
-    console.log(workout);
     toggleFinishBtnState();
     renderWorkout();
 
@@ -89,11 +86,10 @@ const getCurrentWorkout = async function() {
         const timer = new Timer(timerContainer, completedTime);
         markSetComplete(el, timer);
     });
-
-
 }
 
 const renderWorkout = function() {
+    console.log(workout);
     const {workoutName, exercises} = workout;
     c.title.textContent = workoutName;
 
@@ -436,21 +432,28 @@ const renderNewSet = function(set, parentNode) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // SUBMIT ADD NEW EXERCISE FORM
-c.formAddToCurrentSubmit.addEventListener('click', function(e) {
+c.formAddToCurrentSubmit.addEventListener('click', async function(e) {
     e.preventDefault();
     if (!validateFormFilledIn(e.target.closest('form'))) {
         c.formAddToCurrentError.innerText = 'Form inputs must not left empty.'
         return;
     }
-    const exerciseGroup = new ExerciseGroup(new Exercise(c.formAddToCurrentName.value));
+    const exerciseGroup = new ExerciseGroup(new Exercise(c.selectExercises.value));
     const set = new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value);
+    const selectedExerciseId = c.selectExercise.querySelector(':checked').getAttribute('data-id');
+
+    // get muscle groups
+    const muscleGroups = await AJAX(getMuscleGroupsURL + selectedExerciseId);
+
+
     set.key = workout.maxKeyId;
     workout.maxKeyId += 1;
     exerciseGroup.addSet(set);
 
+
     // update workout object
     workout.exercises.push({
-        exercise: {exerciseName: exerciseGroup.exercise.exerciseName, muscleGroups: []},
+        exercise: {exerciseName: exerciseGroup.exercise.exerciseName, muscleGroups: muscleGroups, id: selectedExerciseId},
         sets: [{
             weight: set.weight,
             reps: set.reps,
@@ -471,7 +474,7 @@ c.formAddToCurrentSubmit.addEventListener('click', function(e) {
 // RENDER EXERCISE
 const renderExercise = function(exerciseGroup, index) {
     let html = `
-        <div class="exercise-block" data-exindex="${index}">
+        <div class="exercise-block" data-exindex="${index}" data-id="${exerciseGroup.exercise.id}">
             <div class="exercise-block__title">
                 <div class="heading heading--current-exercise heading--3">${exerciseGroup.exercise.exerciseName}</div>
                 <div class="far fa-plus-square"></div>
@@ -525,7 +528,7 @@ const validateFormFilledIn = function(formEl) {
     const inputs = formEl.querySelectorAll('.form-input');
     let filledIn = true;
 
-    formEl.querySelector('.form-error-msg').innerText='';
+    formEl.querySelector('.form-msg').innerText='';
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains("form-input--select")) {
             if (inputs[i].selectedIndex === 0) {
@@ -567,7 +570,8 @@ c.btnCancelFinish.addEventListener('click', function() {
 })
 
 c.btnConfirmFinish.addEventListener('click', async function() {
-    const data = await AJAX(c.finishWorkoutURL);
+    const workout = getAllCompletedSets();
+    const data = await AJAX(c.finishWorkoutURL, workout);
     if (data === FINISH_VALUE) {
         showFormMessage("Successfully saved workout", true);
         setTimeout(() => {
@@ -580,33 +584,36 @@ c.btnConfirmFinish.addEventListener('click', async function() {
 
 c.footerBtnFinish.addEventListener('click', function(e) {
     if (!e.target.classList.contains('footer__btn--inactive')) {
-        sh.showForm(c.formFinishWorkout, -35);
-        getAllCompletedSets();
+        sh.showForm(c.formFinishWorkout, -33);
+        const workout = getAllCompletedSets();
     }
 })
 
 const getAllCompletedSets = () => {
-    const done = document.querySelectorAll('.done');
+    const done = document.querySelectorAll('.complete');
     const exercises = []
     console.log(done);
 
     for (let i = 0; i < done.length; i++) {
         const title = done[i].closest('.exercise-block').querySelector('.heading').innerText;
-        const weight = parseFloat(done[i].querySelector('.weight'));
-        const reps = parseInt(done[i].querySelector('.reps'));;
-        const exericseId = 1;
-        const timeCompleted =  new Date().toISOString();
+        const weight = parseFloat(done[i].querySelector('.weight').innerText);
+        const reps = parseInt(done[i].querySelector('.reps').innerText);
+        const exerciseId = parseInt(done[i].closest('.exercise-block').dataset.id);
+
+        const key = done[i].dataset.key;
+        const set = getSetFromKey(parseInt(key));
+        const timeCompleted =  set.completedTime
 
         const exercise = {
             exerciseName: title,
             weight: weight,
             reps: reps,
-            exericseId: exericseId,
+            exerciseId: exerciseId,
             timeCompleted: timeCompleted
         }
         exercises.push(exercise);
-        console.log(exercise);
     }
+    return exercises;
 }
 
 // TODO: remove duplicate function
