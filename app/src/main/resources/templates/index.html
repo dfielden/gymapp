@@ -1,10 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0"/>
+    <link rel="stylesheet" href="styling/main.css">
+    <script src="https://kit.fontawesome.com/558b08b205.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/png" href="images/dumbbell-solid.png">
+    <title>Welcome to GymApp!</title>
 </head>
 <body>
+
+<div class="container">
+
+    <div class="header">
+        <h1 class="heading heading--1">Welcome!</h1>
+        <div class="header__icon">
+            <img src="images/gymapp_logo.png" alt="Gymapp logo">
+        </div>
+    </div>
+
+    <div class="main-body body-background">
+        <div class="stats transparent-form-group">
+            <div class="transparent-form-group__title">
+                <div class="heading heading--3 heading--transparent-box">Workout history</div>
+            </div>
+            <div class="chart">Chart - stats summary</div>
+        </div>
+
+        <div class="in-progress transparent-form-group display-none">
+            <div class="transparent-form-group__title">
+                <div class="heading heading--3 heading--transparent-box">Continue current workout</div>
+            </div>
+            <div class="in-progress-workout">Test</div>
+        </div>
+
+        <div class="saved-workouts transparent-form-group">
+            <div class="transparent-form-group__title">
+                <div class="heading heading--3 heading--transparent-box">My workouts</div>
+            </div>
+            <div class="default-msg">Go and create some workouts :)</div>
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        <div class="icons-container">
+            <div class="footer__icon footer__icon--logout">
+                <div class="fas fa-sign-out-alt"></div>
+                <div class="icon-descriptor">logout</div>
+            </div>
+            <div class="footer__icon footer__icon--delete footer__icon--inactive">
+                <div class="far fa-trash-alt"></div>
+                <div class="icon-descriptor">delete</div>
+            </div>
+
+        </div>
+        <div class="footer__btn footer__btn--inactive footer__btn--main">Start!</div>
+        <div class="icons-container">
+
+            <div class="footer__icon footer__icon--edit footer__icon--inactive">
+                <div class="far fa-edit"></div>
+                <div class="icon-descriptor">edit</div>
+            </div>
+            <div class="footer__icon footer__icon--create">
+                <div class="fas fa-dumbbell"></div>
+                <div class="icon-descriptor">create</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="module" src="/javascript/index/index.js"></script>
 
 </body>
 </html>

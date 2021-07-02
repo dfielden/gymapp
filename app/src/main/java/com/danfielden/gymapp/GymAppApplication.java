@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -30,7 +31,10 @@ public class GymAppApplication {
 
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
     public static final String SIGNUP_SUCCESS_RESPONSE_VALUE = "SIGNUP_SUCCESS";
+    public static final String LOGOUT_SUCCESS_RESPONSE_VALUE = "LOGOUT_SUCCESS";
+
     public static final String FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE = "FINISH_SUCCESS";
+    public static final String CREATE_WORKOUT_SUCCESS_RESPONSE_VALUE = "CREATE_SUCCESS";
 
     public static final String PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS";
 
@@ -45,28 +49,36 @@ public class GymAppApplication {
     }
 
     @GetMapping("/")
-    public String home() throws Exception {
+    public String home(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "login";
+        }
         return "index";
     }
 
-    @GetMapping("/welcome")
-    public String welcome(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    @GetMapping("/createworkout")
+    public String defineWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         if (state.isLoggedIn()) {
-            return "welcome";
+            return "create-workout";
         }
         return "login";
     }
 
-    @GetMapping("/createworkout")
-    public String defineWorkout() throws Exception {
-        return "create-workout";
-    }
-
     @GetMapping("/editworkout/{id}")
-    public String editWorkout(@PathVariable(value="id") long id) throws Exception {
+    public String editWorkout(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "index";
+        }
         // TODO: link to user id
-        return "edit-workout";
+        long userId = getUserId(req, resp);
+        HashMap<Long, String> workouts = db.getUserWorkouts(userId);
+        if (workouts.containsKey(id)) {
+            return "edit-workout";
+        }
+        return "index";
     }
 
     @GetMapping("/login")
@@ -82,15 +94,25 @@ public class GymAppApplication {
     @ResponseBody
     @GetMapping("/exercises")
     public String getSavedExercises(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        HashMap<Long, Exercise> exercises = db.getAllExercises(0);
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view data";
+        }
+        long userId = getUserId(req, resp);
+        HashMap<Long, Exercise> exercises = db.getAllExercises(userId);
         return gson.toJson(exercises);
     }
 
     @ResponseBody
     @GetMapping("/workoutnames")
     public String getUserWorkouts(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view data";
+        }
         // TODO: link to user id
-        HashMap<Long, String> workouts = db.getUserWorkouts(1);
+        long userId = getUserId(req, resp);
+        HashMap<Long, String> workouts = db.getUserWorkouts(userId);
         return gson.toJson(workouts);
     }
 
@@ -101,7 +123,8 @@ public class GymAppApplication {
     public String createExercise(@RequestBody Exercise exercise, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         // add exercise
         // TODO: link to user id
-        long exerciseId = db.addExercise(exercise.getExerciseName(), 1);
+        long userId = getUserId(req, resp);
+        long exerciseId = db.addExercise(exercise.getExerciseName(), userId);
 
         // add exercise muscle groups
         for (Exercise.MuscleGroup mg : exercise.getMuscleGroups()) {
@@ -117,20 +140,30 @@ public class GymAppApplication {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String createWorkout(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         // TODO: link to user id
-        db.addWorkoutTemplate(1, workout);
-        return workout;
+        long userId = getUserId(req, resp);
+        db.addWorkoutTemplate(userId, workout);
+        return gson.toJson(CREATE_WORKOUT_SUCCESS_RESPONSE_VALUE);
     }
 
     @GetMapping("/currentworkout/{id}")
-    public String currentWorkout() throws Exception {
+    public String currentWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "login";
+        }
         return "current-workout";
     }
 
     @ResponseBody
     @GetMapping("/workoutinprogress")
-    public String workoutInProgress() throws Exception {
+    public String workoutInProgress(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view data";
+        }
         // TODO: link to user id
-        return db.getWorkoutInProgress(1);
+        long userId = getUserId(req, resp);
+        return db.getWorkoutInProgress(userId);
     }
 
     @ResponseBody
@@ -139,7 +172,8 @@ public class GymAppApplication {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String createWorkoutInProgress(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         // TODO: link to user id
-        db.addWorkoutInProgress(1, workout);
+        long userId = getUserId(req, resp);
+        db.addWorkoutInProgress(userId, workout);
         return workout;
     }
 
@@ -149,24 +183,32 @@ public class GymAppApplication {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateWorkoutInProgress(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         // TODO: link to user id
-        db.updateWorkoutInProgress(1, workout);
+        long userId = getUserId(req, resp);
+        db.updateWorkoutInProgress(userId, workout);
         return workout;
     }
 
     @ResponseBody
     @GetMapping("/workout/{id}")
-    public String loadWorkout(@PathVariable(value="id") long id) throws Exception {
+    public String loadWorkout(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view data";
+        }
         // TODO: link to user id
-        return db.getWorkoutFromId(id, 1);
+        long userId = getUserId(req, resp);
+        return db.getWorkoutFromId(id, userId);
     }
 
     @ResponseBody
     @PostMapping("/finishworkout")
-    public String finishWorkout(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) {
+    public String finishWorkout(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         // TODO: link to user id
+        long userId = getUserId(req, resp);
+
         try {
-            db.addCompletedWorkout(1, System.currentTimeMillis(), workout);
-            db.deleteWorkoutInProgress(1);
+            db.addCompletedWorkout(userId, System.currentTimeMillis(), workout);
+            db.deleteWorkoutInProgress(userId);
         } catch (Exception e) {
             return gson.toJson(e.getMessage());
         }
@@ -175,7 +217,11 @@ public class GymAppApplication {
 
     @ResponseBody
     @GetMapping("/musclegroups/{id}")
-    public String getExerciseMuscleGroups(@PathVariable(value="id") long id) throws Exception {
+    public String getExerciseMuscleGroups(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view data";
+        }
         return gson.toJson(db.getMuscleGroupsFromExerciseId(id));
     }
 
@@ -226,10 +272,25 @@ public class GymAppApplication {
         }
     }
 
+    @RequestMapping(value="/logout")
+    public @ResponseBody String logout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        Cookie c = findOrSetSessionCookie(req, resp);
+        c.setMaxAge(0);
+        resp.addCookie(c);
+        HttpSession session = req.getSession();
+        session.invalidate();
+        req.logout();
+        return gson.toJson(LOGOUT_SUCCESS_RESPONSE_VALUE);
+    }
+
     @ResponseBody
     @GetMapping("/userinfo")
     public String getUserNameAndId(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "login";
+        }
+
         String userName = state.getUserName();
         long userId = state.getUserId();
 
@@ -237,6 +298,12 @@ public class GymAppApplication {
         userDetails.put("userName", userName);
         userDetails.put("userId", String.valueOf(userId));
         return gson.toJson(userDetails);
+    }
+
+    @RequestMapping(value="/getuserid")
+    public @ResponseBody long getUserId(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        return state.getUserId();
     }
 
 

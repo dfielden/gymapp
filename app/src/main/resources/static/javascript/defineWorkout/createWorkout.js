@@ -2,22 +2,38 @@ import {AJAX} from "../helper.js";
 import * as c from "../_constsAndEls.js";
 import * as def from "./_defineWorkout.js";
 import {Exercise, ExerciseGroup, Set, Workout} from "../exercise.js";
-import {getMuscleGroupsURL} from "../_constsAndEls.js";
+import {formWorkoutName, getMuscleGroupsURL} from "../_constsAndEls.js";
+
+const CREATE_SUCCESS_VALUE = "CREATE_SUCCESS" // must match PSFS FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppAp
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// CREATE WORKOUT ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const submitWorkout = function(workout) {
-    console.log(workout);
+const submitWorkout = async function(workout) {
 
     // Submit data
-    AJAX(c.createWorkoutURL, workout);
+    const data = await AJAX(c.createWorkoutURL, workout);
+
+    if (data === CREATE_SUCCESS_VALUE) {
+        showFormMessage("Successfully created workout!", true);
+        setTimeout(() => {
+            window.location.href = "/welcome";
+        }, 500)
+    } else {
+        showFormMessage("Unable to create workout. Please try again.", false);
+    }
 }
 
 
 c.btnCreateWorkout.addEventListener('click', async function(e) {
     e.preventDefault();
+
+    if (c.formWorkoutName.value.trim() === '') {
+        showFormMessage("Please give workout a name", false);
+        return;
+    }
+
     const workout = await createWorkoutFromPage();
     submitWorkout(workout);
 });
@@ -46,9 +62,16 @@ const createWorkoutFromPage = async() => {
 }
 
 
-export const setViewForCreate = function(btn) {
-    document.title = 'Create workout';
-    c.title.innerHTML = 'Create workout';
-    btn.setAttribute('id', 'btn-create-workout');
-    btn.innerHTML = 'Create workout!';
+// TODO: remove duplicate function
+const showFormMessage = (message, success) => {
+    c.formMessage.textContent =  message;
+    c.formMessage.classList.remove('visibility-hidden');
+
+    if (success) {
+        c.formMessage.classList.remove('form-msg--error');
+        c.formMessage.classList.add('form-msg--success');
+    } else {
+        c.formMessage.classList.remove('form-msg--success');
+        c.formMessage.classList.add('form-msg--error');
+    }
 }

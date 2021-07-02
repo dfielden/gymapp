@@ -20,14 +20,12 @@ c.btnLogin.addEventListener('click', async (e) => {
         showFormMessage("Login successful!", true);
         setTimeout(() => {
             //TODO: login and redirect to home
-            console.log('redirect to home');
-            window.location.href = "/welcome";
+            window.location.href = "/";
         }, 500)
     } else {
         showFormMessage(data, false);
     }
 });
-
 // TODO: remove duplicate function
 const showFormMessage = (message, success) => {
     c.formMessage.textContent =  message;

@@ -53,11 +53,11 @@ public final class GymAppDB {
     }
 
     public synchronized HashMap<Long, Exercise> getAllExercises(long userId) throws Exception {
-        // TODO: link to userId
         HashMap<Long, Exercise> exercises = new HashMap<>();
-        String query = "SELECT * FROM ExerciseName";
+        String query = "SELECT * FROM ExerciseName WHERE user_id = ? or user_id = 0";
 
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -74,7 +74,7 @@ public final class GymAppDB {
     public synchronized String addWorkoutTemplate(long userId, String workout) throws Exception {
         String query = "INSERT INTO WorkoutTemplate (user_id, workout) VALUES (?, ?)";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setLong(1,userId);
+            stmt.setLong(1, userId);
             stmt.setString(2, workout);
             stmt.executeUpdate();
             return workout;

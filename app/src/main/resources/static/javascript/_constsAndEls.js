@@ -12,6 +12,7 @@ export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
 export const finishWorkoutURL = '/finishworkout';
 export const signupURL = '/signup';
 export const loginURL = '/login';
+export const logoutURL = '/logout';
 export const userInfoURL = '/userinfo';
 
 
@@ -34,10 +35,12 @@ export const elFooter = document.querySelector(".footer");
 export const title = document.querySelector(".heading--1");
 export const formMessage = document.querySelector('.form-msg');
 
-// WELCOME
+// INDEX
 export const myWorkoutsContainer = document.querySelector('.saved-workouts');
 export const footerCreateWorkout = document.querySelector(".footer__icon--create");
 export const footerEditWorkout = document.querySelector(".footer__icon--edit");
+export const footerDeleteWorkout = document.querySelector(".footer__icon--delete");
+export const footerLogout = document.querySelector(".footer__icon--logout");
 export const footerStart = document.querySelector(".footer__btn");
 export const tabInProgress = document.querySelector(".in-progress");
 export const btnWorkoutInProgress = document.querySelector(".in-progress-workout");

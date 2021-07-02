@@ -11,7 +11,6 @@ let exercises = {}
 export const getExercises = async function() {
     try {
         const data = await AJAX(getExercisesURL);
-        console.log(data);
         exercises = data;
         for (const key in exercises) {
             addExerciseToSelect(exercises[key].exerciseName, key);

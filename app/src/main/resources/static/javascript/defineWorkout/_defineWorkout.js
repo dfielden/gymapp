@@ -153,7 +153,7 @@ const createNewExercise = function() {
 
     // Add exercise to workout schedule
     addExercise();
-    closeCreateExerciseForm(c.selectExercise.length-2);
+    closeCreateExerciseForm(c.selectExercise.length-1);
 }
 
 c.btnCreateExercise.addEventListener('click', createNewExercise);

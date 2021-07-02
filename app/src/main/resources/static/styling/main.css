@@ -314,6 +314,33 @@ img {
   right: -2rem;
 }
 
+.chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  height: 15rem;
+  width: 100%;
+}
+
+.saved-workout, .in-progress-workout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  height: 5rem;
+  width: 100%;
+}
+.saved-workout:not(:last-of-type), .in-progress-workout:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+.saved-workout--selected, .in-progress-workout--selected {
+  background-color: #fcc728;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
 .form {
   width: 100%;
   display: flex;
@@ -578,33 +605,6 @@ img {
 }
 .form-msg--error {
   color: #e91235;
-}
-
-.chart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fdfdfd;
-  border-radius: 5px;
-  height: 15rem;
-  width: 100%;
-}
-
-.saved-workout, .in-progress-workout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fdfdfd;
-  border-radius: 5px;
-  height: 5rem;
-  width: 100%;
-}
-.saved-workout:not(:last-of-type), .in-progress-workout:not(:last-of-type) {
-  margin-bottom: 1rem;
-}
-.saved-workout--selected, .in-progress-workout--selected {
-  background-color: #fcc728;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 /*# sourceMappingURL=main.css.map */

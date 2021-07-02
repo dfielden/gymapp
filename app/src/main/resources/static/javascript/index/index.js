@@ -1,5 +1,8 @@
 import * as c from '../_constsAndEls.js';
 import {AJAX} from "../helper.js";
+import {logoutURL} from "../_constsAndEls.js";
+
+const LOGOUT_SUCCESS_VALUE = "LOGOUT_SUCCESS"; // must match PSFS LOGOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 let myWorkouts;
 
@@ -66,6 +69,8 @@ c.elBody.addEventListener('click', function(e) {
     if (e.target.classList.contains('saved-workout') && !(workoutInProgress.inProgress)) {
         e.target.classList.add('saved-workout--selected');
         c.footerEditWorkout.classList.remove('footer__icon--inactive');
+        c.footerDeleteWorkout.classList.remove('footer__icon--inactive');
+
         c.footerStart.classList.remove('footer__btn--inactive');
     }
 })
@@ -79,6 +84,18 @@ const navEditSelectedWorkout = function() {
 }
 
 c.footerEditWorkout.addEventListener('click', navEditSelectedWorkout);
+
+c.footerDeleteWorkout.addEventListener('click', function() {
+    console.log('delete workout');
+    // TODO: delete workout
+});
+
+c.footerLogout.addEventListener('click', async function() {
+    const data = await AJAX(logoutURL);
+    if (data === LOGOUT_SUCCESS_VALUE) {
+        window.location.href = "/login";
+    }
+})
 
 
 const navStartWorkout = function() {
@@ -102,6 +119,8 @@ const unselectAllWorkouts = function() {
     const myWorkouts = document.querySelectorAll('.saved-workout');
     myWorkouts.forEach(el => el.classList.remove('saved-workout--selected'));
     c.footerEditWorkout.classList.add('footer__icon--inactive');
+    c.footerDeleteWorkout.classList.add('footer__icon--inactive');
+
     c.footerStart.classList.add('footer__btn--inactive');
 }
 

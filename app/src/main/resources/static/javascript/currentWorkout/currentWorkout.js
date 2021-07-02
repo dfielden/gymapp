@@ -575,7 +575,7 @@ c.btnConfirmFinish.addEventListener('click', async function() {
     if (data === FINISH_VALUE) {
         showFormMessage("Successfully saved workout", true);
         setTimeout(() => {
-            window.location.href = "/welcome";
+            window.location.href = "/";
         }, 500)
     } else {
         showFormMessage(data, false);
