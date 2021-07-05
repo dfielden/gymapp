@@ -34,8 +34,9 @@ public class GymAppApplication {
     public static final String LOGOUT_SUCCESS_RESPONSE_VALUE = "LOGOUT_SUCCESS";
     public static final String PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS";
 
-    public static final String FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE = "FINISH_SUCCESS";
     public static final String CREATE_WORKOUT_SUCCESS_RESPONSE_VALUE = "CREATE_SUCCESS";
+    public static final String UPDATE_WORKOUT_SUCCESS_RESPONSE_VALUE = "UPDATE_SUCCESS";
+    public static final String FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE = "FINISH_SUCCESS";
     public static final String DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE = "DELETE_SUCCESS";
 
 
@@ -164,6 +165,17 @@ public class GymAppApplication {
         long userId = getUserId(req, resp);
         db.deleteWorkoutTemplate(id, userId);
         return gson.toJson(DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE);
+    }
+
+    @ResponseBody
+    @PostMapping(value="/updateworkout/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateWorkout(@RequestBody String workout, @PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        // TODO: link to user id
+        long userId = getUserId(req, resp);
+        db.updateWorkoutTemplate(workout, id, userId);
+        return gson.toJson(UPDATE_WORKOUT_SUCCESS_RESPONSE_VALUE);
     }
 
     @ResponseBody

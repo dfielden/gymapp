@@ -1,7 +1,6 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {ExerciseGroup, Exercise, Set, Workout} from "../exercise.js";
-import {createExerciseURL, getExercisesURL, createWorkoutURL, title, getMuscleGroupsURL} from "../_constsAndEls.js";
 import {AJAX} from "../helper.js";
 import * as select from '../selectExercisesInput.js';
 
@@ -145,7 +144,7 @@ const createNewExercise = function() {
     selectedMuscleGroups.forEach(btn => exercise.addMuscleGroup(btn.textContent.toUpperCase()));
 
     // Submit data
-    AJAX(createExerciseURL, exercise);
+    AJAX(c.createExerciseURL, exercise);
 
     // Add newly-created exercise to penultimate position of select
     select.addExerciseToSelect(exerciseName, exerciseName);
@@ -175,4 +174,27 @@ const closeCreateExerciseForm = function (index= 0) {
 }
 
 c.createNewExFormClose.addEventListener('click', closeCreateExerciseForm);
+
+export const createWorkoutFromPage = async() => {
+    const workout = new Workout(c.formWorkoutName.value);
+
+    // get all transparent form groups (each contains one exercise)
+    const exercises = c.exercises.querySelectorAll('.transparent-form-group');
+    for (const el of exercises) {
+        const exerciseId = el.querySelector('.heading').dataset.id;
+        const muscleGroups = await AJAX(c.getMuscleGroupsURL + exerciseId);
+        const exercise = new Exercise(el.querySelector('.heading').textContent.trim(), muscleGroups);
+        exercise.id = parseInt(exerciseId);
+        const exerciseGroup = new ExerciseGroup(exercise);
+        // get all sets
+        const sets = el.querySelectorAll('.two-input-container');
+        sets.forEach(set => {
+            const weight = set.querySelector('.w').value;
+            const reps = set.querySelector('.r').value;
+            exerciseGroup.addSet(new Set(weight, reps));
+        });
+        workout.addExerciseGroup(exerciseGroup);
+    }
+    return workout;
+}
 

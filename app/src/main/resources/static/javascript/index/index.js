@@ -1,6 +1,6 @@
 import * as c from '../_constsAndEls.js';
 import {AJAX, removeElements, isEmptyObject} from "../helper.js";
-import {logoutURL} from "../_constsAndEls.js";
+import {deleteWorkoutURL, logoutURL} from "../_constsAndEls.js";
 
 const LOGOUT_SUCCESS_VALUE = "LOGOUT_SUCCESS"; // must match PSFS LOGOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
@@ -92,7 +92,7 @@ c.footerEditWorkout.addEventListener('click', navEditSelectedWorkout);
 
 c.footerDeleteWorkout.addEventListener('click', function() {
     const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
-    const data = AJAX(`/deleteworkout/${workoutId}`, 'post');
+    const data = AJAX(`${deleteWorkoutURL}${workoutId}`, 'post');
     removeElements(document.querySelectorAll('.saved-workout'));
     getWorkouts();
 });

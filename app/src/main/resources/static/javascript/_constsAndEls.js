@@ -3,6 +3,7 @@ export const ajaxTimeoutMillis = 5000;
 export const getExercisesURL = '/exercises';
 export const createExerciseURL = '/createexercise';
 export const createWorkoutURL = '/createworkout';
+export const updateWorkoutURL = '/updateworkout/';
 export const getUserWorkoutsURL = '/workoutnames';
 export const getCurrentWorkoutURL = '/workout/';
 export const getMuscleGroupsURL = '/musclegroups/';

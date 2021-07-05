@@ -1,4 +1,5 @@
 import {ajaxTimeoutMillis} from './_constsAndEls.js';
+import * as c from "./_constsAndEls.js";
 
 const timeout = function (millis) {
     return new Promise(function (_, reject) {
@@ -38,3 +39,17 @@ export const AJAX = async function(url, uploadData = undefined) {
 export const removeElements = (els) => els.forEach(el => el.remove());
 
 export const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+
+
+export const showFormMessage = (message, success) => {
+    c.formMessage.textContent =  message;
+    c.formMessage.classList.remove('visibility-hidden');
+
+    if (success) {
+        c.formMessage.classList.remove('form-msg--error');
+        c.formMessage.classList.add('form-msg--success');
+    } else {
+        c.formMessage.classList.remove('form-msg--success');
+        c.formMessage.classList.add('form-msg--error');
+    }
+}

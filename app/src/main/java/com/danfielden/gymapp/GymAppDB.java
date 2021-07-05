@@ -165,6 +165,16 @@ public final class GymAppDB {
         }
     }
 
+    public synchronized void updateWorkoutTemplate(String workout, long workoutId, long userId) throws Exception {
+        String query = "UPDATE WorkoutTemplate SET workout = ? WHERE id = ? AND user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, workout);
+            stmt.setLong(2, workoutId);
+            stmt.setLong(3,userId);
+            stmt.executeUpdate();
+        }
+    }
+
     public synchronized void deleteWorkoutTemplate(long workoutId, long userId) throws Exception {
         // Don't delete Workout but set deleted to true - so we can still access workout info when looking at past workouts
         String query = "UPDATE WorkoutTemplate SET deleted = true WHERE id = ? AND user_id = ?";

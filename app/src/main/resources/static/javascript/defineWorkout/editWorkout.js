@@ -1,19 +1,21 @@
-import {AJAX} from "../helper.js";
-import {formCreateWorkout, formWorkoutName, getCurrentWorkoutURL} from "../_constsAndEls.js";
+import {AJAX, showFormMessage} from "../helper.js";
+import {createWorkoutFromPage} from "./_defineWorkout.js";
 import * as def from "./_defineWorkout.js";
 import * as c from "../_constsAndEls.js";
 import {ExerciseGroup} from "../exercise.js";
+
+const UPDATE_SUCCESS_VALUE = "UPDATE_SUCCESS" // must match PSFS UPDATE_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppAp
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// LOAD WORKOUT DATA UPON PAGE LOAD ////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const url = window.location.href;
+const workoutId = parseInt(url.substring(url.lastIndexOf('/') + 1));
 
 const getCurrentWorkout = async function() {
     try {
-        const url = window.location.href;
-        const id = parseInt(url.substring(url.lastIndexOf('/') + 1));
-        const workout = await AJAX(getCurrentWorkoutURL + id);
+        const workout = await AJAX(c.getCurrentWorkoutURL + workoutId);
         console.log(workout);
         const {workoutName, exercises} = workout;
         c.formWorkoutName.value = workoutName;
@@ -36,7 +38,7 @@ const renderExercise = function(exerciseGroup) {
     let html = `
         <div class="transparent-form-group">
             <div class="transparent-form-group__title">
-                <div class="heading heading--3 heading--transparent-box">${exerciseGroup.exercise.exerciseName}<span class="far fa-plus-square far-title"></span></div>
+                <div class="heading heading--3 heading--transparent-box" data-id="${exerciseGroup.exercise.id}">${exerciseGroup.exercise.exerciseName}<span class="far fa-plus-square far-title"></span></div>
                 <div class="flex-container--col">
                     <div class="fas fa-sort-up"></div>
                     <div class="fas fa-sort-down"></div>
@@ -65,6 +67,34 @@ const generateNewSetMarkup = function(weight, reps) {
             <span class="far fa-trash-alt"></span>
         </div>
     `;
-
-
 }
+
+
+const updateWorkout = async function(workout) {
+
+    // Submit data
+    const data = await AJAX(c.updateWorkoutURL + workoutId, workout);
+
+    if (data === UPDATE_SUCCESS_VALUE) {
+        showFormMessage("Successfully updated workout", true);
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 500)
+    } else {
+        showFormMessage("Unable to update workout. Please try again.", false);
+    }
+}
+
+
+c.btnEditWorkout.addEventListener('click', async function(e) {
+    e.preventDefault();
+
+    if (c.formWorkoutName.value.trim() === '') {
+        showFormMessage("Please give workout a name", false);
+        return;
+    }
+
+    const workout = await createWorkoutFromPage();
+    updateWorkout(workout);
+});
+

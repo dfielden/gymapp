@@ -1,6 +1,6 @@
 'use strict'
 import * as c from '../_constsAndEls.js';
-import {AJAX} from "../helper.js";
+import {AJAX, showFormMessage} from "../helper.js";
 const LOGIN_SUCCESS_VALUE = 'LOGIN_SUCCESS'; // must match PSFS LOGIN_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 c.btnLogin.addEventListener('click', async (e) => {
@@ -26,17 +26,5 @@ c.btnLogin.addEventListener('click', async (e) => {
         showFormMessage(data, false);
     }
 });
-// TODO: remove duplicate function
-const showFormMessage = (message, success) => {
-    c.formMessage.textContent =  message;
-    c.formMessage.classList.remove('visibility-hidden');
 
-    if (success) {
-        c.formMessage.classList.remove('form-msg--error');
-        c.formMessage.classList.add('form-msg--success');
-    } else {
-        c.formMessage.classList.remove('form-msg--success');
-        c.formMessage.classList.add('form-msg--error');
-    }
-}
 

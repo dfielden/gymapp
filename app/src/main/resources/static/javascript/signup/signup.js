@@ -1,6 +1,6 @@
 'use strict'
 import * as c from '../_constsAndEls.js';
-import {AJAX} from "../helper.js";
+import {AJAX, showFormMessage} from "../helper.js";
 const SIGNUP_SUCCESS_VALUE = 'SIGNUP_SUCCESS'; // must match PSFS SIGNUP_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 c.btnSignup.addEventListener('click', async (e) => {
@@ -34,16 +34,4 @@ c.btnSignup.addEventListener('click', async (e) => {
 
 });
 
-const showFormMessage = (message, success) => {
-    c.formMessage.textContent =  message;
-    c.formMessage.classList.remove('visibility-hidden');
-
-    if (success) {
-        c.formMessage.classList.remove('form-msg--error');
-        c.formMessage.classList.add('form-msg--success');
-    } else {
-        c.formMessage.classList.remove('form-msg--success');
-        c.formMessage.classList.add('form-msg--error');
-    }
-}
 
