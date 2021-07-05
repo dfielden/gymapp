@@ -54,7 +54,7 @@ public class GymAppApplication {
     public String home(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
-            return "login";
+            return "redirect:/login";
         }
         return "index";
     }
@@ -72,7 +72,7 @@ public class GymAppApplication {
     public String editWorkout(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
-            return "index";
+            return "redirect:/index";
         }
         // TODO: link to user id
         long userId = getUserId(req, resp);
@@ -80,7 +80,7 @@ public class GymAppApplication {
         if (workouts.containsKey(id)) {
             return "edit-workout";
         }
-        return "index";
+        return "redirect:/index";
     }
 
     @GetMapping("/login")
@@ -151,7 +151,7 @@ public class GymAppApplication {
     public String currentWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
-            return "login";
+            return "redirect:/login";
         }
         return "current-workout";
     }
@@ -312,7 +312,7 @@ public class GymAppApplication {
     public String getUserNameAndId(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
-            return "login";
+            return "redirect:/login";
         }
 
         String userName = state.getUserName();

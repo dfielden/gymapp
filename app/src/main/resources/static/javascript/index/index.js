@@ -100,7 +100,7 @@ c.footerDeleteWorkout.addEventListener('click', function() {
 c.footerLogout.addEventListener('click', async function() {
     const data = await AJAX(logoutURL);
     if (data === LOGOUT_SUCCESS_VALUE) {
-        window.location.href = "/login";
+        window.location.href = "login";
     }
 })
 
