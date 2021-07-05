@@ -34,3 +34,7 @@ export const AJAX = async function(url, uploadData = undefined) {
         throw err;
     }
 };
+
+export const removeElements = (els) => els.forEach(el => el.remove());
+
+export const isEmptyObject = (obj) => Object.keys(obj).length === 0;

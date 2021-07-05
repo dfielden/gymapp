@@ -6,7 +6,6 @@ import javax.swing.tree.ExpandVetoException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public final class GymAppDB {
     private final Connection connect;
@@ -24,6 +23,8 @@ public final class GymAppDB {
         addDefaultExercises();
     }
 
+    // EXERCISE
+
     public synchronized long addExercise(String exerciseName, long userId) throws Exception {
         String query = "INSERT INTO ExerciseName (exercise_name, user_id) VALUES (?, ?)";
         try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -40,18 +41,6 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized long getMuscleGroupId(Exercise.MuscleGroup muscleGroup) throws Exception {
-        String query = "SELECT * FROM MuscleGroup WHERE muscle_group = ?";
-        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setString(1, muscleGroup.toString());
-            ResultSet rs = stmt.executeQuery();
-            if (!rs.next()) {
-                throw new IllegalStateException("Unable to get muscle group id for " + muscleGroup);
-            }
-            return rs.getLong("id");
-        }
-    }
-
     public synchronized HashMap<Long, Exercise> getAllExercises(long userId) throws Exception {
         HashMap<Long, Exercise> exercises = new HashMap<>();
         String query = "SELECT * FROM ExerciseName WHERE user_id = ? or user_id = 0";
@@ -64,20 +53,24 @@ public final class GymAppDB {
                 long id = rs.getLong("id");
                 String exerciseName = rs.getString("exercise_name");
 
-              Exercise exercise = new Exercise(exerciseName);
+                Exercise exercise = new Exercise(exerciseName);
                 exercises.put(id, exercise);
             }
         }
         return exercises;
     }
 
-    public synchronized String addWorkoutTemplate(long userId, String workout) throws Exception {
-        String query = "INSERT INTO WorkoutTemplate (user_id, workout) VALUES (?, ?)";
+    // MUSCLE GROUP
+
+    public synchronized long getMuscleGroupId(Exercise.MuscleGroup muscleGroup) throws Exception {
+        String query = "SELECT * FROM MuscleGroup WHERE muscle_group = ?";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setLong(1, userId);
-            stmt.setString(2, workout);
-            stmt.executeUpdate();
-            return workout;
+            stmt.setString(1, muscleGroup.toString());
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to get muscle group id for " + muscleGroup);
+            }
+            return rs.getLong("id");
         }
     }
 
@@ -127,8 +120,21 @@ public final class GymAppDB {
 
     }
 
+    // WORKOUT TEMPLATE
+
+    public synchronized String addWorkoutTemplate(long userId, String workout) throws Exception {
+        String query = "INSERT INTO WorkoutTemplate (user_id, workout, deleted) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
+            stmt.setString(2, workout);
+            stmt.setBoolean(3, false);
+            stmt.executeUpdate();
+            return workout;
+        }
+    }
+
     public synchronized HashMap<Long, String> getUserWorkouts(long userId) throws Exception {
-        String query = "SELECT * FROM WorkoutTemplate WHERE user_id = ?";
+        String query = "SELECT * FROM WorkoutTemplate WHERE user_id = ? AND deleted = false";
         HashMap<Long, String> workouts = new HashMap<>();
         try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, userId);
@@ -144,7 +150,7 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized String getWorkoutFromId(long workoutId, long userId) throws Exception{
+    public synchronized String getWorkoutFromId(long workoutId, long userId) throws Exception {
         String query = "SELECT workout FROM WorkoutTemplate WHERE id = ? AND user_id = ?";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setLong(1, workoutId);
@@ -156,6 +162,32 @@ public final class GymAppDB {
                 throw new IllegalStateException("Unable to find workout with id " + workoutId);
             }
             return rs.getString(1);
+        }
+    }
+
+    public synchronized void deleteWorkoutTemplate(long workoutId, long userId) throws Exception {
+        // Don't delete Workout but set deleted to true - so we can still access workout info when looking at past workouts
+        String query = "UPDATE WorkoutTemplate SET deleted = true WHERE id = ? AND user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, workoutId);
+            stmt.setLong(2,userId);
+            stmt.executeUpdate();
+        }
+    }
+
+    // WORKOUT IN PROGRESS
+
+    public synchronized String addWorkoutInProgress(long userId, String workout) throws Exception {
+        if (checkIfUserHasWorkoutInProgress(userId)) {
+            throw new IllegalStateException("User already has a workout in progress");
+        }
+
+        String query = "INSERT INTO WorkoutInProgress (user_id, current_workout) VALUES (?, ?)";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1,userId);
+            stmt.setString(2, workout);
+            stmt.executeUpdate();
+            return workout;
         }
     }
 
@@ -173,21 +205,6 @@ public final class GymAppDB {
         }
     }
 
-    public synchronized String addWorkoutInProgress(long userId, String workout) throws Exception {
-        if (checkIfUserHasWorkoutInProgress(userId)) {
-            throw new IllegalStateException("User already has a workout in progress");
-        }
-
-        String query = "INSERT INTO WorkoutInProgress (user_id, current_workout) VALUES (?, ?)";
-        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setLong(1,userId);
-            stmt.setString(2, workout);
-            stmt.executeUpdate();
-            return workout;
-        }
-    }
-
-
     public synchronized String updateWorkoutInProgress(long userId, String workout) throws Exception {
         if (!checkIfUserHasWorkoutInProgress(userId)) {
             throw new IllegalStateException("Cannot find current workout in database");
@@ -199,6 +216,14 @@ public final class GymAppDB {
             stmt.setLong(2,userId);
             stmt.executeUpdate();
             return workout;
+        }
+    }
+
+    public synchronized void deleteWorkoutInProgress(long userId) throws Exception {
+        String query = "DELETE FROM WorkoutInProgress WHERE user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
+            stmt.executeUpdate();
         }
     }
 
@@ -214,6 +239,7 @@ public final class GymAppDB {
     }
 
     // AUTHENTICATION
+
     public synchronized HashMap<String, String> getuserDetailsFromEmail(String email) throws Exception {
         HashMap<String, String> userDetails = new HashMap<>();
 
@@ -236,28 +262,6 @@ public final class GymAppDB {
             }
         }
         return userDetails;
-    }
-
-    private synchronized boolean checkIfUserHasWorkoutInProgress(long userId) throws Exception {
-        String query = "SELECT * FROM WorkoutInProgress WHERE user_id = ?";
-        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setLong(1, userId);
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return true;
-            }
-            return false;
-        }
-    }
-
-    public synchronized void deleteWorkoutInProgress(long userId) throws Exception {
-        String query = "DELETE FROM WorkoutInProgress WHERE user_id = ?";
-        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            stmt.setLong(1, userId);
-            stmt.executeUpdate();
-        }
     }
 
     public synchronized void signup(String email, String username, String hashedPassword, String salt) throws Exception {
@@ -289,6 +293,8 @@ public final class GymAppDB {
         }
     }
 
+    // PRIVATE
+
     private synchronized void initiateTables() throws Exception {
         ArrayList<String> queries = InitiateDBQueries.createTableQueries();
         for (String q : queries) {
@@ -308,6 +314,20 @@ public final class GymAppDB {
                     connect.createStatement().execute(query);
                 }
             }
+        }
+    }
+
+    private synchronized boolean checkIfUserHasWorkoutInProgress(long userId) throws Exception {
+        String query = "SELECT * FROM WorkoutInProgress WHERE user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+            return false;
         }
     }
 
@@ -332,6 +352,4 @@ public final class GymAppDB {
             }
         }
     }
-
-
 }

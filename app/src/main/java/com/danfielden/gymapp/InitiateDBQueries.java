@@ -33,6 +33,7 @@ public final class InitiateDBQueries {
                 "id INTEGER PRIMARY KEY NOT NULL, " +
                 "user_id INTEGER, " +
                 "workout TEXT, " +
+                "deleted BOOLEAN, " +
                 "FOREIGN KEY (user_id) REFERENCES Users(id) " +
                 ")";
     }

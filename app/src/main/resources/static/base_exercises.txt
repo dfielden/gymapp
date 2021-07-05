@@ -10,10 +10,10 @@ Dips, TRICEPS
 Dumbbell fly, CHEST
 Dumbbell fly (decline), CHEST
 Dumbbell fly (incline), CHEST
-Dumbbell press, CHEST
-Dumbbell press (decline), CHEST
-Dumbbell press (incline), CHEST
-Dumbell row, BACK, BICEPS
+Dumbbell press, CHEST, TRICEPS
+Dumbbell press (decline), CHEST, TRICEPS
+Dumbbell press (incline), CHEST, TRICEPS
+Dumbbell row, BACK, BICEPS
 Flutter kicks, ABS, CORE
 Forward raise, SHOULDERS
 Hamstring curl, HAMSTRINGS

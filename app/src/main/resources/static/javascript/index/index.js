@@ -1,5 +1,5 @@
 import * as c from '../_constsAndEls.js';
-import {AJAX} from "../helper.js";
+import {AJAX, removeElements, isEmptyObject} from "../helper.js";
 import {logoutURL} from "../_constsAndEls.js";
 
 const LOGOUT_SUCCESS_VALUE = "LOGOUT_SUCCESS"; // must match PSFS LOGOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
@@ -23,7 +23,9 @@ const getWorkouts = async function() {
             const workout = JSON.parse(data[key]);
             displayWorkout(workout.workoutName, id);
         }
-        c.myWorkoutsContainer.querySelector('.default-msg').classList.add('display-none');
+        if(!isEmptyObject(data)) {
+            c.myWorkoutsContainer.querySelector('.default-msg').classList.add('display-none');
+        }
         myWorkouts = document.querySelectorAll('.saved-workout');
 
     } catch (err) {
@@ -66,12 +68,15 @@ const displayWorkout = function(name, id) {
 
 c.elBody.addEventListener('click', function(e) {
     unselectAllWorkouts();
-    if (e.target.classList.contains('saved-workout') && !(workoutInProgress.inProgress)) {
+    if (e.target.classList.contains('saved-workout')) {
         e.target.classList.add('saved-workout--selected');
         c.footerEditWorkout.classList.remove('footer__icon--inactive');
         c.footerDeleteWorkout.classList.remove('footer__icon--inactive');
 
-        c.footerStart.classList.remove('footer__btn--inactive');
+        // Only activate start workout button if no workout is currently in progress
+        if (!workoutInProgress.inProgress) {
+            c.footerStart.classList.remove('footer__btn--inactive');
+        }
     }
 })
 
@@ -86,8 +91,10 @@ const navEditSelectedWorkout = function() {
 c.footerEditWorkout.addEventListener('click', navEditSelectedWorkout);
 
 c.footerDeleteWorkout.addEventListener('click', function() {
-    console.log('delete workout');
-    // TODO: delete workout
+    const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
+    const data = AJAX(`/deleteworkout/${workoutId}`, 'post');
+    removeElements(document.querySelectorAll('.saved-workout'));
+    getWorkouts();
 });
 
 c.footerLogout.addEventListener('click', async function() {

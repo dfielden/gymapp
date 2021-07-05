@@ -18,7 +18,7 @@ const submitWorkout = async function(workout) {
     if (data === CREATE_SUCCESS_VALUE) {
         showFormMessage("Successfully created workout!", true);
         setTimeout(() => {
-            window.location.href = "/welcome";
+            window.location.href = "/";
         }, 500)
     } else {
         showFormMessage("Unable to create workout. Please try again.", false);

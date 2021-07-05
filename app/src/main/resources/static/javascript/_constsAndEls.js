@@ -14,6 +14,7 @@ export const signupURL = '/signup';
 export const loginURL = '/login';
 export const logoutURL = '/logout';
 export const userInfoURL = '/userinfo';
+export const deleteWorkoutURL = '/deleteworkout/{id}'
 
 
 // SIGNUP
