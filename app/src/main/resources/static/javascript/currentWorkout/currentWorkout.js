@@ -1,11 +1,12 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
-import {AJAX} from "../helper.js";
+import {AJAX, showFormMessage, validateSetFormInputs} from "../helper.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
 import {Timer} from "../timer.js";
 import * as select from '../selectExercisesInput.js';
-import {getMuscleGroupsURL, selectExercises} from "../_constsAndEls.js";
+import {formFinishWorkout, getMuscleGroupsURL, selectExercises} from "../_constsAndEls.js";
 const FINISH_VALUE = 'FINISH_SUCCESS'; // must match PSFS FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
+const QUIT_VALUE = 'QUIT_SUCCESS'; // must match PSFS QUIT_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 
 
@@ -70,7 +71,6 @@ const getCurrentWorkout = async function() {
     }
 
     // finally render workout on screen
-    toggleFinishBtnState();
     renderWorkout();
 
     // add timer to completed sets
@@ -160,14 +160,6 @@ const selectSet = function(selectedRow) {
     sh.resetSlidingDivs();
 }
 
-const toggleFinishBtnState = function() {
-    if (workout.completedSets > 0) {
-        c.footerBtnFinish.classList.remove('footer__btn--inactive');
-    } else {
-        c.footerBtnFinish.classList.add('footer__btn--inactive');
-    }
-}
-
 // MARK SET AS COMPLETE
 const markSetComplete = function(selectedRow, timer) {
     unselectAllRows();
@@ -188,7 +180,6 @@ const markSetComplete = function(selectedRow, timer) {
     selectedRow.classList.add('complete');
     selectedRow.classList.remove('active', 'slider', 'undo');
     selectedRow.querySelector('.done-container').classList.add('display-none');
-    toggleFinishBtnState();
 
     resetAll();
 }
@@ -209,7 +200,6 @@ const undoSetComplete = function() {
     getSetFromKey(parseInt(key)).completed = false;
 
     workout.completedSets -= 1;
-    toggleFinishBtnState();
     updateWorkoutProgress();
 }
 
@@ -259,7 +249,7 @@ c.elBody.addEventListener('click', function(e) {
 const editSelectedSet = function(e) {
     c.formEditSetHeader.innerText = 'Update set';
     c.formEditSetSubmit.innerText = 'Update';
-    sh.showForm(c.formEditSet, -34);
+    sh.showForm(c.formEditSet, -39);
     setBlock = e.target.closest('.exercise-block__set-container');
     c.formEditSetWeight.value = parseFloat(setBlock.querySelector('.weight').innerText);
     c.formEditSetReps.value = parseInt(setBlock.querySelector('.reps').innerText);
@@ -282,7 +272,7 @@ const removeSelectedSet = function(e) {
 
 c.footerAddExercise.addEventListener('click', function() {
     resetAll();
-    sh.showForm(c.formAddToCurrent, -43);
+    sh.showForm(c.formAddToCurrent, -46);
 })
 
 
@@ -384,8 +374,14 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
         return;
     }
 
+    // validate inputs
     const weight = c.formEditSetWeight.value;
     const reps = c.formEditSetReps.value;
+
+    if (!validateSetFormInputs(reps, weight)) {
+        showFormMessage("Please use valid numbers for weight and rep inputs", false, c.formEditSet );
+        return;
+    }
 
     // if not a blank string, exerciseBlock will evaluate to true
     if (exerciseBlock) {
@@ -439,7 +435,17 @@ c.formAddToCurrentSubmit.addEventListener('click', async function(e) {
         return;
     }
     const exerciseGroup = new ExerciseGroup(new Exercise(c.selectExercises.value));
-    const set = new Set(c.formAddToCurrentWeight.value, c.formAddToCurrentReps.value);
+
+    // validate inputs
+    const weight = c.formAddToCurrentWeight.value;
+    const reps = c.formAddToCurrentReps.value;
+
+    if (!validateSetFormInputs(reps, weight)) {
+        showFormMessage("Please use valid numbers for weight and rep inputs", false, c.formAddToCurrent);
+        return;
+    }
+
+    const set = new Set(weight, reps);
     const selectedExerciseId = c.selectExercise.querySelector(':checked').getAttribute('data-id');
 
     // get muscle groups
@@ -565,34 +571,55 @@ c.formFinishWorkoutClose.addEventListener('click', function() {
     sh.hideForm(c.formFinishWorkout);
 })
 
+c.formQuitWorkoutClose.addEventListener('click', function() {
+    sh.hideForm(c.formQuitWorkout);
+})
+
 c.btnCancelFinish.addEventListener('click', function() {
     sh.hideForm(c.formFinishWorkout);
+})
+
+c.btnCancelQuit.addEventListener('click', function() {
+    sh.hideForm(c.formQuitWorkout);
 })
 
 c.btnConfirmFinish.addEventListener('click', async function() {
     const workout = getAllCompletedSets();
     const data = await AJAX(c.finishWorkoutURL, workout);
     if (data === FINISH_VALUE) {
-        showFormMessage("Successfully saved workout", true);
+        showFormMessage("Successfully saved workout", true, c.formFinishWorkout);
         setTimeout(() => {
             window.location.href = "/";
         }, 500)
     } else {
-        showFormMessage(data, false);
+        showFormMessage(data, false, c.formFinishWorkout);
     }
 })
 
-c.footerBtnFinish.addEventListener('click', function(e) {
-    if (!e.target.classList.contains('footer__btn--inactive')) {
-        sh.showForm(c.formFinishWorkout, -33);
-        const workout = getAllCompletedSets();
+c.btnConfirmQuit.addEventListener('click', async function() {
+    const data = await AJAX(c.quitWorkoutURL, 'quit');
+    if (data === QUIT_VALUE) {
+        showFormMessage("Successfully quit workout", true, c.formQuitWorkout);
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 500)
+    } else {
+        showFormMessage(data, false, c.formFinishWorkout);
     }
+})
+
+c.footerBtnFinish.addEventListener('click', function() {
+    sh.showForm(c.formFinishWorkout, -35);
+})
+
+c.linkQuitWorkout.addEventListener('click', function() {
+    sh.hideForm(c.formFinishWorkout);
+    sh.showForm(c.formQuitWorkout, -33);
 })
 
 const getAllCompletedSets = () => {
     const done = document.querySelectorAll('.complete');
     const exercises = []
-    console.log(done);
 
     for (let i = 0; i < done.length; i++) {
         const title = done[i].closest('.exercise-block').querySelector('.heading').innerText;
@@ -614,18 +641,4 @@ const getAllCompletedSets = () => {
         exercises.push(exercise);
     }
     return exercises;
-}
-
-// TODO: remove duplicate function
-const showFormMessage = (message, success) => {
-    c.formMessage.textContent =  message;
-    c.formMessage.classList.remove('visibility-hidden');
-
-    if (success) {
-        c.formMessage.classList.remove('form-msg--error');
-        c.formMessage.classList.add('form-msg--success');
-    } else {
-        c.formMessage.classList.remove('form-msg--success');
-        c.formMessage.classList.add('form-msg--error');
-    }
 }

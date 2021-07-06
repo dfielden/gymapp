@@ -83,7 +83,7 @@ c.elBody.addEventListener('click', function(e) {
 
 const navEditSelectedWorkout = function() {
     if (!c.footerEditWorkout.classList.contains('footer__icon--inactive')) {
-        const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid
+        const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
         window.location = `/editworkout/${workoutId}`;
     }
 }
@@ -92,7 +92,8 @@ c.footerEditWorkout.addEventListener('click', navEditSelectedWorkout);
 
 c.footerDeleteWorkout.addEventListener('click', function() {
     const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
-    const data = AJAX(`${deleteWorkoutURL}${workoutId}`, 'post');
+    const url = c.deleteWorkoutURL + workoutId;
+    const data = AJAX(url, 'post');
     removeElements(document.querySelectorAll('.saved-workout'));
     getWorkouts();
 });
@@ -108,7 +109,7 @@ c.footerLogout.addEventListener('click', async function() {
 const navStartWorkout = function() {
     if (!c.footerStart.classList.contains('footer__btn--inactive')) {
         const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
-        window.location = `/currentworkout/${workoutId}`;
+        window.location = c.currentWorkoutURL + workoutId;
     }
 }
 
@@ -116,7 +117,7 @@ c.footerStart.addEventListener('click', navStartWorkout);
 
 
 const navCreateWorkout = function() {
-    window.location = '/createworkout';
+    window.location = c.createWorkoutURL;
 }
 
 c.footerCreateWorkout.addEventListener('click', navCreateWorkout);
@@ -132,7 +133,7 @@ const unselectAllWorkouts = function() {
 }
 
 const navWorkoutInProgress = function() {
-    window.location = `/currentworkout/${workoutInProgress.id}`
+    window.location = c.currentWorkoutURL + workoutInProgress.id;
 }
 
 c.btnWorkoutInProgress.addEventListener('click', navWorkoutInProgress);

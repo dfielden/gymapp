@@ -1,7 +1,7 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {ExerciseGroup, Exercise, Set, Workout} from "../exercise.js";
-import {AJAX} from "../helper.js";
+import {AJAX, isInt, isFloat, validateSetFormInputs} from "../helper.js";
 import * as select from '../selectExercisesInput.js';
 
 
@@ -83,8 +83,8 @@ c.elBody.addEventListener('click', function(e) {
 const appendNewSet = function(exerciseGroupEl) {
     const html = `
         <div class="two-input-container">
-            <span class="two-input-container--label">Weight:</span><input inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
-            <span class="two-input-container--label">Reps:</span><input inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
+            <span class="two-input-container--label">Weight:</span><input type="number" inputmode="decimal" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+            <span class="two-input-container--label">Reps:</span><input type="number" inputmode="numeric" placeholder="reps" min="0" class="form-input form-input--new-workout r">
             <span class="far fa-trash-alt"></span>
         </div>
     `;
@@ -129,7 +129,7 @@ const toggleFooterEls = function() {
 }
 
 
-const createNewExercise = function() {
+const createNewExercise = async function() {
     let exerciseName = c.createExerciseName.value;
     if (exerciseName === '') {
         return;
@@ -144,10 +144,10 @@ const createNewExercise = function() {
     selectedMuscleGroups.forEach(btn => exercise.addMuscleGroup(btn.textContent.toUpperCase()));
 
     // Submit data
-    AJAX(c.createExerciseURL, exercise);
+    const newExerciseId = await AJAX(c.createExerciseURL, exercise);
 
     // Add newly-created exercise to penultimate position of select
-    select.addExerciseToSelect(exerciseName, exerciseName);
+    select.addExerciseToSelect(exerciseName, newExerciseId);
     c.selectExercise.value = exerciseName;
 
     // Add exercise to workout schedule
@@ -191,7 +191,14 @@ export const createWorkoutFromPage = async() => {
         sets.forEach(set => {
             const weight = set.querySelector('.w').value;
             const reps = set.querySelector('.r').value;
-            exerciseGroup.addSet(new Set(weight, reps));
+
+            if (validateSetFormInputs(reps, weight)) {
+                exerciseGroup.addSet(new Set(weight, reps));
+            } else {
+                throw Error("Please use valid numbers for weight and rep inputs")
+            }
+
+
         });
         workout.addExerciseGroup(exerciseGroup);
     }

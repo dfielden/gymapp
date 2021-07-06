@@ -11,14 +11,17 @@ export const getWorkoutInProgressURL = '/workoutinprogress';
 export const createWorkoutInProgressURL = '/createworkoutinprogress';
 export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
 export const finishWorkoutURL = '/finishworkout';
+export const quitWorkoutURL = '/quitworkout';
+export const currentWorkoutURL = '/currentworkout/';
 export const signupURL = '/signup';
 export const loginURL = '/login';
 export const logoutURL = '/logout';
 export const userInfoURL = '/userinfo';
-export const deleteWorkoutURL = '/deleteworkout/{id}'
+export const deleteWorkoutURL = '/deleteworkout/'
 
 
 // SIGNUP
+export const formSignup = document.querySelector('#form-signup');
 export const btnSignup = document.querySelector('#btn-signup');
 export const formSignupEmail = document.querySelector('#signup-email');
 export const formSignupUsername = document.querySelector('#signup-username');
@@ -26,6 +29,7 @@ export const formSignupPw1 = document.querySelector('#signup-password1');
 export const formSignupPw2 = document.querySelector('#signup-password2');
 
 // LOGIN
+export const formLogin = document.querySelector('#form-login');
 export const btnLogin = document.querySelector('#btn-login');
 export const formLoginEmail = document.querySelector('#login-email');
 export const formLoginPw = document.querySelector('#login-password');
@@ -62,6 +66,7 @@ export const exercises = document.querySelector('.exercises');
 export const btnCreateWorkout = document.querySelector('#btn-create-workout');
 export const btnEditWorkout = document.querySelector('#btn-edit-workout');
 export const formCreateWorkout = document.querySelector('#form-create-workout');
+export const formEditWorkout = document.querySelector('#form-edit-workout');
 export const formWorkoutName = document.querySelector('#workout-name');
 
 
@@ -92,6 +97,11 @@ export const formAddToCurrentWeight = document.querySelector("#set-weight");
 export const formAddToCurrentReps = document.querySelector("#set-reps");
 export const formAddToCurrentSubmit = document.querySelector("#exercise-submit");
 export const formAddToCurrentError = document.querySelector("#add-to-current-err");
+export const linkQuitWorkout = document.querySelector("#quit");
+export const formQuitWorkout = document.querySelector(".quit-workout");
+export const btnConfirmQuit = document.querySelector("#confirm-quit");
+export const btnCancelQuit = document.querySelector("#cancel-quit");
+export const formQuitWorkoutClose = document.querySelector(".quit-workout--close");
 
 
 export const formEditSet = document.querySelector(".edit-set");

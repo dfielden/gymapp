@@ -140,15 +140,20 @@
 }
 .add-to-current {
   @include slideUpForm;
-  height: 35rem;
+  height: 38rem;
 }
 
 .edit-set {
   @include slideUpForm;
-  height: 27rem;
+  height: 31rem;
 }
 
 .finish-workout {
+  @include slideUpForm;
+  height: 27rem;
+}
+
+.quit-workout {
   @include slideUpForm;
   height: 25rem;
 }

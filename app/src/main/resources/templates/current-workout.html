@@ -28,7 +28,7 @@
                     <div class="icon-descriptor">undo</div>
                 </div>
             </div>
-            <div class="footer__btn footer__btn--main footer__btn--inactive">Finish</div>
+            <div class="footer__btn footer__btn--main">Finish</div>
             <div class="icons-container">
                 <div class="footer__icon footer__icon--add">
                     <div class="fas fa-dumbbell"></div>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn--main btn--primary" id="exercise-submit">Add!</button>
-            <div class="form-msg form-msg--error" id="add-to-current-err"></div>
+            <div class="form-msg visibility-hidden" id="add-to-current-err">Content</div>
         </form>
     </div>
 
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn--main btn--primary" id="set-submit">Update</button>
-                <div class="form-msg form-msg--error" id="edit-set-err"></div>
+                <div class="form-msg visibility-hidden" id="edit-set-err">Content</div>
 
         </form>
     </div>
@@ -122,7 +122,27 @@
                 <button class="btn btn--yesno btn--primary" id="confirm-finish">Finish</button>
             </div>
             <div class="form-msg visibility-hidden">Content</div>
+            <a href="#" id="quit">Quit without saving</a>
+        </div>
+    </div>
 
+
+    <div class="quit-workout form--slide-up display-none">
+        <div class="transparent-form-group">
+            <div class="flex-container space-between align-center">
+                <div class="heading heading--3 heading--transparent-box">Quit workout?</div>
+                <a href="#" class="close-btn quit-workout--close">&times;</a>
+            </div>
+            <p class="paragraph">If you quit your workout without saving all progress will be permanently lost.
+                <br>
+                <br>
+                Do you still wish to quit?
+            </p>
+            <div class="flex-container justify-center">
+                <button class="btn btn--yesno btn--secondary" id="cancel-quit">Cancel</button>
+                <button class="btn btn--yesno btn--primary" id="confirm-quit">Quit</button>
+            </div>
+            <div class="form-msg visibility-hidden">Content</div>
         </div>
     </div>
 

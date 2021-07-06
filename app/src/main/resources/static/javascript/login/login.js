@@ -17,14 +17,14 @@ c.btnLogin.addEventListener('click', async (e) => {
     });
 
     if (data === LOGIN_SUCCESS_VALUE) {
-        showFormMessage("Login successful!", true);
+        showFormMessage("Login successful!", true, c.formLogin);
         setTimeout(() => {
-            //TODO: login and redirect to home
             window.location.href = "/";
         }, 500)
     } else {
-        showFormMessage(data, false);
+        showFormMessage(data, false, c.formLogin);
     }
 });
+
 
 

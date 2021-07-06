@@ -73,15 +73,16 @@ const generateNewSetMarkup = function(weight, reps) {
 const updateWorkout = async function(workout) {
 
     // Submit data
-    const data = await AJAX(c.updateWorkoutURL + workoutId, workout);
+    const url = c.updateWorkoutURL + workoutId;
+    const data = await AJAX(url, workout);
 
     if (data === UPDATE_SUCCESS_VALUE) {
-        showFormMessage("Successfully updated workout", true);
+        showFormMessage("Successfully updated workout", true, c.formEditWorkout);
         setTimeout(() => {
             window.location.href = "/";
         }, 500)
     } else {
-        showFormMessage("Unable to update workout. Please try again.", false);
+        showFormMessage("Unable to update workout. Please try again.", false, c.formEditWorkout);
     }
 }
 
@@ -90,11 +91,18 @@ c.btnEditWorkout.addEventListener('click', async function(e) {
     e.preventDefault();
 
     if (c.formWorkoutName.value.trim() === '') {
-        showFormMessage("Please give workout a name", false);
+        showFormMessage("Please give workout a name", false, c.formEditWorkout);
         return;
     }
 
-    const workout = await createWorkoutFromPage();
+    let workout;
+    try {
+        workout = await createWorkoutFromPage();
+    } catch(err) {
+        showFormMessage(err.message, false, c.formEditWorkout);
+        return;
+    }
+
     updateWorkout(workout);
 });
 

@@ -1,5 +1,6 @@
 import {ajaxTimeoutMillis} from './_constsAndEls.js';
 import * as c from "./_constsAndEls.js";
+import {Set} from "./exercise.js";
 
 const timeout = function (millis) {
     return new Promise(function (_, reject) {
@@ -41,15 +42,29 @@ export const removeElements = (els) => els.forEach(el => el.remove());
 export const isEmptyObject = (obj) => Object.keys(obj).length === 0;
 
 
-export const showFormMessage = (message, success) => {
-    c.formMessage.textContent =  message;
-    c.formMessage.classList.remove('visibility-hidden');
+export const showFormMessage = (message, success, formEl) => {
+    const formMessage = formEl.querySelector('.form-msg');
+    formMessage.textContent = message;
+    formMessage.classList.remove('visibility-hidden');
 
     if (success) {
-        c.formMessage.classList.remove('form-msg--error');
-        c.formMessage.classList.add('form-msg--success');
+        formMessage.classList.remove('form-msg--error');
+        formMessage.classList.add('form-msg--success');
     } else {
-        c.formMessage.classList.remove('form-msg--success');
-        c.formMessage.classList.add('form-msg--error');
+        formMessage.classList.remove('form-msg--success');
+        formMessage.classList.add('form-msg--error');
     }
 }
+
+export const isInt = (n) => {
+    return Number(n) === n && n % 1 === 0;
+}
+
+export const isFloat = (n) => {
+    return Number(n) === n && n % 1 !== 0;
+}
+
+export const validateSetFormInputs = (reps, weight) => {
+    return (isInt(parseInt(reps)) && !isFloat(parseFloat(reps)) && (isInt(parseInt(weight)) || isFloat(parseFloat(weight))));
+}
+

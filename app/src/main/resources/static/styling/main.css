@@ -154,7 +154,7 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  height: 35rem;
+  height: 38rem;
 }
 
 .edit-set {
@@ -162,10 +162,18 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  height: 27rem;
+  height: 31rem;
 }
 
 .finish-workout {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 27rem;
+}
+
+.quit-workout {
   display: flex;
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
@@ -598,7 +606,6 @@ img {
 .form-msg {
   font-size: 1.6rem;
   position: relative;
-  top: 1rem;
 }
 .form-msg--success {
   color: #007d26;

@@ -32,12 +32,12 @@ public class GymAppApplication {
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
     public static final String SIGNUP_SUCCESS_RESPONSE_VALUE = "SIGNUP_SUCCESS";
     public static final String LOGOUT_SUCCESS_RESPONSE_VALUE = "LOGOUT_SUCCESS";
-    public static final String PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS";
 
     public static final String CREATE_WORKOUT_SUCCESS_RESPONSE_VALUE = "CREATE_SUCCESS";
     public static final String UPDATE_WORKOUT_SUCCESS_RESPONSE_VALUE = "UPDATE_SUCCESS";
     public static final String FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE = "FINISH_SUCCESS";
     public static final String DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE = "DELETE_SUCCESS";
+    public static final String QUIT_WORKOUT_SUCCESS_RESPONSE_VALUE = "QUIT_SUCCESS";
 
 
 
@@ -72,7 +72,7 @@ public class GymAppApplication {
     public String editWorkout(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
-            return "redirect:/index";
+            return "redirect:/";
         }
         // TODO: link to user id
         long userId = getUserId(req, resp);
@@ -80,16 +80,24 @@ public class GymAppApplication {
         if (workouts.containsKey(id)) {
             return "edit-workout";
         }
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @GetMapping("/login")
-    public String login() throws Exception {
+    public String login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (state.isLoggedIn()) {
+            return "redirect:/";
+        }
         return "login";
     }
 
     @GetMapping("/signup")
-    public String signup() throws Exception {
+    public String signup(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (state.isLoggedIn()) {
+            return "redirect:/";
+        }
         return "signup";
     }
 
@@ -133,7 +141,7 @@ public class GymAppApplication {
             long muscleGroupId = db.getMuscleGroupId(mg);
             db.linkExerciseToMuscleGroup(exerciseId, muscleGroupId);
         }
-        return exercise.toJson().toString();
+        return gson.toJson(exerciseId);
     }
 
     @ResponseBody
@@ -237,6 +245,20 @@ public class GymAppApplication {
             return gson.toJson(e.getMessage());
         }
         return gson.toJson(FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE);
+    }
+
+    @ResponseBody
+    @PostMapping("/quitworkout")
+    public String quitWorkout(@RequestBody String workout, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        // TODO: link to user id
+        long userId = getUserId(req, resp);
+
+        try {
+            db.deleteWorkoutInProgress(userId);
+        } catch (Exception e) {
+            return gson.toJson(e.getMessage());
+        }
+        return gson.toJson(QUIT_WORKOUT_SUCCESS_RESPONSE_VALUE);
     }
 
     @ResponseBody
