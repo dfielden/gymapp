@@ -125,3 +125,34 @@
   }
 
 }
+
+@mixin slideUpForm {
+  display: flex;
+  background: $gradient-primary;
+  padding: 0.5rem;
+  transition: transform 500ms;
+}
+.add-to-current {
+  @include slideUpForm;
+  height: 38rem;
+}
+
+.edit-set {
+  @include slideUpForm;
+  height: 31rem;
+}
+
+.finish-workout {
+  @include slideUpForm;
+  height: 27rem;
+}
+
+.quit-workout {
+  @include slideUpForm;
+  height: 25rem;
+}
+
+.delete-workout {
+  @include slideUpForm;
+  height: 23rem;
+}

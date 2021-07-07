@@ -115,7 +115,9 @@ const clearAllFormValues = function(formEl) {
         }
     }
 
-    c.selectExercises.selectedIndex = 0;
+    if (c.selectExercises) {
+        c.selectExercises.selectedIndex = 0;
+    }
 }
 
 

@@ -4,7 +4,6 @@ import {AJAX, showFormMessage, validateSetFormInputs} from "../helper.js";
 import {ExerciseGroup, Exercise, Set} from "../exercise.js";
 import {Timer} from "../timer.js";
 import * as select from '../selectExercisesInput.js';
-import {formFinishWorkout, getMuscleGroupsURL, selectExercises} from "../_constsAndEls.js";
 const FINISH_VALUE = 'FINISH_SUCCESS'; // must match PSFS FINISH_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 const QUIT_VALUE = 'QUIT_SUCCESS'; // must match PSFS QUIT_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
@@ -100,7 +99,7 @@ const renderWorkout = function() {
 }
 
 window.addEventListener('load', e => {
-    getCurrentWorkout();
+    const data = getCurrentWorkout();
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -449,7 +448,7 @@ c.formAddToCurrentSubmit.addEventListener('click', async function(e) {
     const selectedExerciseId = c.selectExercise.querySelector(':checked').getAttribute('data-id');
 
     // get muscle groups
-    const muscleGroups = await AJAX(getMuscleGroupsURL + selectedExerciseId);
+    const muscleGroups = await AJAX(c.getMuscleGroupsURL + selectedExerciseId);
 
 
     set.key = workout.maxKeyId;
@@ -555,7 +554,7 @@ const validateFormFilledIn = function(formEl) {
 
 const updateWorkoutProgress = function() {
     try {
-        AJAX(c.updateWorkoutInProgressURL, workout);
+        const data = AJAX(c.updateWorkoutInProgressURL, workout);
     } catch (err) {
         console.error(err.message, err.errorCode, "Unable to update workout progress");
     }
@@ -589,7 +588,7 @@ c.btnConfirmFinish.addEventListener('click', async function() {
     if (data === FINISH_VALUE) {
         showFormMessage("Successfully saved workout", true, c.formFinishWorkout);
         setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = c.indexURL;
         }, 500)
     } else {
         showFormMessage(data, false, c.formFinishWorkout);
@@ -601,8 +600,8 @@ c.btnConfirmQuit.addEventListener('click', async function() {
     if (data === QUIT_VALUE) {
         showFormMessage("Successfully quit workout", true, c.formQuitWorkout);
         setTimeout(() => {
-            window.location.href = "/";
-        }, 500)
+            window.location.href = c.indexURL;
+        }, 500);
     } else {
         showFormMessage(data, false, c.formFinishWorkout);
     }

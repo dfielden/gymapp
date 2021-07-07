@@ -1,5 +1,6 @@
 // CONFIG
 export const ajaxTimeoutMillis = 5000;
+export const indexURL = '/';
 export const getExercisesURL = '/exercises';
 export const createExerciseURL = '/createexercise';
 export const createWorkoutURL = '/createworkout';
@@ -50,6 +51,10 @@ export const footerLogout = document.querySelector(".footer__icon--logout");
 export const footerStart = document.querySelector(".footer__btn");
 export const tabInProgress = document.querySelector(".in-progress");
 export const btnWorkoutInProgress = document.querySelector(".in-progress-workout");
+export const formDeleteWorkout = document.querySelector(".delete-workout");
+export const btnConfirmDelete = document.querySelector("#confirm-delete");
+export const btnCancelDelete = document.querySelector("#cancel-delete");
+export const formDeleteWorkoutClose = document.querySelector(".delete-workout--close");
 
 
 // DEFINE WORKOUT

@@ -149,38 +149,6 @@ img {
   background-color: #fdfdfd;
 }
 
-.add-to-current {
-  display: flex;
-  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
-  padding: 0.5rem;
-  transition: transform 500ms;
-  height: 38rem;
-}
-
-.edit-set {
-  display: flex;
-  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
-  padding: 0.5rem;
-  transition: transform 500ms;
-  height: 31rem;
-}
-
-.finish-workout {
-  display: flex;
-  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
-  padding: 0.5rem;
-  transition: transform 500ms;
-  height: 27rem;
-}
-
-.quit-workout {
-  display: flex;
-  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
-  padding: 0.5rem;
-  transition: transform 500ms;
-  height: 25rem;
-}
-
 .done-container {
   display: flex;
   align-items: center;
@@ -439,6 +407,46 @@ img {
   font-size: 1.6rem;
   transition: all 500ms cubic-bezier(0.46, -0.36, 1, 1);
 }
+.add-to-current {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 38rem;
+}
+
+.edit-set {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 31rem;
+}
+
+.finish-workout {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 27rem;
+}
+
+.quit-workout {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 25rem;
+}
+
+.delete-workout {
+  display: flex;
+  background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
+  padding: 0.5rem;
+  transition: transform 500ms;
+  height: 23rem;
+}
+
 .footer {
   display: flex;
   width: 100%;

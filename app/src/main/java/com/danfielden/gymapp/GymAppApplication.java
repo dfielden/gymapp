@@ -39,8 +39,6 @@ public class GymAppApplication {
     public static final String DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE = "DELETE_SUCCESS";
     public static final String QUIT_WORKOUT_SUCCESS_RESPONSE_VALUE = "QUIT_SUCCESS";
 
-
-
     public GymAppApplication() throws Exception {
         db = new GymAppDB();
     }

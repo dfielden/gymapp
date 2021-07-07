@@ -1,8 +1,10 @@
 import * as c from '../_constsAndEls.js';
-import {AJAX, removeElements, isEmptyObject} from "../helper.js";
-import {deleteWorkoutURL, logoutURL} from "../_constsAndEls.js";
+import * as sh from '../_showAndHide.js';
+import {AJAX, removeElements, isEmptyObject, showFormMessage} from "../helper.js";
+import {deleteWorkoutURL, loginURL, logoutURL} from "../_constsAndEls.js";
 
 const LOGOUT_SUCCESS_VALUE = "LOGOUT_SUCCESS"; // must match PSFS LOGOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
+const DELETE_SUCCESS_VALUE = "DELETE_SUCCESS"; // must match PSFS DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 
 let myWorkouts;
 
@@ -91,17 +93,43 @@ const navEditSelectedWorkout = function() {
 c.footerEditWorkout.addEventListener('click', navEditSelectedWorkout);
 
 c.footerDeleteWorkout.addEventListener('click', function() {
+    sh.showForm(c.formDeleteWorkout, -31);
+
+});
+
+c.formDeleteWorkoutClose.addEventListener('click', function() {
+    sh.hideForm(c.formDeleteWorkout);
+})
+
+c.btnConfirmDelete.addEventListener('click', async function() {
     const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
     const url = c.deleteWorkoutURL + workoutId;
-    const data = AJAX(url, 'post');
-    removeElements(document.querySelectorAll('.saved-workout'));
-    getWorkouts();
-});
+    const data = await AJAX(url, 'post');
+
+    if (data === DELETE_SUCCESS_VALUE) {
+        showFormMessage("Successfully deleted workout.", true, c.formDeleteWorkout)
+        removeElements(document.querySelectorAll('.saved-workout'));
+        await getWorkouts();
+        setTimeout(() => {
+            sh.hideForm(c.formDeleteWorkout);
+        }, 500);
+
+    } else {
+        showFormMessage("Problem deleting workout. Please try again.", false, c.formDeleteWorkout)
+    }
+
+
+})
+
+c.btnCancelDelete.addEventListener('click', function() {
+    sh.hideForm(c.formDeleteWorkout);
+})
+
 
 c.footerLogout.addEventListener('click', async function() {
     const data = await AJAX(logoutURL);
     if (data === LOGOUT_SUCCESS_VALUE) {
-        window.location.href = "login";
+        window.location.href = c.loginURL;
     }
 })
 
