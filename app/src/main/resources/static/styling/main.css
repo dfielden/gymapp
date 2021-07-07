@@ -20,6 +20,14 @@ body {
   box-sizing: border-box;
   /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   height: 100%;
+  width: 100%;
+  max-width: 60rem;
+  max-height: 120rem;
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.8) 0%, rgba(124, 124, 124, 0.8) 100%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 select {
@@ -32,6 +40,11 @@ select {
 img {
   align-self: center;
   height: 100%;
+}
+
+.new-exercise {
+  max-width: 60rem;
+  max-height: 120rem;
 }
 
 .new-exercise-content {
@@ -53,6 +66,9 @@ img {
   justify-content: space-between;
   align-items: center;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 60rem;
+  max-height: 120rem;
 }
 
 .main-body {
@@ -63,6 +79,8 @@ img {
   font-size: 1.6rem;
   background-color: #e8e8e8;
   overflow-y: scroll;
+  max-width: 60rem;
+  max-height: 120rem;
 }
 .main-body .exercise-block {
   width: 100%;
@@ -172,6 +190,9 @@ img {
   transition: all 0.2s;
   cursor: pointer;
 }
+.btn:active, .btn:link:active, .btn:visited:active {
+  filter: brightness(0.9);
+}
 .btn--primary {
   background-color: #05376b;
   color: #fdfdfd;
@@ -229,6 +250,7 @@ img {
   text-decoration: none;
   align-self: flex-end;
   margin-bottom: 1.5rem;
+  cursor: pointer;
 }
 .close-btn--white {
   color: #fdfdfd;
@@ -247,6 +269,10 @@ img {
   font-size: 1.2rem;
   box-shadow: 0 1rem 6rem rgba(0, 0, 0, 0.25);
   margin-left: 1rem;
+  cursor: pointer;
+}
+.slide-on-btn:active {
+  filter: brightness(0.9);
 }
 .slide-on-btn--edit {
   background-color: #fcc728;
@@ -263,6 +289,7 @@ img {
 
 .txt-btn {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .far:focus, .fas:focus {
@@ -308,6 +335,10 @@ img {
   border-radius: 5px;
   height: 5rem;
   width: 100%;
+  cursor: pointer;
+}
+.saved-workout:active, .in-progress-workout:active {
+  background-color: #fcc728;
 }
 .saved-workout:not(:last-of-type), .in-progress-workout:not(:last-of-type) {
   margin-bottom: 1rem;
@@ -375,6 +406,8 @@ img {
   margin: 0;
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   backdrop-filter: blur(10px);
+  max-width: 60rem;
+  max-height: 120rem;
 }
 .new-exercise--content {
   display: flex;
@@ -412,6 +445,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  max-width: 60rem;
+  max-height: 120rem;
   height: 38rem;
 }
 
@@ -420,6 +455,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  max-width: 60rem;
+  max-height: 120rem;
   height: 31rem;
 }
 
@@ -428,6 +465,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  max-width: 60rem;
+  max-height: 120rem;
   height: 27rem;
 }
 
@@ -436,6 +475,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  max-width: 60rem;
+  max-height: 120rem;
   height: 25rem;
 }
 
@@ -444,6 +485,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
+  max-width: 60rem;
+  max-height: 120rem;
   height: 23rem;
 }
 
@@ -464,9 +507,17 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+.footer__btn:active {
+  filter: brightness(0.9);
 }
 .footer__btn--inactive {
   opacity: 0.5;
+  cursor: default !important;
+}
+.footer__btn--inactive:active {
+  filter: brightness(1);
 }
 .footer__btn--main {
   height: 5rem;
@@ -476,6 +527,10 @@ img {
   font-size: 1.6rem;
   font-family: "Nanum Gothic", sans-serif;
   box-shadow: 0 0 3rem rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.footer__btn--main:active {
+  filter: brightness(0.9);
 }
 
 .icons-container {
@@ -491,8 +546,16 @@ img {
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
+  cursor: pointer;
+}
+.icons-container .footer__icon:hover {
+  color: #474747;
 }
 .icons-container .footer__icon--inactive {
+  color: #c5c5c5;
+  cursor: default;
+}
+.icons-container .footer__icon--inactive:hover {
   color: #c5c5c5;
 }
 
@@ -518,6 +581,7 @@ img {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  overflow-x: hidden;
   align-items: center;
   padding: 1rem 2rem 1rem 2rem;
 }

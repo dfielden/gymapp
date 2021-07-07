@@ -11,23 +11,39 @@
     overflow-y: hidden;
 
   &__btn {
-       border-radius: 50%;
-       display: flex;
-       justify-content: center;
-       align-items: center;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:active {
+      filter: brightness(0.9);
+    }
+
 
     &--inactive {
       opacity: 0.5;
+      cursor: default !important;
+
+      &:active {
+        filter: brightness(1);
+      }
     }
 
   &--main {
-       height: 5rem;
-       width: 5rem;
-       background-color: $color-primary;
-       color: $color-off-white;
-       font-size: 1.6rem;
-       font-family: $font-display;
-       box-shadow: 0 0 3rem rgba($color-black, .4);
+    height: 5rem;
+    width: 5rem;
+    background-color: $color-primary;
+    color: $color-off-white;
+    font-size: 1.6rem;
+    font-family: $font-display;
+    box-shadow: 0 0 3rem rgba($color-black, .4);
+    cursor: pointer;
+
+    &:active {
+      filter: brightness(0.9);
+    }
 
 
    }
@@ -49,9 +65,19 @@
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-grey-darkest;
+    }
 
     &--inactive {
       color: $color-grey-lightest;
+      cursor: default;
+
+      &:hover {
+        color: $color-grey-lightest;
+      }
     }
   }
 }

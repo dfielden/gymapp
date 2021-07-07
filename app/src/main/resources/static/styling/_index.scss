@@ -16,6 +16,12 @@
   border-radius: 5px;
   height: 5rem;
   width: 100%;
+  cursor: pointer;
+
+  &:active {
+    background-color: $color-secondary;
+  }
+
 
   &:not(:last-of-type) {
     margin-bottom: 1rem;

@@ -19,6 +19,10 @@
     border-radius: 10rem;
     transition: all .2s;
     cursor: pointer;
+
+    &:active {
+      filter: brightness(0.9);
+    }
   }
 
   &--primary {
@@ -90,6 +94,7 @@
       text-decoration: none;
       align-self: flex-end;
       margin-bottom: 1.5rem;
+      cursor: pointer;
 
   &--white {
     color: $color-off-white;
@@ -110,6 +115,11 @@
   font-size: 1.2rem;
   box-shadow: 0 1rem 6rem rgba($color-black, .25);
   margin-left: 1rem;
+  cursor: pointer;
+
+  &:active {
+    filter: brightness(0.9);
+  }
 
 
   &--edit {
@@ -130,4 +140,5 @@
 
 .txt-btn {
   text-decoration: underline;
+  cursor: pointer;
 }

@@ -148,6 +148,9 @@ const unselectAllRows = function() {
 // SELECT A SET
 const selectSet = function(selectedRow) {
     unselectAllRows();
+    if(!selectedRow) {
+        return;
+    }
     if (selectedRow.classList.contains('slider')) {
         selectedRow.classList.add('active');
         selectedRow.querySelector('.done-container').classList.remove('display-none');
@@ -361,7 +364,7 @@ const activateFormAddEditSet = function () {
     resetAll();
     c.formEditSetHeader.innerText = 'Add set';
     c.formEditSetSubmit.innerText = 'Add!';
-    sh.showForm(c.formEditSet, -35);
+    sh.showForm(c.formEditSet, -39);
     //editWeightInput.select(); buggy on iphone - causes large area under footer to become visible
 }
 

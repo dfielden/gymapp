@@ -10,24 +10,23 @@ $color-secondary-light: #fce9b9;
 $color-success: #007d26;
 $color-danger: #e91235;
 
-
-
-$gradient-primary: linear-gradient(145deg, rgba($color-primary,1) 0%, rgba($color-primary-light,1) 100%);
-$gradient-secondary: linear-gradient(145deg, rgba($color-secondary, 0.8) 0%, rgba($color-secondary-light,0.8) 100%);
-
-
-
 $color-off-white: #fdfdfd;
 $color-grey-lightest: #c5c5c5;
 $color-grey-light: #e8e8e8;
 $color-grey: #a4a4a4;
 $color-grey-dark: #7c7c7c;
-
-
+$color-grey-darkest: #474747;
 $color-black: #000000;
 
-// BREAK POINTS
+$gradient-primary: linear-gradient(145deg, rgba($color-primary,1) 0%, rgba($color-primary-light,1) 100%);
+$gradient-secondary: linear-gradient(145deg, rgba($color-secondary, 0.8) 0%, rgba($color-secondary-light,0.8) 100%);
+$gradient-black: linear-gradient(145deg, rgba($color-black, 0.8) 0%, rgba($color-grey-dark,0.8) 100%);
 
+// BREAK POINTS
+@mixin maxDimensions {
+  max-width: 60rem;
+  max-height: 120rem;
+}
 
 
 // FONT VARIABLES
@@ -57,6 +56,13 @@ body {
   box-sizing: border-box; /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   //padding: 2rem; /* padding around body - not inherited to other elements*/
   height: 100%;
+  width: 100%;
+  @include maxDimensions;
+  background: $gradient-black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 select {

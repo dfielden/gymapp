@@ -1,3 +1,6 @@
+.new-exercise {
+  @include maxDimensions;
+}
 
 .new-exercise-content {
   overflow-y: scroll;

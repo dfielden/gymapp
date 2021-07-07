@@ -76,6 +76,7 @@
   margin: 0;
   background: $gradient-primary;
   backdrop-filter: blur(10px);
+  @include maxDimensions;
 
   &--content {
     display: flex;
@@ -131,6 +132,7 @@
   background: $gradient-primary;
   padding: 0.5rem;
   transition: transform 500ms;
+  @include maxDimensions;
 }
 .add-to-current {
   @include slideUpForm;
