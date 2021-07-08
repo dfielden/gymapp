@@ -248,6 +248,54 @@ public final class GymAppDB {
         }
     }
 
+    // COMPLETED WORKOUTS
+    public synchronized HashMap<Long, String> getCompletedWorkouts(long userId) throws Exception {
+        String query = "SELECT * FROM CompletedWorkout WHERE user_id = ?";
+        HashMap<Long, String> workouts = new HashMap<>();
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                String workout = rs.getString("workout");
+                workouts.put(id, workout);
+            }
+            return workouts;
+        }
+    }
+
+    public synchronized String getCompletedTime(long completedWorkoutId, long userId) throws Exception {
+        String query = "SELECT time_completed FROM CompletedWorkout WHERE id = ? AND user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, completedWorkoutId);
+            stmt.setLong(2, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to find completed workout with id " + completedWorkoutId);
+            }
+            return rs.getString(1);
+        }
+    }
+
+    public synchronized String getCompletedWorkout(long completedWorkoutId, long userId) throws Exception {
+        String query = "SELECT workout FROM CompletedWorkout WHERE id = ? AND user_id = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setLong(1, completedWorkoutId);
+            stmt.setLong(2, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalStateException("Unable to find completed workout with id " + completedWorkoutId);
+            }
+            return rs.getString(1);
+        }
+    }
+
     // AUTHENTICATION
 
     public synchronized HashMap<String, String> getuserDetailsFromEmail(String email) throws Exception {

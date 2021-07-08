@@ -1,6 +1,16 @@
 // CONFIG
 export const ajaxTimeoutMillis = 5000;
+
+// render page
 export const indexURL = '/';
+export const currentWorkoutURL = '/currentworkout/';
+export const editWorkoutURL = '/editworkout/';
+export const loginURL = '/login';
+export const signupURL = '/signup';
+export const allCompletedWorkoutsURL = '/allcompletedworkouts';
+export const completedWorkoutURL = '/completedworkout/'
+
+// ajax
 export const getExercisesURL = '/exercises';
 export const createExerciseURL = '/createexercise';
 export const createWorkoutURL = '/createworkout';
@@ -13,12 +23,13 @@ export const createWorkoutInProgressURL = '/createworkoutinprogress';
 export const updateWorkoutInProgressURL = '/updateworkoutinprogress';
 export const finishWorkoutURL = '/finishworkout';
 export const quitWorkoutURL = '/quitworkout';
-export const currentWorkoutURL = '/currentworkout/';
-export const signupURL = '/signup';
-export const loginURL = '/login';
 export const logoutURL = '/logout';
 export const userInfoURL = '/userinfo';
-export const deleteWorkoutURL = '/deleteworkout/'
+export const deleteWorkoutURL = '/deleteworkout/';
+export const getAllCompletedWorkoutsURL = '/getallcompletedworkouts';
+export const getCompletedWorkoutURL = '/getcompletedworkout/';
+
+export const getCompletedTime = '/getcompletedtime/';
 
 
 // SIGNUP
@@ -73,6 +84,14 @@ export const btnEditWorkout = document.querySelector('#btn-edit-workout');
 export const formCreateWorkout = document.querySelector('#form-create-workout');
 export const formEditWorkout = document.querySelector('#form-edit-workout');
 export const formWorkoutName = document.querySelector('#workout-name');
+
+
+// COMPLETED WORKOUTS
+export const completedWorkoutsContainer = document.querySelector('.completed-workouts');
+
+
+// COMPLETED WORKOUT
+export const formCompletedSets = document.querySelector('.completed-sets');
 
 
 // CURRENT WORKOUT

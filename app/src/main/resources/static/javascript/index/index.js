@@ -86,7 +86,7 @@ c.elBody.addEventListener('click', function(e) {
 const navEditSelectedWorkout = function() {
     if (!c.footerEditWorkout.classList.contains('footer__icon--inactive')) {
         const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
-        window.location = `/editworkout/${workoutId}`;
+        window.location = c.editWorkoutURL + workoutId;
     }
 }
 
@@ -117,8 +117,6 @@ c.btnConfirmDelete.addEventListener('click', async function() {
     } else {
         showFormMessage("Problem deleting workout. Please try again.", false, c.formDeleteWorkout)
     }
-
-
 })
 
 c.btnCancelDelete.addEventListener('click', function() {

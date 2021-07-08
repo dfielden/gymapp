@@ -42,6 +42,46 @@ img {
   height: 100%;
 }
 
+.completed-workout {
+  font-family: "Nanum Gothic", sans-serif;
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  height: 7rem;
+  width: 100%;
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+}
+.completed-workout:active {
+  background-color: #fcc728;
+}
+.completed-workout:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+.completed-workout--selected {
+  background-color: #fcc728;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.date-text {
+  text-align: right;
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.completed-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.completed-sets {
+  border: none;
+}
+
+.set:not(:last-of-type) {
+  padding-bottom: 0.6rem;
+}
+
 .new-exercise {
   max-width: 60rem;
   max-height: 120rem;
@@ -325,9 +365,11 @@ img {
   border-radius: 5px;
   height: 15rem;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .saved-workout, .in-progress-workout {
+  font-family: "Nanum Gothic", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;

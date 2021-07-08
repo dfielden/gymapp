@@ -1,0 +1,9 @@
+.completed-sets {
+  border: none;
+}
+
+.set {
+  &:not(:last-of-type) {
+    padding-bottom: 0.6rem;
+  };
+}

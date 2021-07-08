@@ -269,6 +269,57 @@ public class GymAppApplication {
         return gson.toJson(db.getMuscleGroupsFromExerciseId(id));
     }
 
+    @GetMapping("/allcompletedworkouts")
+    public String completedWorkouts(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "redirect:/";
+        }
+        return "all-completed-workouts";
+    }
+
+    @ResponseBody
+    @GetMapping("/getallcompletedworkouts")
+    public String getCompletedWorkouts(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view completed workouts";
+        }
+        long userId = getUserId(req, resp);
+        return gson.toJson(db.getCompletedWorkouts(userId));
+    }
+
+    @ResponseBody
+    @GetMapping("/getcompletedtime/{id}")
+    public String getCompletedTime(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view completed workouts";
+        }
+        long userId = getUserId(req, resp);
+        return gson.toJson(db.getCompletedTime(id, userId));
+    }
+
+    @GetMapping("/completedworkout/{id}")
+    public String completedWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "redirect:/";
+        }
+        return "completed-workout";
+    }
+
+    @ResponseBody
+    @GetMapping("/getcompletedworkout/{id}")
+    public String getCompletedWorkout(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GymAppState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            return "Please login to view completed workouts";
+        }
+        long userId = getUserId(req, resp);
+        return db.getCompletedWorkout(id, userId);
+    }
+
     @ResponseBody
     @PostMapping(value="/signup",
             consumes = MediaType.APPLICATION_JSON_VALUE,

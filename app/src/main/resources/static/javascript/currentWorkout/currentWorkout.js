@@ -332,12 +332,14 @@ c.formAddToCurrentClose.addEventListener('click', function() {
     sh.hideForm(c.formAddToCurrent);
     // Reset exerciseBlock param
     exerciseBlock = "";
+    resetAll();
 })
 
 c.formEditSetClose.addEventListener('click', function() {
     sh.hideForm(c.formEditSet);
     // Reset setBlock param
     setBlock = "";
+    resetAll();
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -405,6 +407,7 @@ c.formEditSetSubmit.addEventListener('click', function(e) {
         setBlock = "";
     }
     sh.resetAllForms();
+    resetAll();
     updateWorkoutProgress();
 })
 
@@ -420,7 +423,6 @@ const renderNewSet = function(set, parentNode) {
         key: set.key,
         completed: false
     });
-    console.log(workout)
     updateWorkoutProgress();
 }
 
@@ -642,5 +644,5 @@ const getAllCompletedSets = () => {
         }
         exercises.push(exercise);
     }
-    return exercises;
+    return {workoutId: workout.workoutId, exercises: exercises};
 }

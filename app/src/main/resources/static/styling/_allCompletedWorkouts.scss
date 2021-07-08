@@ -1,23 +1,10 @@
-.chart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $color-off-white;
-  border-radius: 5px;
-  height: 15rem;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.saved-workout, .in-progress-workout {
+.completed-workout {
   font-family: $font-display;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: $color-off-white;
   border-radius: 5px;
-  height: 5rem;
+  height: 7rem;
   width: 100%;
+  padding: 0.5rem 2rem;
   cursor: pointer;
 
   &:active {
@@ -33,4 +20,17 @@
     background-color: $color-secondary;
     box-shadow: 0 0.5rem 1rem rgba($color-black, .1);
   }
+}
+
+.date-text {
+  text-align: right;
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.completed-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 400;
+
 }

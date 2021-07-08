@@ -68,3 +68,4 @@ export const validateSetFormInputs = (reps, weight) => {
     return (isInt(parseInt(reps)) && !isFloat(parseFloat(reps)) && (isInt(parseInt(weight)) || isFloat(parseFloat(weight))));
 }
 
+
