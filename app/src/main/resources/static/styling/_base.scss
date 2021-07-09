@@ -22,10 +22,13 @@ $gradient-primary: linear-gradient(145deg, rgba($color-primary,1) 0%, rgba($colo
 $gradient-secondary: linear-gradient(145deg, rgba($color-secondary, 0.8) 0%, rgba($color-secondary-light,0.8) 100%);
 $gradient-black: linear-gradient(145deg, rgba($color-black, 0.8) 0%, rgba($color-grey-dark,0.8) 100%);
 
+$max-width: 600px;
+$max-height: 1200px;
+
 // BREAK POINTS
 @mixin maxDimensions {
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: $max-width;
+  max-height: $max-height;
 }
 
 

@@ -50,6 +50,7 @@ public class GymAppApplication {
 
     @GetMapping("/")
     public String home(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
             return "redirect:/login";
@@ -59,6 +60,7 @@ public class GymAppApplication {
 
     @GetMapping("/createworkout")
     public String defineWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (state.isLoggedIn()) {
             return "create-workout";
@@ -68,6 +70,7 @@ public class GymAppApplication {
 
     @GetMapping("/editworkout/{id}")
     public String editWorkout(@PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
             return "redirect:/";
@@ -83,6 +86,7 @@ public class GymAppApplication {
 
     @GetMapping("/login")
     public String login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (state.isLoggedIn()) {
             return "redirect:/";
@@ -92,6 +96,7 @@ public class GymAppApplication {
 
     @GetMapping("/signup")
     public String signup(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (state.isLoggedIn()) {
             return "redirect:/";
@@ -155,6 +160,7 @@ public class GymAppApplication {
 
     @GetMapping("/currentworkout/{id}")
     public String currentWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
             return "redirect:/login";
@@ -271,6 +277,7 @@ public class GymAppApplication {
 
     @GetMapping("/allcompletedworkouts")
     public String completedWorkouts(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
             return "redirect:/";
@@ -302,6 +309,7 @@ public class GymAppApplication {
 
     @GetMapping("/completedworkout/{id}")
     public String completedWorkout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
             return "redirect:/";
@@ -399,6 +407,13 @@ public class GymAppApplication {
     public @ResponseBody long getUserId(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GymAppState state = getOrCreateSession(req, resp);
         return state.getUserId();
+    }
+
+    @GetMapping("/error}")
+    public String errpr(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        GymAppState state = getOrCreateSession(req, resp);
+        return "error";
     }
 
 

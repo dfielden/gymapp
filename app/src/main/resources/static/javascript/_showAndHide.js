@@ -61,7 +61,8 @@ function moveTouch(e) {
             // reset position of all sliding divs to off-screen
             resetSlidingDivs();
             // show the sliding div corresponding to the swipe position
-            e.target.closest('.slider').querySelector('.slide-on-btn-container').style.transform = `translateX(calc(100vw - 15rem))`; // ensure we are targeting the slider itself
+            const translateX = window.screen.availWidth <= 600 ? `translateX(calc(100vw - 15rem))` : `translateX(430px)`; // deal with extra non-app space when window > 600
+            e.target.closest('.slider').querySelector('.slide-on-btn-container').style.transform = translateX; // ensure we are targeting the slider itself
         } else {
             // swiped right
             e.target.closest('.slider').querySelector('.slide-on-btn-container').style.transform = `translateX(100vw)`; // ensure we are targeting the slider itself
@@ -106,7 +107,7 @@ export const hideFormWithoutAnimation = function(formElement) {
 
 const clearAllFormValues = function(formEl) {
     const inputs = formEl.querySelectorAll('.form-input');
-    formEl.querySelector('.form-msg').innerText='';
+    formEl.querySelector('.form-msg').innerText='Content';
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains("form-input--select")) {
             inputs[i].selectedIndex = 0;

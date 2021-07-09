@@ -96,6 +96,11 @@
         transition: transform 1s;
         justify-content: flex-end;
         padding-right: 3.2rem;
+
+        // if screen width greater than max-width
+        @media only screen and (min-width: $max-width) {
+          transform: translateX(calc((45vw - (100vw - 600px)/2)));
+        }
       }
     }
 

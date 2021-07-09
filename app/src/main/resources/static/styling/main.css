@@ -21,8 +21,8 @@ body {
   /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   height: 100%;
   width: 100%;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
   background: linear-gradient(145deg, rgba(0, 0, 0, 0.8) 0%, rgba(124, 124, 124, 0.8) 100%);
   position: absolute;
   top: 50%;
@@ -83,8 +83,8 @@ img {
 }
 
 .new-exercise {
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
 }
 
 .new-exercise-content {
@@ -107,8 +107,8 @@ img {
   align-items: center;
   overflow-x: hidden;
   width: 100%;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
 }
 
 .main-body {
@@ -119,8 +119,8 @@ img {
   font-size: 1.6rem;
   background-color: #e8e8e8;
   overflow-y: scroll;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
 }
 .main-body .exercise-block {
   width: 100%;
@@ -177,6 +177,11 @@ img {
   transition: transform 1s;
   justify-content: flex-end;
   padding-right: 3.2rem;
+}
+@media only screen and (min-width: 600px) {
+  .main-body .exercise-block__set-container__timer {
+    transform: translateX(calc((45vw - (100vw - 600px)/2)));
+  }
 }
 .main-body .active {
   font-weight: bold;
@@ -357,6 +362,11 @@ img {
   right: -2rem;
 }
 
+.image {
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
 .chart {
   display: flex;
   align-items: center;
@@ -448,8 +458,8 @@ img {
   margin: 0;
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   backdrop-filter: blur(10px);
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
 }
 .new-exercise--content {
   display: flex;
@@ -487,8 +497,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
   height: 38rem;
 }
 
@@ -497,8 +507,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
   height: 31rem;
 }
 
@@ -507,8 +517,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
   height: 27rem;
 }
 
@@ -517,8 +527,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
   height: 25rem;
 }
 
@@ -527,8 +537,8 @@ img {
   background: linear-gradient(145deg, #177ede 0%, #13ede2 100%);
   padding: 0.5rem;
   transition: transform 500ms;
-  max-width: 60rem;
-  max-height: 120rem;
+  max-width: 600px;
+  max-height: 1200px;
   height: 23rem;
 }
 
@@ -671,6 +681,10 @@ img {
 
 .justify-center {
   justify-content: center;
+}
+
+.center-text {
+  text-align: center;
 }
 
 .heading {

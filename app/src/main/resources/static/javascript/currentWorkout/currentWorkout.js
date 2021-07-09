@@ -332,14 +332,14 @@ c.formAddToCurrentClose.addEventListener('click', function() {
     sh.hideForm(c.formAddToCurrent);
     // Reset exerciseBlock param
     exerciseBlock = "";
-    resetAll();
+    sh.resetSlidingDivs();
 })
 
 c.formEditSetClose.addEventListener('click', function() {
     sh.hideForm(c.formEditSet);
     // Reset setBlock param
     setBlock = "";
-    resetAll();
+    sh.resetSlidingDivs();
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -538,7 +538,7 @@ const validateFormFilledIn = function(formEl) {
     const inputs = formEl.querySelectorAll('.form-input');
     let filledIn = true;
 
-    formEl.querySelector('.form-msg').innerText='';
+    formEl.querySelector('.form-msg').innerText='Content';
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains("form-input--select")) {
             if (inputs[i].selectedIndex === 0) {
