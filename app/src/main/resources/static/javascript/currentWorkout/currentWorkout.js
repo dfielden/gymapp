@@ -589,6 +589,10 @@ c.btnCancelQuit.addEventListener('click', function() {
 
 c.btnConfirmFinish.addEventListener('click', async function() {
     const workout = getAllCompletedSets();
+    if (workout.exercises.length === 0) {
+        const data = await AJAX(c.quitWorkoutURL, 'quit');
+        window.location.href = c.indexURL;
+    }
     const data = await AJAX(c.finishWorkoutURL, workout);
     if (data === FINISH_VALUE) {
         showFormMessage("Successfully saved workout", true, c.formFinishWorkout);

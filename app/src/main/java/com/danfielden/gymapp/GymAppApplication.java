@@ -27,6 +27,7 @@ public class GymAppApplication {
     private static final Gson gson = new Gson();
     private final Map<String, GymAppState> sessions = new ConcurrentHashMap<>(); // cookieValue, GymAppState
     private static final String GYMAPP_COOKIE_NAME = "GYMAPPCOOKIE";
+
     private static final Random rand = new Random();
 
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
@@ -410,7 +411,7 @@ public class GymAppApplication {
     }
 
     @GetMapping("/error}")
-    public String errpr(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String error(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         GymAppState state = getOrCreateSession(req, resp);
         return "error";

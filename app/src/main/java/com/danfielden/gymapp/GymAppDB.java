@@ -134,7 +134,11 @@ public final class GymAppDB {
     }
 
     public synchronized HashMap<Long, String> getUserWorkouts(long userId) throws Exception {
-        String query = "SELECT * FROM WorkoutTemplate WHERE user_id = ? AND deleted = false";
+        String query = "SELECT" +
+                "" +
+                "" +
+                "" +
+                " * FROM WorkoutTemplate WHERE user_id = ? AND deleted = false";
         HashMap<Long, String> workouts = new HashMap<>();
         try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, userId);
@@ -344,10 +348,7 @@ public final class GymAppDB {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                return true;
-            }
-            return false;
+            return rs.next();
         }
     }
 
@@ -382,10 +383,7 @@ public final class GymAppDB {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                return true;
-            }
-            return false;
+            return rs.next();
         }
     }
 
