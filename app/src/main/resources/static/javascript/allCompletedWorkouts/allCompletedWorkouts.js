@@ -7,7 +7,7 @@ import * as c from "../_constsAndEls.js";
 
 let myCompletedWorkouts;
 
-const getCompletedWorkouts = async function() {
+export const getCompletedWorkouts = async function() {
     try {
         const data = await AJAX(c.getAllCompletedWorkoutsURL);
 
@@ -34,7 +34,6 @@ const displayWorkout = async function(completedWorkout, completedWorkoutId) {
     const dateText = date.toLocaleString('default', {year: 'numeric', month: 'long', day: 'numeric'})
 
     const html = `
-        
         <div class="completed-workout" data-workoutid="${completedWorkoutId}">
             <div class="date-text">${dateText}</div>
             <div class="completed-title">${workoutTemplate.workoutName}</div>

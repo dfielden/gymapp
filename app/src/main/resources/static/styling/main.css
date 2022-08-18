@@ -369,13 +369,44 @@ img {
 
 .chart {
   display: flex;
-  align-items: center;
   justify-content: center;
   background-color: #fdfdfd;
   border-radius: 5px;
-  height: 15rem;
+  height: 18rem;
   width: 100%;
   margin-bottom: 1rem;
+}
+
+.chart-area {
+  display: flex;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+}
+
+.chart-bar {
+  border: 1px dashed #474747;
+  border-bottom: 1px solid #474747;
+  height: 100%;
+}
+.chart-bar:not(:first-of-type) {
+  margin-left: 2px;
+}
+.chart-bar:not(:last-of-type) {
+  margin-right: 2px;
+}
+.chart-bar--done {
+  background-color: #fcc728;
+  border: 1px solid #474747;
+}
+
+.chart-segment {
+  height: 60%;
+  width: 10%;
+}
+
+.day-of-month {
+  text-align: center;
 }
 
 .saved-workout, .in-progress-workout {

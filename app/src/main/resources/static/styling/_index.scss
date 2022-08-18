@@ -1,12 +1,49 @@
 .chart {
   display: flex;
-  align-items: center;
   justify-content: center;
   background-color: $color-off-white;
   border-radius: 5px;
-  height: 15rem;
+  height: 18rem;
   width: 100%;
   margin-bottom: 1rem;
+}
+
+.chart-area {
+  display: flex;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+}
+
+.chart-bar {
+  border: 1px dashed $color-grey-darkest;
+  border-bottom: 1px solid $color-grey-darkest;
+  height: 100%;
+
+  &:not(:first-of-type) {
+    margin-left: 2px;
+  }
+  &:not(:last-of-type) {
+    margin-right: 2px;
+  }
+
+  &--done {
+    background-color: $color-secondary;
+    border: 1px solid  $color-grey-darkest;
+  }
+}
+
+.chart-segment {
+  height: 60%;
+  width: 10%;
+}
+
+.day-of-month {
+  text-align: center;
+}
+
+.month {
+
 }
 
 .saved-workout, .in-progress-workout {

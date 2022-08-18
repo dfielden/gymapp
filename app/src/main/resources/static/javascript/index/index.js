@@ -5,7 +5,8 @@ import {deleteWorkoutURL, loginURL, logoutURL} from "../_constsAndEls.js";
 
 const LOGOUT_SUCCESS_VALUE = "LOGOUT_SUCCESS"; // must match PSFS LOGOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 const DELETE_SUCCESS_VALUE = "DELETE_SUCCESS"; // must match PSFS DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
-
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const today = new Date();
 let myWorkouts;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,11 +57,11 @@ const getAndShowUserName = async function() {
     }
 }
 
-
 window.addEventListener('load', e => {
     getWorkouts();
     getWorkoutInProgress();
     getAndShowUserName();
+    loadWorkoutHistory();
 })
 
 const displayWorkout = function(name, id) {
@@ -94,7 +95,6 @@ c.footerEditWorkout.addEventListener('click', navEditSelectedWorkout);
 
 c.footerDeleteWorkout.addEventListener('click', function() {
     sh.showForm(c.formDeleteWorkout, -31);
-
 });
 
 c.formDeleteWorkoutClose.addEventListener('click', function() {
@@ -131,7 +131,6 @@ c.footerLogout.addEventListener('click', async function() {
     }
 })
 
-
 const navStartWorkout = function() {
     if (!c.footerStart.classList.contains('footer__btn--inactive')) {
         const workoutId = document.querySelector('.saved-workout--selected').dataset.workoutid;
@@ -163,3 +162,58 @@ const navWorkoutInProgress = function() {
 }
 
 c.btnWorkoutInProgress.addEventListener('click', navWorkoutInProgress);
+
+const loadWorkoutHistory = async () => {
+    let d = new Date();
+    console.log(d);
+    const recentWorkouts = await getRecentWorkouts();
+
+    for (let i = 0; i < 10; i++) {
+        d.setDate(today.getDate() - 9 + i);
+        console.log(d)
+        document.querySelector(`#day-of-month-${i+1}`).textContent = d.getDate().toString();
+
+        if (d.getDate() === 1) {
+            document.querySelector(`#month-${i+1}`).textContent = months[d.getMonth()];
+        }
+
+        if (await wasWorkoutDoneOnDate(d, recentWorkouts)) {
+            document.querySelector(`#chart-bar-${i+1}`).classList.add('chart-bar--done');
+        }
+    }
+    d.setDate(today.getDate() - 9);
+    document.querySelector(`#month-1`).textContent = months[d.getMonth()];
+};
+
+
+const getRecentWorkouts = async () => {
+    try {
+        const data = await AJAX(c.getAllCompletedWorkoutsURL);
+
+        for (const key in data) {
+            const id = key;
+            const completedTime = await AJAX(c.getCompletedTime + id);
+            const date = new Date(Number(completedTime));
+
+            // remove workouts older than 9 days old
+            if (date < today.getDate() - 9) {
+                delete data[key];
+            }
+        }
+        return data;
+    } catch (err) {
+        console.error('Unable to load completed workouts. Please try again.');
+    }
+}
+
+const wasWorkoutDoneOnDate = async (date, recentWorkouts) => {
+    for (const key in recentWorkouts) {
+        const id = key;
+        const completedTime = await AJAX(c.getCompletedTime + id);
+        const completedDate = new Date(Number(completedTime));
+        if(date.getUTCFullYear() === completedDate.getUTCFullYear() && date.getMonth() === completedDate.getMonth() && date.getDate() === completedDate.getDate()) {
+            return true;
+        }
+    }
+    return false;
+}
