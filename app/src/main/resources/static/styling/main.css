@@ -591,6 +591,7 @@ img {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  width: 5rem;
 }
 .footer__btn:active {
   filter: brightness(0.9);
@@ -630,6 +631,7 @@ img {
   align-items: center;
   font-size: 1.5rem;
   cursor: pointer;
+  width: 35rem;
 }
 .icons-container .footer__icon:hover {
   color: #474747;

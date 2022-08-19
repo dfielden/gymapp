@@ -55,3 +55,7 @@ c.elBody.addEventListener('click', function(e) {
         window.location.href = c.completedWorkoutURL + id;
     }
 })
+
+document.querySelector('.footer__icon--back').addEventListener('click', () => {
+    window.location.href = c.indexURL;
+});

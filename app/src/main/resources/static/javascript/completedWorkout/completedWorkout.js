@@ -35,3 +35,7 @@ const renderExercises = (exercises) => {
         c.formCompletedSets.insertAdjacentHTML('beforeend', html);
     }
 }
+
+document.querySelector('.footer__icon--back').addEventListener('click', () => {
+    window.location.href = c.allCompletedWorkoutsURL;
+});
