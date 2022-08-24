@@ -5,6 +5,7 @@
   background-color: $color-grey-light;
   //box-shadow: 0 2rem 4rem rgba($color-black, .2);
   align-items: center;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
   z-index: 100;
 
@@ -14,6 +15,21 @@
     height: 40%;
     width: 22%;
   }
+
+  a {
+    width: 30%; // get icon to display properly on Safari
+  }
+
+  @media not all and (min-resolution:.001dpcm)
+  { @supports (-webkit-appearance:none) {
+
+    .safari_only {
+
+      color:#0000FF;
+      background-color:#CCCCCC;
+
+    }
+  }}
 
 
 }

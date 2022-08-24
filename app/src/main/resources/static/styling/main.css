@@ -42,6 +42,11 @@ img {
   height: 100%;
 }
 
+::-webkit-scrollbar {
+  background: rgba(0, 0, 0, 0);
+  width: 1px;
+}
+
 .completed-workout {
   font-family: "Nanum Gothic", sans-serif;
   background-color: #fdfdfd;
@@ -579,6 +584,7 @@ img {
   align-items: center;
   justify-content: space-around;
   height: 12%;
+  min-height: 5.5rem;
   max-height: 8rem;
   background-color: #e8e8e8;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
@@ -650,6 +656,7 @@ img {
   height: 8rem;
   background-color: #e8e8e8;
   align-items: center;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
   z-index: 100;
 }
@@ -658,6 +665,17 @@ img {
   justify-content: center;
   height: 40%;
   width: 22%;
+}
+.header a {
+  width: 30%;
+}
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .header .safari_only {
+      color: #0000FF;
+      background-color: #CCCCCC;
+    }
+  }
 }
 
 .body-background {

@@ -394,7 +394,7 @@ public final class GymAppDB {
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                DefaultExercisesReader dfr = new DefaultExercisesReader("./app/src/main/resources/static/base_exercises.txt");
+                DefaultExercisesReader dfr = new DefaultExercisesReader("base_exercises.txt");
                 dfr.readExercises();
                 for (Exercise ex : dfr.getExercises()) {
                     long exerciseId = addExercise(ex.getExerciseName(), 0);

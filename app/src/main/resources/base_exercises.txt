@@ -3,6 +3,7 @@ Barbell shrug, SHOULDERS
 Bench press, CHEST, TRICEPS
 Bench press (decline), CHEST, TRICEPS
 Bench press (incline), CHEST, TRICEPS
+Bicep curl, BICEPS
 Cable fly, CHEST
 Cable press, CHEST, TRICEPS
 Deadlift, BACK, CORE, LATS, LEGS, HAMSTRINGS
@@ -16,6 +17,7 @@ Dumbbell press (incline), CHEST, TRICEPS
 Dumbbell row, BACK, BICEPS
 Flutter kicks, ABS, CORE
 Forward raise, SHOULDERS
+Hammer curl, BICEPS
 Hamstring curl, HAMSTRINGS
 Lateral raise, SHOULDERS
 Lat pulldown, BACK, BICEPS, LATS

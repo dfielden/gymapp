@@ -81,4 +81,10 @@ img {
   height: 100%;
 }
 
+// make scroll-bar transparent
+::-webkit-scrollbar {
+  background: rgba(0,0,0,0);
+  width: 1px;
+}
+
 
