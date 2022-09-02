@@ -1,12 +1,13 @@
 import * as c from '../_constsAndEls.js';
 import * as sh from '../_showAndHide.js';
 import {AJAX, removeElements, isEmptyObject, showFormMessage} from "../helper.js";
-import {deleteWorkoutURL, loginURL, logoutURL} from "../_constsAndEls.js";
+import {logoutURL} from "../_constsAndEls.js";
 
 const LOGOUT_SUCCESS_VALUE = "LOGOUT_SUCCESS"; // must match PSFS LOGOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 const DELETE_SUCCESS_VALUE = "DELETE_SUCCESS"; // must match PSFS DELETE_WORKOUT_SUCCESS_RESPONSE_VALUE in GymAppApplication.java
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const today = new Date();
+const dayInMillis = 86400000;
 let myWorkouts;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,13 +165,16 @@ const navWorkoutInProgress = function() {
 c.btnWorkoutInProgress.addEventListener('click', navWorkoutInProgress);
 
 const loadWorkoutHistory = async () => {
-    let d = new Date();
-    console.log(d);
     const recentWorkouts = await getRecentWorkouts();
 
     for (let i = 0; i < 10; i++) {
-        d.setDate(today.getDate() - 9 + i);
-        console.log(d)
+        let millis = Date.now() - (dayInMillis * (9-i));
+        let d = new Date(millis)
+
+        if (i === 0) {
+            document.querySelector(`#month-1`).textContent = months[d.getMonth()];
+        }
+
         document.querySelector(`#day-of-month-${i+1}`).textContent = d.getDate().toString();
 
         if (d.getDate() === 1) {
@@ -181,8 +185,6 @@ const loadWorkoutHistory = async () => {
             document.querySelector(`#chart-bar-${i+1}`).classList.add('chart-bar--done');
         }
     }
-    d.setDate(today.getDate() - 9);
-    document.querySelector(`#month-1`).textContent = months[d.getMonth()];
 };
 
 
