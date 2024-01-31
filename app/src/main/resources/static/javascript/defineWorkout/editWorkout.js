@@ -62,8 +62,8 @@ const renderExercise = function(exerciseGroup) {
 const generateNewSetMarkup = function(weight, reps) {
     return `
         <div class="two-input-container">
-            <span class="two-input-container--label">Weight:</span><input inputmode="decimal" value="${weight}" placeholder="kg" min="0" class="form-input form-input--new-workout w">
-            <span class="two-input-container--label">Reps:</span><input inputmode="numeric" value="${reps}" placeholder="reps" min="0" class="form-input form-input--new-workout r">
+            <span class="two-input-container--label">Weight:</span><input type="number" inputmode="decimal" value="${weight}" placeholder="kg" min="0" class="form-input form-input--new-workout w">
+            <span class="two-input-container--label">Reps:</span><input type="number" inputmode="numeric" value="${reps}" placeholder="reps" min="0" class="form-input form-input--new-workout r">
             <span class="far fa-trash-alt"></span>
         </div>
     `;
