@@ -1,41 +1,80 @@
-Barbell row, BACK, BICEPS
-Barbell shrug, SHOULDERS
+Ab roller, ABS, CORE
+Abductor cable extension, ABDUCTORS, LEGS
+Adductor cable extension, ADDUCTORS, LEGS
+Barbell row, BACK, BICEPS, LATS
+Barbell shoulder press, DELTS, SHOULDERS, TRAPS
+Barbell shrug, SHOULDERS, TRAPS
 Bench press, CHEST, TRICEPS
 Bench press (decline), CHEST, TRICEPS
 Bench press (incline), CHEST, TRICEPS
 Bicep curl, BICEPS
+Bulgarian squats, GLUTES, HAMSTRINGS, LEGS, QUADS
+Cable ab twist, ABS, CORE, OBLIQUES
+Cable bicep curl, BICEPS
 Cable fly, CHEST
+Cable lateral raise, DELTS, SHOULDERS
 Cable press, CHEST, TRICEPS
+Cable pullover, BACK, CORE, LATS
+Cable upright row, DELTS, SHOULDERS, TRAPS
+Calf raises, CALVES
 Deadlift, BACK, CORE, LATS, LEGS, HAMSTRINGS
-Dips, TRICEPS
+Decline Russian twist, ABS, CORE, OBLIQUES
+Decline situps, ABS, CORE
+Dips, CHEST, TRICEPS
 Dumbbell fly, CHEST
 Dumbbell fly (decline), CHEST
 Dumbbell fly (incline), CHEST
 Dumbbell press, CHEST, TRICEPS
 Dumbbell press (decline), CHEST, TRICEPS
 Dumbbell press (incline), CHEST, TRICEPS
+Dumbbell pullover, CHEST, BACK
 Dumbbell row, BACK, BICEPS
+Dumbbell shoulder press, SHOULDERS
+Dumbbell shrug, SHOULDERS
+Dumbell situp, ABS, CORE
+Face pull, BACK, DELTS, SHOULDERS
+Farmer's walk, CORE, SHOULDERS
 Flutter kicks, ABS, CORE
-Forward raise, SHOULDERS
+Forward raise, DELTS, SHOULDERS
 Hammer curl, BICEPS
 Hamstring curl, HAMSTRINGS
-Lateral raise, SHOULDERS
+Hex press, CHEST, TRICEPS
+Hip thusts, GLUTES, LEGS
+Landmine goblet squat, HAMSTRINGS, GLUTES, LEGS, QUADS
+Landmine hack squat, HAMSTRINGS, GLUTES, LEGS, QUADS
+Landmine hex press, CHEST, TRICEPS
+Landmine row, BACK, LATS
+Landmine shoulder press, DELTS, SHOULDERS
+Landmine twist, ABS, CORE, OBLIQUES
+Lateral raise, DELTS, SHOULDERS
 Lat pulldown, BACK, BICEPS, LATS
 Leg extension, LEGS, QUADS
+Leg raise, ABS, CORE
+Leg spins, ABS, CORE, OBLIQUES
+Legs over roller, ABS, CORE, OBLIQUES
+Low row, BACK, BICEPS, LATS
 Lunge, LEGS, HAMSTRINGS, QUADS
 Kickback, TRICEPS
+Meadows row, BACK, LATS, DELTS
+Medicine ball overhead, ABS, CORE
 Mountain climber, ABS, CORE
 Push-up, CHEST, TRICEPS
+Push-up (back), BACK
+Push-up (shoulders), SHOULDERS
+Push-up (triceps), TRICEPS
 Plank, ABS, CORE
-Pull-up, BACK, BICEPS
-Reverse fly, BACK
+Pull-up, BACK, BICEPS, LATS
+Reverse cable fly, BACK, DELTS
+Reverse fly, BACK, DELTS
 Russian twist, ABS, CORE, OBLIQUES
 Tricep extension (bar), TRICEPS
 Tricep extension (rope), TRICEPS
-TRX row, BACK, BICEPS
-Seated row, BACK, BICEPS
-Shoulder press, SHOULDERS, TRICEPS
+TRX row, BACK, BICEPS, LATS
+Seated row, BACK, BICEPS, LATS
+Side crunch, ABS, CORE, OBLIQUES
 Side plank, ABS, CORE, OBLIQUES
 Sit-up, ABS, CORE
 Skull crusher, TRICEPS
-Squat, LEGS, QUADS, CORE
+Squat, GLUTES, HAMSTRINGS, LEGS, QUADS, CORE
+Upright row, DELTS, SHOULDERS, TRAPS
+Vertical leg thrusts, ABS, CORE

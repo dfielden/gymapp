@@ -75,6 +75,7 @@ public final class Exercise implements Comparable<Exercise>{
         CALVES("Calves"),
         CHEST("Chest"),
         CORE("Core"),
+        DELTS("Delts"),
         FOREARMS("Forearms"),
         GLUTES("Glutes"),
         HAMSTRINGS("Hamstrings"),
